@@ -9,7 +9,7 @@ import '../widgets/arabic_sura_num.dart';
 class SurahPage extends StatefulWidget {
   final Surah surah;
   final sura;
-  SurahPage({Key? key, required this.surah, required this.sura})
+  const SurahPage({Key? key, required this.surah, required this.sura})
       : super(key: key);
 
   @override
@@ -27,7 +27,7 @@ class _SurahPageState extends State<SurahPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Color(0xff14697B),
+        backgroundColor: const Color(0xff14697B),
         title: Text(
           widget.surah.arabicName,
           style: const TextStyle(
@@ -51,7 +51,7 @@ class _SurahPageState extends State<SurahPage> {
               topRight: Radius.circular(10),
             ),
             border: Border.all(
-              color: Color(0xffE95C1F),
+              color: const Color(0xffE95C1F),
               width: 7,
             ),
           ),
@@ -77,9 +77,8 @@ class _SurahPageState extends State<SurahPage> {
                 children: [
                   for (var i = 1; i <= count; i++) ...{
                     TextSpan(
-                      text: ' ' +
-                          quran.getVerse(index, i, verseEndSymbol: false) +
-                          ' ',
+                      text:
+                          ' ${quran.getVerse(index, i, verseEndSymbol: false)} ',
                       style: TextStyle(
                         fontFamily: quranFont,
                         fontSize: arabicFontSize,
@@ -136,7 +135,7 @@ class _SurahPageState extends State<SurahPage> {
 
   Widget header() {
     return Text(
-      ' ' + quran.basmala + ' ',
+      ' ${quran.basmala} ',
       textDirection: TextDirection.rtl,
       style: TextStyle(
           fontFamily: quranFont,

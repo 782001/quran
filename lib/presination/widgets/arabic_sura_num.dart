@@ -10,9 +10,9 @@ class ArabicSuraNumber extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AutoSizeText(
-      "\uFD3E" + (i + 1).toString().toArabicNumbers + "\uFD3F",
+      "\uFD3E${(i + 1).toString().toArabicNumbers}\uFD3F",
       style: TextStyle(
-          color: Color.fromARGB(255, 0, 0, 0),
+          color: const Color.fromARGB(255, 0, 0, 0),
           fontFamily: me_quranFont,
           fontSize: arabicFontSize,
           shadows: const [

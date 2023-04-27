@@ -38,26 +38,26 @@ class _SettingsState extends State<Settings> {
                 ),
                 Container(
                   decoration: BoxDecoration(
-                    color: Color(0xffFFFBE8),
-                    borderRadius: BorderRadius.only(
+                    color: const Color(0xffFFFBE8),
+                    borderRadius: const BorderRadius.only(
                         bottomLeft: Radius.circular(20),
                         bottomRight: Radius.circular(20),
                         topLeft: Radius.circular(20)),
                     border: Border.all(
-                      color: Color(0xff14697B),
+                      color: const Color(0xff14697B),
                     ),
                   ),
                   child: Column(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       Slider(
                         value: arabicFontSize,
                         min: 20,
                         max: 40,
-                        activeColor: Color(0xffE95C1F),
-                        thumbColor: Color(0xff14697B),
+                        activeColor: const Color(0xffE95C1F),
+                        thumbColor: const Color(0xff14697B),
                         onChanged: (value) {
                           setState(() {
                             arabicFontSize = value;
@@ -72,7 +72,7 @@ class _SettingsState extends State<Settings> {
                         ),
                         textDirection: TextDirection.rtl,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 12,
                       )
                     ],
@@ -88,26 +88,26 @@ class _SettingsState extends State<Settings> {
                 ),
                 Container(
                   decoration: BoxDecoration(
-                    color: Color(0xffFFFBE8),
-                    borderRadius: BorderRadius.only(
+                    color: const Color(0xffFFFBE8),
+                    borderRadius: const BorderRadius.only(
                         bottomLeft: Radius.circular(20),
                         bottomRight: Radius.circular(20),
                         topLeft: Radius.circular(20)),
                     border: Border.all(
-                      color: Color(0xff14697B),
+                      color: const Color(0xff14697B),
                     ),
                   ),
                   child: Column(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       Slider(
                         value: mushafFontSize,
                         min: 20,
                         max: 50,
-                        activeColor: Color(0xffE95C1F),
-                        thumbColor: Color(0xff14697B),
+                        activeColor: const Color(0xffE95C1F),
+                        thumbColor: const Color(0xff14697B),
                         onChanged: (value) {
                           setState(() {
                             mushafFontSize = value;
@@ -120,7 +120,7 @@ class _SettingsState extends State<Settings> {
                             fontFamily: quranFont, fontSize: mushafFontSize),
                         textDirection: TextDirection.rtl,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 12,
                       )
                     ],
@@ -135,7 +135,7 @@ class _SettingsState extends State<Settings> {
                     ElevatedButton(
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(
-                          Color(0xff14697B),
+                          const Color(0xff14697B),
                         ),
                       ),
                       onPressed: () {
@@ -150,7 +150,7 @@ class _SettingsState extends State<Settings> {
                     ElevatedButton(
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
-                            Color(0xff14697B),
+                            const Color(0xff14697B),
                           ),
                         ),
                         onPressed: () {
@@ -171,9 +171,9 @@ class _SettingsState extends State<Settings> {
 
 Widget _buildTitle(String text) {
   return Container(
-    decoration: BoxDecoration(
+    decoration: const BoxDecoration(
       color: Color(0xff14697B),
-      borderRadius: const BorderRadius.only(
+      borderRadius: BorderRadius.only(
         topLeft: Radius.circular(20),
         topRight: Radius.circular(20),
       ),
@@ -182,7 +182,7 @@ Widget _buildTitle(String text) {
       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
       child: Text(
         text,
-        style: TextStyle(
+        style: const TextStyle(
           color: Colors.white,
           fontSize: 14,
         ),

@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quran_v2/presination/controller/app_cubit.dart';
-import 'package:quran_v2/presination/screens/HomeScreen.dart';
-import 'package:quran_v2/presination/screens/settings.dart';
+
 import 'package:quran_v2/splash_screen.dart';
 import 'package:sizer/sizer.dart';
 
-import 'core/shared/components.dart';
 import 'core/utils/conestans.dart';
 
 void main() {
@@ -33,6 +28,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Sizer(builder: (context, orientation, deviceType) {
       return MaterialApp(

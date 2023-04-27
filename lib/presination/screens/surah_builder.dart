@@ -65,7 +65,7 @@ class SurahBuilder extends StatelessWidget {
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [],
+                children: const [],
               ),
             ],
           ),
@@ -97,7 +97,7 @@ class SurahBuilder extends StatelessWidget {
                     children: [
                       (index != 0) || (sura == 0) || (sura == 8)
                           ? const Text('')
-                          : ReturnBasmala(),
+                          : const ReturnBasmala(),
                       Container(
                         color: index % 2 != 0
                             ? const Color.fromARGB(255, 253, 251, 240)
@@ -144,7 +144,7 @@ class SurahBuilder extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             sura + 1 != 1 && sura + 1 != 9
-                                ? ReturnBasmala()
+                                ? const ReturnBasmala()
                                 : const Text(''),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -182,7 +182,7 @@ class SurahBuilder extends StatelessWidget {
         var view = AppCubit.get(context).view;
         return Scaffold(
           appBar: AppBar(
-            backgroundColor: Color(0xff14697B),
+            backgroundColor: const Color(0xff14697B),
             // actions: [
             //   IconButton(
             //       onPressed: () {
@@ -220,7 +220,7 @@ class SurahBuilder extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                   fontFamily: quranFont,
-                  shadows: [
+                  shadows: const [
                     Shadow(
                       offset: Offset(1, 1),
                       blurRadius: 2.0,

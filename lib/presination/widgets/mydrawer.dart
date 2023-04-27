@@ -49,8 +49,8 @@ class MyDrawer extends StatelessWidget {
             ),
             onTap: () {
               Navigator.pop(context);
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Settings()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Settings()));
             },
           ),
           ListTile(
@@ -76,7 +76,7 @@ class MyDrawer extends StatelessWidget {
             onTap: () async {
               if (!await launchUrl(GitHuburl,
                   mode: LaunchMode.externalApplication)) {
-                throw 'Could not launch ${GitHuburl}';
+                throw 'Could not launch $GitHuburl';
               }
             },
           ),
@@ -90,7 +90,7 @@ class MyDrawer extends StatelessWidget {
             onTap: () async {
               if (!await launchUrl(contacturl,
                   mode: LaunchMode.externalApplication)) {
-                throw 'Could not launch ${contacturl}';
+                throw 'Could not launch $contacturl';
               }
             },
           ),

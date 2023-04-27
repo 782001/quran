@@ -3,8 +3,8 @@ library arabic_numbers;
 class _ArabicNumbers {
   static String convert(Object value) {
     assert(
-    value is int || value is String,
-    "The value object must be of type 'int' or 'String'.",
+      value is int || value is String,
+      "The value object must be of type 'int' or 'String'.",
     );
 
     if (value is int) {

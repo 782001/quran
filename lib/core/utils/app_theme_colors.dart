@@ -22,7 +22,7 @@ class AppColors {
   static Color whiteWithOpacity = const Color.fromRGBO(255, 255, 255, 230);
 
   ///////////////////////////
-  static Color DefaultColor = Color(0xffE95C1F);
+  static Color DefaultColor = const Color(0xffE95C1F);
 }
 
 class HexColor extends Color {

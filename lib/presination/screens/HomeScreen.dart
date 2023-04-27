@@ -50,9 +50,9 @@ class HomeScreen extends StatelessWidget {
                           // await settingsProvider.updateSettings(widget.nameField,valueInt);
                         },
                         value: cubit.isMoshaf,
-                        activeColor: Color(0xff14697B),
+                        activeColor: const Color(0xff14697B),
                         activeTrackColor: Colors.white,
-                        inactiveThumbColor: Color(0xff14697B),
+                        inactiveThumbColor: const Color(0xff14697B),
                         inactiveTrackColor: Colors.white),
                     SizedBox(
                       width: context.width * 0.05,
@@ -77,8 +77,7 @@ class HomeScreen extends StatelessWidget {
                   )),
               floatingActionButton: FloatingActionButton(
                 tooltip: 'المحفوظ',
-                child: Icon(Icons.bookmark),
-                backgroundColor: Color(0xffE95C1F),
+                backgroundColor: const Color(0xffE95C1F),
                 onPressed: () async {
                   fabIsClicked = true;
                   if (await readBookmark() == true) {
@@ -94,6 +93,7 @@ class HomeScreen extends StatelessWidget {
                                 )));
                   }
                 },
+                child: Icon(Icons.bookmark),
               ),
 
               //  FutureBuilder(
@@ -190,7 +190,7 @@ class HomeScreenWidgt extends StatelessWidget {
 
     return CustomScrollView(
       controller: scrollController,
-      physics: BouncingScrollPhysics(),
+      physics: const BouncingScrollPhysics(),
       slivers: [
         SliverPersistentHeader(
           floating: false,
@@ -199,6 +199,19 @@ class HomeScreenWidgt extends StatelessWidget {
             maxHeight: context.height * 0.22,
             minHeight: context.height * 0.05,
             child: Container(
+              decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      // AppColors.kTealColor,
+                      Color(0xff14697B),
+                      Color(0xffE95C1F),
+                      Color(0xffE95C1F),
+                      Color(0xffE95C1F),
+                    ],
+                  ),
+                  borderRadius: BorderRadiusDirectional.only(
+                      bottomStart: Radius.circular(25),
+                      bottomEnd: Radius.circular(25))),
               child: Padding(
                 padding:
                     EdgeInsetsDirectional.only(top: 40.0, start: 20, end: 20),
@@ -220,19 +233,6 @@ class HomeScreenWidgt extends StatelessWidget {
                   ],
                 ),
               ),
-              decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      // AppColors.kTealColor,
-                      Color(0xff14697B),
-                      Color(0xffE95C1F),
-                      Color(0xffE95C1F),
-                      Color(0xffE95C1F),
-                    ],
-                  ),
-                  borderRadius: BorderRadiusDirectional.only(
-                      bottomStart: Radius.circular(25),
-                      bottomEnd: Radius.circular(25))),
             ),
           ),
         ),

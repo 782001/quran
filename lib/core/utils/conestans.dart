@@ -34,8 +34,8 @@ Future saveSettings() async {
 Future getSettings() async {
   try {
     final prefs = await SharedPreferences.getInstance();
-    arabicFontSize = await prefs.getInt('arabicFontSize')!.toDouble();
-    mushafFontSize = await prefs.getInt('mushafFontSize')!.toDouble();
+    arabicFontSize = prefs.getInt('arabicFontSize')!.toDouble();
+    mushafFontSize = prefs.getInt('mushafFontSize')!.toDouble();
   } catch (_) {
     arabicFontSize = 28;
     mushafFontSize = 40;
