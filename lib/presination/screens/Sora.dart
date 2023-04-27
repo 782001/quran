@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 import 'package:quran/quran.dart' as quran;
-import 'package:quran_v2/presination/controller/app_cubit.dart';
 
 import '../../core/utils/assets_path.dart';
 import '../../core/utils/conestans.dart';
-import '../controller/app_states.dart';
 import '../surah_model.dart';
 import '../widgets/arabic_sura_num.dart';
 
 class SurahPage extends StatefulWidget {
   final Surah surah;
-  SurahPage({Key? key, required this.surah}) : super(key: key);
+  final sura;
+  SurahPage({Key? key, required this.surah, required this.sura})
+      : super(key: key);
 
   @override
   State<SurahPage> createState() => _SurahPageState();
@@ -61,7 +59,13 @@ class _SurahPageState extends State<SurahPage> {
             Center(
               child: Padding(
                 padding: const EdgeInsets.all(5),
-                child: header(),
+                child: widget.sura + 1 != 1 && widget.sura + 1 != 9
+                    ? header()
+                    : const Text(''),
+
+                // (index != 0) || (sura == 0) || (sura == 8)
+                //     ? const Text('')
+                //     : ReturnBasmala(),
               ),
             ),
             const SizedBox(
@@ -88,7 +92,7 @@ class _SurahPageState extends State<SurahPage> {
                       child: Directionality(
                         textDirection: TextDirection.ltr,
                         child: ArabicSuraNumber(
-                          i: i,
+                          i: i - 1,
                         ),
                       ),
                       // InkWell(
@@ -131,11 +135,13 @@ class _SurahPageState extends State<SurahPage> {
   }
 
   Widget header() {
-    return const Text(
+    return Text(
       ' ' + quran.basmala + ' ',
       textDirection: TextDirection.rtl,
       style: TextStyle(
-          fontFamily: quranFont, fontSize: 26, fontWeight: FontWeight.w700),
+          fontFamily: quranFont,
+          fontSize: arabicFontSize,
+          fontWeight: FontWeight.w700),
     );
   }
 }

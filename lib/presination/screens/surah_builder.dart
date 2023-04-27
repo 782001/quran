@@ -58,7 +58,7 @@ class SurahBuilder extends StatelessWidget {
                 arabic[index + previousVerses]['aya_text'],
                 textDirection: TextDirection.rtl,
                 style: TextStyle(
-                  fontSize: arabicFontSize,
+                  fontSize: mushafFontSize,
                   fontFamily: arabicFont,
                   color: const Color.fromARGB(196, 0, 0, 0),
                 ),

@@ -34,7 +34,7 @@ class _SettingsState extends State<Settings> {
               children: [
                 Align(
                   alignment: Alignment.topRight,
-                  child: _buildTitle('حجم الخط العربي'),
+                  child: _buildTitle('حجم الخط في الوضع العادي'),
                 ),
                 Container(
                   decoration: BoxDecoration(

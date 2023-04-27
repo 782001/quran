@@ -9,7 +9,6 @@ import 'package:sizer/sizer.dart';
 import '../../core/shared/components.dart';
 import '../../core/utils/assets_path.dart';
 import '../../core/utils/conestans.dart';
-import '../../splash_screen.dart';
 import '../controller/home_states.dart';
 import '../widgets/arabic_sura_num.dart';
 import '../widgets/mydrawer.dart';
@@ -32,7 +31,6 @@ class HomeScreen extends StatelessWidget {
           var cubit = HomeCubit.get(context);
           return Scaffold(
               drawer: const MyDrawer(),
-              drawerScrimColor: Colors.white,
               appBar: AppBar(
                   elevation: 0,
                   actions: [
@@ -302,7 +300,10 @@ Widget BuildSuraName() {
                       suraName: arabicName[surahList[index].id - 1]['name'],
                       ayah: bookmarkedAyah,
                     )
-                  : SurahPage(surah: surahList[index]),
+                  : SurahPage(
+                      surah: surahList[index],
+                      sura: surahList[index].id - 1,
+                    ),
             ),
           ),
         ),
