@@ -2,9 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:quran_v2/core/utils/assets_path.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../presination/surah_model.dart';
 
@@ -21,7 +20,7 @@ double arabicFontSize = 28;
 double mushafFontSize = 40;
 
 Uri quranAppurl = Uri.parse(
-    'https://www.mediafire.com/file/6e5461n3pk9cnzf/%25D8%25A7%25D9%2584%25D9%2582%25D8%25B1%25D8%25A2%25D9%2586_%25D8%25A7%25D9%2584%25D9%2583%25D8%25B1%25D9%258A%25D9%2585.apk/file');
+    'https://play.google.com/store/apps/details?id=com.quran.quran_v2');
 Uri contacturl = Uri.parse('https://wsend.co/201281859862');
 Uri GitHuburl = Uri.parse('https://github.com/782001?tab=repositories');
 
