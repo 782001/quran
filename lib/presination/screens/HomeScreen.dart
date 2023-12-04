@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quran_v2/core/utils/media_query_values.dart';
 import 'package:quran_v2/presination/controller/home_cubit.dart';
+import 'package:quran_v2/presination/screens/no_book_mark_screen.dart';
 import 'package:quran_v2/presination/widgets/sliver_delegate.dart';
 import 'package:sizer/sizer.dart';
 
@@ -33,6 +34,20 @@ class HomeScreen extends StatelessWidget {
               drawer: const MyDrawer(),
               appBar: AppBar(
                   elevation: 0,
+                  leading: Builder(
+                    builder: (BuildContext context) {
+                      return IconButton(
+                        icon: const Icon(
+                          Icons.menu,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          Scaffold.of(context).openDrawer();
+                        },
+                        // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+                      );
+                    },
+                  ),
                   actions: [
                     Switch(
                         onChanged: (value) async {
@@ -81,6 +96,7 @@ class HomeScreen extends StatelessWidget {
                 onPressed: () async {
                   fabIsClicked = true;
                   if (await readBookmark() == true) {
+                    // ignore: use_build_context_synchronously
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -92,8 +108,18 @@ class HomeScreen extends StatelessWidget {
                                   ayah: bookmarkedAyah,
                                 )));
                   }
+                  if (await readBookmark() == false) {
+                    // ignore: use_build_context_synchronously
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const NoBookMarkScreen()));
+                  }
                 },
-                child: Icon(Icons.bookmark),
+                child: const Icon(
+                  Icons.bookmark,
+                  color: Colors.white,
+                ),
               ),
 
               //  FutureBuilder(
@@ -190,13 +216,13 @@ class HomeScreenWidgt extends StatelessWidget {
 
     return CustomScrollView(
       controller: scrollController,
-      physics: const BouncingScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       slivers: [
         SliverPersistentHeader(
           floating: false,
           pinned: false,
           delegate: SliverAppBarDelegate(
-            maxHeight: context.height * 0.22,
+            maxHeight: context.height * 0.2,
             minHeight: context.height * 0.05,
             child: Container(
               decoration: const BoxDecoration(
@@ -213,11 +239,11 @@ class HomeScreenWidgt extends StatelessWidget {
                       bottomStart: Radius.circular(25),
                       bottomEnd: Radius.circular(25))),
               child: Padding(
-                padding:
-                    EdgeInsetsDirectional.only(top: 40.0, start: 20, end: 20),
+                padding: const EdgeInsetsDirectional.only(
+                    top: 40.0, start: 20, end: 20),
                 child: Row(
                   children: [
-                    AutoSizeText(
+                    const AutoSizeText(
                       "القرآن الكريم",
                       style: TextStyle(
                           fontSize: 20,
@@ -225,8 +251,8 @@ class HomeScreenWidgt extends StatelessWidget {
                           color: Colors.white,
                           fontFamily: me_quranFont),
                     ),
-                    Spacer(),
-                    Container(
+                    const Spacer(),
+                    SizedBox(
                         height: 40.h,
                         width: 40.w,
                         child: Image.asset(SplashImage))

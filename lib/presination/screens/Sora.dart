@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quran/quran.dart' as quran;
+import 'package:quran_v2/core/responsive/screen_util.dart';
+import 'package:quran_v2/presination/screens/surah_builder.dart';
 
 import '../../core/utils/assets_path.dart';
 import '../../core/utils/conestans.dart';
@@ -27,23 +29,82 @@ class _SurahPageState extends State<SurahPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: const Color(0xff14697B),
-        title: Text(
-          widget.surah.arabicName,
-          style: const TextStyle(
-            fontFamily: quranFont,
-            fontSize: 36,
-            fontWeight: FontWeight.bold,
-          ),
+        // backgroundColor: const Color(0xff14697B),
+        // actions: [
+        //   IconButton(
+        //       onPressed: () {
+        //         Navigator.push(context,
+        //             MaterialPageRoute(builder: (context) => Settings()));
+        //       },
+        //       icon: Icon(
+        //         Icons.settings,
+        //       )),
+        // ],
+        // leading: Tooltip(
+        //   message: 'مشاف',
+        //   child: TextButton(
+        //     child: const Icon(
+        //       Icons.chrome_reader_mode,
+        //       color: Colors.white,
+        //     ),
+        //     onPressed: () {
+        //       cubit.ChangeView();
+
+        //       // setState(() {
+        //       //   view = !view;
+        //       // });
+        //     },
+        //   ),
+        // ),
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: const Icon(
+                Icons.arrow_back_ios,
+                color: Colors.transparent,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+            );
+          },
         ),
-        centerTitle: true,
+        flexibleSpace: Stack(
+          children: [
+            const Background(),
+            Positioned(
+              top: 30,
+              // bottom: 5,
+              left: 5,
+              right: 5,
+              child: Text(
+                //
+                widget.surah.arabicName,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 22.sp,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                    fontFamily: me_quranFont,
+                    shadows: const [
+                      Shadow(
+                        offset: Offset(1, 1),
+                        blurRadius: 2.0,
+                        color: Color.fromARGB(255, 0, 0, 0),
+                      ),
+                    ]),
+              ),
+            ),
+          ],
+        ),
       ),
       body: SafeArea(
         minimum: const EdgeInsets.all(2),
         child: Container(
           padding: const EdgeInsets.all(15),
           decoration: BoxDecoration(
-            color: Colors.blue[50],
+            color: const Color.fromARGB(255, 253, 251, 240),
             borderRadius: const BorderRadius.only(
               bottomLeft: Radius.circular(10),
               bottomRight: Radius.circular(10),

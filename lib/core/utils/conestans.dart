@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
+import 'package:quran_v2/core/shared/components.dart';
 import 'package:quran_v2/core/utils/assets_path.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -45,6 +46,7 @@ saveBookMark(surah, ayah) async {
   final prefs = await SharedPreferences.getInstance();
   await prefs.setInt("surah", surah);
   await prefs.setInt("ayah", ayah);
+  ShowToust(Text: 'تم حفظ الآيه', state: ToustStates.SUCSESS);
 }
 
 readBookmark() async {

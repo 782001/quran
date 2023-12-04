@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quran/quran.dart';
 import 'package:quran_v2/core/utils/assets_path.dart';
 import 'package:quran_v2/presination/controller/app_cubit.dart';
 
@@ -21,8 +22,26 @@ class _SettingsState extends State<Settings> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text(
+        title: Text(
           "الاعدادات",
+          style: TextStyle(
+              fontFamily: quranFont,
+              fontSize: arabicFontSize,
+              color: Colors.white),
+        ),
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: const Icon(
+                Icons.arrow_back_ios,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+            );
+          },
         ),
         backgroundColor: const Color(0xffE95C1F),
       ),
@@ -132,32 +151,53 @@ class _SettingsState extends State<Settings> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(
-                          const Color(0xff14697B),
-                        ),
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          arabicFontSize = 28;
-                          mushafFontSize = 40;
-                        });
-                        saveSettings();
-                      },
-                      child: const Text('الطبيعي'),
-                    ),
-                    ElevatedButton(
+                    Expanded(
+                      child: ElevatedButton(
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
                             const Color(0xff14697B),
                           ),
                         ),
                         onPressed: () {
+                          setState(() {
+                            arabicFontSize = 28;
+                            mushafFontSize = 40;
+                          });
                           saveSettings();
-                          Navigator.of(context).pop();
                         },
-                        child: const Text('حفظ')),
+                        child: const Text(
+                          'الطبيعي',
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontFamily: quranFont,
+                              color: Colors.white),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 15,
+                    ),
+                    Expanded(
+                      child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                              const Color(0xff14697B),
+                            ),
+                          ),
+                          onPressed: () {
+                            saveSettings();
+                            Navigator.of(context).pop();
+                            String s = getAudioURLByVerse(114, 2);
+                            print(s);
+                          },
+                          child: const Text(
+                            'حفظ',
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontFamily: quranFont,
+                                color: Colors.white),
+                          )),
+                    ),
                   ],
                 ),
               ],
