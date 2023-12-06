@@ -1,10 +1,11 @@
-// ignore_for_file: prefer_typing_uninitialized_variables, curly_braces_in_flow_control_structures, non_constant_identifier_names
+// ignore_for_file: prefer_typing_uninitialized_variables, curly_braces_in_flow_control_structures, non_constant_identifier_names, depend_on_referenced_packages
 
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quran/quran.dart';
+import 'package:quran_v2/core/shared/components.dart';
 import 'package:quran_v2/core/utils/media_query_values.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:sizer/sizer.dart';
@@ -14,20 +15,7 @@ import '../../core/utils/assets_path.dart';
 import '../../core/utils/conestans.dart';
 import '../controller/app_cubit.dart';
 import '../controller/app_states.dart';
-
-// class SurahBuilder extends StatefulWidget {
-//   final sura;
-//   final arabic;
-//   final suraName;
-//   int ayah;
-
-//   SurahBuilder(
-//       {Key? key, this.sura, this.arabic, this.suraName, required this.ayah})
-//       : super(key: key);
-
-//   @override
-//   _SurahBuilderState createState() => _SurahBuilderState();
-// }
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class SurahBuilder extends StatefulWidget {
   final sura;
@@ -104,7 +92,7 @@ class _SurahBuilderState extends State<SurahBuilder> {
                 children: [
                   const Background(),
                   Positioned(
-                    top: 30,
+                    top: 20,
                     // bottom: 5,
                     left: 5,
                     right: 5,
@@ -115,7 +103,7 @@ class _SurahBuilderState extends State<SurahBuilder> {
                       style: TextStyle(
                           fontSize: 22.sp,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                          color: Colors.brown,
                           fontFamily: me_quranFont,
                           shadows: const [
                             Shadow(
@@ -249,9 +237,22 @@ class _SingleSuraBuildeState extends State<SingleSuraBuilder> {
     // _audioPlayer.play;
   }
 
+  // getConnectivity() =>
+  //     subscription = Connectivity().onConnectivityChanged.listen(
+  //       (ConnectivityResult result) async {
+  //         isDeviceConnected = await InternetConnectionChecker().hasConnection;
+  //         if (!isDeviceConnected && isAlertSet == false) {
+  //           showDialogBox();
+  //           setState(() {
+  //             isAlertSet = true;
+  //           });
+  //         }
+  //       },
+  //     );
   @override
   void initState() {
     super.initState();
+    // getConnectivity();
     _audioPlayer = AudioPlayer();
     // _quranVerses = Quran.getVerses();
   }
@@ -339,9 +340,21 @@ class _SingleSuraBuildeState extends State<SingleSuraBuilder> {
                                         ),
                                       ),
                                       PopupMenuItem(
-                                        onTap: () {
+                                        onTap: () async {
                                           playAyaAudio(
                                               widget.sura + 1, index + 1);
+                                          isDeviceConnected =
+                                              await InternetConnectionChecker()
+                                                  .hasConnection;
+                                          if (!isDeviceConnected &&
+                                              isAlertSet == false) {
+                                            ShowToust(
+                                                Text: "لا يوجد انترنت",
+                                                state: ToustStates.SUCSESS);
+                                            setState(() {
+                                              isAlertSet = true;
+                                            });
+                                          }
                                           setState(() {
                                             // _audioPlayer.play;
                                           });

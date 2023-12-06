@@ -74,10 +74,11 @@ class _SurahPageState extends State<SurahPage> {
           children: [
             const Background(),
             Positioned(
-              top: 30,
+              top: 20,
               // bottom: 5,
               left: 5,
               right: 5,
+              // bottom: 25,
               child: Text(
                 //
                 widget.surah.arabicName,
@@ -85,7 +86,7 @@ class _SurahPageState extends State<SurahPage> {
                 style: TextStyle(
                     fontSize: 22.sp,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                    color: Colors.brown,
                     fontFamily: me_quranFont,
                     shadows: const [
                       Shadow(

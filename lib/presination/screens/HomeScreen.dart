@@ -2,15 +2,16 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quran_v2/core/utils/media_query_values.dart';
-import 'package:quran_v2/presination/controller/home_cubit.dart';
+import 'package:quran_v2/presination/controller/app_cubit.dart';
+import 'package:quran_v2/presination/controller/app_states.dart';
 import 'package:quran_v2/presination/screens/no_book_mark_screen.dart';
+import 'package:quran_v2/presination/screens/search_screen.dart';
 import 'package:quran_v2/presination/widgets/sliver_delegate.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../core/shared/components.dart';
 import '../../core/utils/assets_path.dart';
 import '../../core/utils/conestans.dart';
-import '../controller/home_states.dart';
 import '../widgets/arabic_sura_num.dart';
 import '../widgets/mydrawer.dart';
 import 'Sora.dart';
@@ -24,183 +25,211 @@ class HomeScreen extends StatelessWidget {
   final data;
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (BuildContext context) => HomeCubit(),
-      child: BlocConsumer<HomeCubit, HomeStates>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          var cubit = HomeCubit.get(context);
-          return Scaffold(
-              drawer: const MyDrawer(),
-              appBar: AppBar(
-                  elevation: 0,
-                  leading: Builder(
-                    builder: (BuildContext context) {
-                      return IconButton(
-                        icon: const Icon(
-                          Icons.menu,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {
-                          Scaffold.of(context).openDrawer();
-                        },
-                        // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-                      );
-                    },
+    return BlocConsumer<AppCubit, AppStates>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        var cubit = AppCubit.get(context);
+        return Scaffold(
+            drawer: const MyDrawer(),
+            appBar: AppBar(
+                elevation: 0,
+                leading: Builder(
+                  builder: (BuildContext context) {
+                    return IconButton(
+                      icon: const Icon(
+                        Icons.menu,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        Scaffold.of(context).openDrawer();
+                      },
+                      // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+                    );
+                  },
+                ),
+                actions: [
+                  SizedBox(
+                    width: context.width * 0.05,
                   ),
-                  actions: [
-                    Switch(
-                        onChanged: (value) async {
-                          debugPrint('Switch ${cubit.isMoshaf}');
-                          cubit.ChangeisMoshaf(value);
-                          // setState(() {
-                          //   cubit.isMoshaf = value;
-                          // });
-                          ShowToust(
-                              Text: cubit.isMoshaf
-                                  ? 'وضع المشاف'
-                                  : 'الوضع العادي',
-                              state: ToustStates.SUCSESS);
-                          // int valueInt= switchValue ? 1: 0;
-                          // await settingsProvider.updateSettings(widget.nameField,valueInt);
-                        },
-                        value: cubit.isMoshaf,
-                        activeColor: const Color(0xff14697B),
-                        activeTrackColor: Colors.white,
-                        inactiveThumbColor: const Color(0xff14697B),
-                        inactiveTrackColor: Colors.white),
-                    SizedBox(
-                      width: context.width * 0.05,
-                    )
-                  ],
-                  flexibleSpace: FlexibleSpaceBar(
-                    // centerTitle: true,
-
-                    background: Container(
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            // AppColors.kTealColor,
-                            Color(0xff14697B),
-                            Color(0xffE95C1F),
-                            Color(0xffE95C1F),
-                            Color(0xffE95C1F),
+                  Switch(
+                      onChanged: (value) async {
+                        debugPrint('Switch ${cubit.isMoshaf}');
+                        cubit.ChangeisMoshaf(value);
+                        // setState(() {
+                        //   cubit.isMoshaf = value;
+                        // });
+                        ShowToust(
+                            Text:
+                                cubit.isMoshaf ? 'وضع المشاف' : 'الوضع العادي',
+                            state: ToustStates.SUCSESS);
+                        // int valueInt= switchValue ? 1: 0;
+                        // await settingsProvider.updateSettings(widget.nameField,valueInt);
+                      },
+                      value: cubit.isMoshaf,
+                      activeColor: const Color(0xff14697B),
+                      activeTrackColor: Colors.white,
+                      inactiveThumbColor: const Color(0xff14697B),
+                      inactiveTrackColor: Colors.white),
+                  SizedBox(
+                    width: context.width * 0.05,
+                  ),
+                  CircleAvatar(
+                    backgroundColor: Colors.white,
+                    radius: 25,
+                    child: Center(
+                      child: IconButton(
+                        icon: const Icon(
+                          Icons.search,
+                          color: Color(0xff14697B),
+                          size: 35,
+                          shadows: [
+                            Shadow(
+                                color: Color(0xff14697B),
+                                blurRadius: 20,
+                                offset: Offset(5, 5))
                           ],
                         ),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const searchScreen()));
+                        },
+                        // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
                       ),
                     ),
-                  )),
-              floatingActionButton: FloatingActionButton(
-                tooltip: 'المحفوظ',
-                backgroundColor: const Color(0xffE95C1F),
-                onPressed: () async {
-                  fabIsClicked = true;
-                  if (await readBookmark() == true) {
-                    // ignore: use_build_context_synchronously
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => SurahBuilder(
-                                  arabic: quran[0],
-                                  sura: bookmarkedSura - 1,
-                                  suraName: arabicName[bookmarkedSura - 1]
-                                      ['name'],
-                                  ayah: bookmarkedAyah,
-                                )));
-                  }
-                  if (await readBookmark() == false) {
-                    // ignore: use_build_context_synchronously
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const NoBookMarkScreen()));
-                  }
-                },
-                child: const Icon(
-                  Icons.bookmark,
-                  color: Colors.white,
-                ),
-              ),
+                  ),
+                  SizedBox(
+                    width: context.width * 0.05,
+                  ),
+                ],
+                flexibleSpace: FlexibleSpaceBar(
+                  // centerTitle: true,
 
-              //  FutureBuilder(
-              //   future: readJson(),
-              //   builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-              //     if (snapshot.connectionState == ConnectionState.waiting) {
-              //       return FloatingActionButton(
-              //         tooltip: 'المحفوظ',
-              //         backgroundColor: Color(0xffE95C1F),
-              //         elevation: 0,
-              //         onPressed: () async {},
-              //       );
-              //     } else if (snapshot.connectionState == ConnectionState.done) {
-              //       if (snapshot.hasError) {
-              //         return const Text('هناك خطأ ما');
-              //       } else if (snapshot.hasData) {
-              //         return FloatingActionButton(
-              //           tooltip: 'المحفوظ',
-              //           child: Icon(Icons.bookmark),
-              //           backgroundColor: Color(0xffE95C1F),
-              //           onPressed: () async {
-              //             fabIsClicked = true;
-              //             if (await readBookmark() == true) {
-              //               Navigator.push(
-              //                   context,
-              //                   MaterialPageRoute(
-              //                       builder: (context) => SurahBuilder(
-              //                             arabic: quran[0],
-              //                             sura: bookmarkedSura - 1,
-              //                             suraName: arabicName[bookmarkedSura - 1]
-              //                                 ['name'],
-              //                             ayah: bookmarkedAyah,
-              //                           )));
-              //             }
-              //           },
-              //         );
-              //       } else {
-              //         return const Text('لا يوجد بيانات ');
-              //       }
-              //     } else {
-              //       return Text('State: ${snapshot.connectionState}');
-              //     }
-              //   },
-              // ),
-              body: data && surahList.isNotEmpty
-                  ? const HomeScreenWidgt()
-                  : const Center(
-                      child: CircularProgressIndicator(
-                        color: Color(0xff14697B),
+                  background: Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          // AppColors.kTealColor,
+                          Color(0xff14697B),
+                          Color(0xffE95C1F),
+                          Color(0xffE95C1F),
+                          Color(0xffE95C1F),
+                        ],
                       ),
-                    )
+                    ),
+                  ),
+                )),
+            floatingActionButton: FloatingActionButton(
+              tooltip: 'المحفوظ',
+              backgroundColor: const Color(0xffE95C1F),
+              onPressed: () async {
+                fabIsClicked = true;
+                if (await readBookmark() == true) {
+                  // ignore: use_build_context_synchronously
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SurahBuilder(
+                                arabic: quran[0],
+                                sura: bookmarkedSura - 1,
+                                suraName: arabicName[bookmarkedSura - 1]
+                                    ['name'],
+                                ayah: bookmarkedAyah,
+                              )));
+                }
+                if (await readBookmark() == false) {
+                  // ignore: use_build_context_synchronously
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const NoBookMarkScreen()));
+                }
+              },
+              child: const Icon(
+                Icons.bookmark,
+                color: Colors.white,
+              ),
+            ),
 
-              // SafeArea(
-              //   child: FutureBuilder(
-              //     future: readJson(),
-              //     builder:
-              //         (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-              //       if (snapshot.connectionState == ConnectionState.waiting &&
-              //           surahList.isEmpty) {
-              //         return SplashScreen();
-              //         // color: Color(0xffE95C1F),
+            //  FutureBuilder(
+            //   future: readJson(),
+            //   builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+            //     if (snapshot.connectionState == ConnectionState.waiting) {
+            //       return FloatingActionButton(
+            //         tooltip: 'المحفوظ',
+            //         backgroundColor: Color(0xffE95C1F),
+            //         elevation: 0,
+            //         onPressed: () async {},
+            //       );
+            //     } else if (snapshot.connectionState == ConnectionState.done) {
+            //       if (snapshot.hasError) {
+            //         return const Text('هناك خطأ ما');
+            //       } else if (snapshot.hasData) {
+            //         return FloatingActionButton(
+            //           tooltip: 'المحفوظ',
+            //           child: Icon(Icons.bookmark),
+            //           backgroundColor: Color(0xffE95C1F),
+            //           onPressed: () async {
+            //             fabIsClicked = true;
+            //             if (await readBookmark() == true) {
+            //               Navigator.push(
+            //                   context,
+            //                   MaterialPageRoute(
+            //                       builder: (context) => SurahBuilder(
+            //                             arabic: quran[0],
+            //                             sura: bookmarkedSura - 1,
+            //                             suraName: arabicName[bookmarkedSura - 1]
+            //                                 ['name'],
+            //                             ayah: bookmarkedAyah,
+            //                           )));
+            //             }
+            //           },
+            //         );
+            //       } else {
+            //         return const Text('لا يوجد بيانات ');
+            //       }
+            //     } else {
+            //       return Text('State: ${snapshot.connectionState}');
+            //     }
+            //   },
+            // ),
+            body: data && surahList.isNotEmpty
+                ? const HomeScreenWidgt()
+                : const Center(
+                    child: CircularProgressIndicator(
+                      color: Color(0xff14697B),
+                    ),
+                  )
 
-              //       } else if (snapshot.connectionState == ConnectionState.done) {
-              //         if (snapshot.hasError) {
-              //           return const Text('حدث خطأ ما ');
-              //         } else if (snapshot.hasData && surahList.isNotEmpty) {
-              //           return HomeScreenWidgt();
-              //         } else {
-              //           return const Text('لا يوجد بيانات');
-              //         }
-              //       } else {
-              //         return Center(
-              //           child: CircularProgressIndicator(),
-              //         );
-              //       }
-              //     },
-              //   ),
-              // ),
-              );
-        },
-      ),
+            // SafeArea(
+            //   child: FutureBuilder(
+            //     future: readJson(),
+            //     builder:
+            //         (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+            //       if (snapshot.connectionState == ConnectionState.waiting &&
+            //           surahList.isEmpty) {
+            //         return SplashScreen();
+            //         // color: Color(0xffE95C1F),
+
+            //       } else if (snapshot.connectionState == ConnectionState.done) {
+            //         if (snapshot.hasError) {
+            //           return const Text('حدث خطأ ما ');
+            //         } else if (snapshot.hasData && surahList.isNotEmpty) {
+            //           return HomeScreenWidgt();
+            //         } else {
+            //           return const Text('لا يوجد بيانات');
+            //         }
+            //       } else {
+            //         return Center(
+            //           child: CircularProgressIndicator(),
+            //         );
+            //       }
+            //     },
+            //   ),
+            // ),
+            );
+      },
     );
   }
 }
@@ -214,72 +243,77 @@ class HomeScreenWidgt extends StatelessWidget {
   Widget build(BuildContext context) {
     ScrollController? scrollController;
 
-    return CustomScrollView(
-      controller: scrollController,
-      physics: const NeverScrollableScrollPhysics(),
-      slivers: [
-        SliverPersistentHeader(
-          floating: false,
-          pinned: false,
-          delegate: SliverAppBarDelegate(
-            maxHeight: context.height * 0.2,
-            minHeight: context.height * 0.05,
-            child: Container(
-              decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      // AppColors.kTealColor,
-                      Color(0xff14697B),
-                      Color(0xffE95C1F),
-                      Color(0xffE95C1F),
-                      Color(0xffE95C1F),
-                    ],
-                  ),
-                  borderRadius: BorderRadiusDirectional.only(
-                      bottomStart: Radius.circular(25),
-                      bottomEnd: Radius.circular(25))),
-              child: Padding(
-                padding: const EdgeInsetsDirectional.only(
-                    top: 40.0, start: 20, end: 20),
-                child: Row(
-                  children: [
-                    const AutoSizeText(
-                      "القرآن الكريم",
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontFamily: me_quranFont),
+    return BlocConsumer<AppCubit, AppStates>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          return CustomScrollView(
+            controller: scrollController,
+            physics: const NeverScrollableScrollPhysics(),
+            slivers: [
+              SliverPersistentHeader(
+                floating: false,
+                pinned: false,
+                delegate: SliverAppBarDelegate(
+                  maxHeight: context.height * 0.2,
+                  minHeight: context.height * 0.05,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            // AppColors.kTealColor,
+                            Color(0xff14697B),
+                            Color(0xffE95C1F),
+                            Color(0xffE95C1F),
+                            Color(0xffE95C1F),
+                          ],
+                        ),
+                        borderRadius: BorderRadiusDirectional.only(
+                            bottomStart: Radius.circular(25),
+                            bottomEnd: Radius.circular(25))),
+                    child: Padding(
+                      padding: const EdgeInsetsDirectional.only(
+                          top: 40.0, start: 20, end: 20),
+                      child: Row(
+                        children: [
+                          const AutoSizeText(
+                            "القرآن الكريم",
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                                fontFamily: me_quranFont),
+                          ),
+                          const Spacer(),
+                          SizedBox(
+                              height: 40.h,
+                              width: 40.w,
+                              child: Image.asset(SplashImage))
+                        ],
+                      ),
                     ),
-                    const Spacer(),
-                    SizedBox(
-                        height: 40.h,
-                        width: 40.w,
-                        child: Image.asset(SplashImage))
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ),
-        ),
-        SliverList(
-          delegate: SliverChildListDelegate([
-            SizedBox(height: context.height * 0.7, child: BuildSuraName()),
-            SizedBox(
-              height: context.height * 0.06,
-            )
-          ]),
-        )
-      ],
-    );
+              SliverList(
+                delegate: SliverChildListDelegate([
+                  SizedBox(
+                      height: context.height * 0.7, child: BuildSuraName()),
+                  SizedBox(
+                    height: context.height * 0.06,
+                  )
+                ]),
+              )
+            ],
+          );
+        });
   }
 }
 
 Widget BuildSuraName() {
-  return BlocConsumer<HomeCubit, HomeStates>(
+  return BlocConsumer<AppCubit, AppStates>(
     listener: (context, state) {},
     builder: (context, state) {
-      var cubit = HomeCubit.get(context);
+      var cubit = AppCubit.get(context);
       return ListView.separated(
         physics: const BouncingScrollPhysics(),
         itemBuilder: (context, index) => ListTile(
@@ -339,6 +373,8 @@ Widget BuildSuraName() {
     },
   );
 }
+
+
 // Widget BuildSuraName(quran, context) {
 //   return Container(
 //     color: const Color.fromARGB(255, 221, 250, 236),

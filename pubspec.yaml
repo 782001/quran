@@ -51,6 +51,7 @@ dependencies:
   rxdart: ^0.27.7
   just_audio: ^0.9.32
   audio_video_progress_bar: ^2.0.1
+  internet_connection_checker: ^1.0.0+1
 flutter_icons:
   android: "launcher_icon"
   ios: true
