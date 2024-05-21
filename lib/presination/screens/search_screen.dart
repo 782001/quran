@@ -6,7 +6,7 @@ import 'package:quran_v2/core/utils/conestans.dart';
 import 'package:quran_v2/core/utils/media_query_values.dart';
 import 'package:quran_v2/presination/controller/app_cubit.dart';
 import 'package:quran_v2/presination/controller/app_states.dart';
-import 'package:quran_v2/presination/screens/HomeScreen.dart';
+import 'package:quran_v2/presination/screens/Quran_HomeScreen.dart';
 import 'package:quran_v2/presination/screens/Sora.dart';
 import 'package:quran_v2/presination/screens/surah_builder.dart';
 import 'package:quran_v2/presination/surah_model.dart';
@@ -47,10 +47,13 @@ class searchScreen extends StatelessWidget {
                     gradient: LinearGradient(
                       colors: [
                         // AppColors.kTealColor,
-                        Color(0xff14697B),
-                        Color(0xffE95C1F),
-                        Color(0xffE95C1F),
-                        Color(0xffE95C1F),
+                        Colors.brown,
+                        Colors.brown,
+                        Colors.brown,
+                        // Color(0xff14697B),
+                        // Color(0xffE95C1F),
+                        // Color(0xffE95C1F),
+                        // Color(0xffE95C1F),
                       ],
                     ),
                   ),
@@ -61,11 +64,14 @@ class searchScreen extends StatelessWidget {
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  // AppColors.kTealColor,
-                  Color(0xff14697B),
-                  Color(0xffE95C1F),
-                  Color(0xffE95C1F),
-                  Color(0xffE95C1F),
+                  // AppColors.kTealColor
+                  Colors.brown,
+                  Colors.brown,
+                  Colors.brown,
+                  // Color(0xff14697B),
+                  // Color(0xffE95C1F),
+                  // Color(0xffE95C1F),
+                  // Color(0xffE95C1F),
                 ],
               ),
             ),
@@ -78,12 +84,12 @@ class searchScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(10.0),
                       child: Container(
                         decoration: BoxDecoration(
-                            color: Colors.grey[350],
+                            color: const Color(0xffFFFBE8),
                             borderRadius: BorderRadius.circular(10)),
                         child: Padding(
                             padding: const EdgeInsets.all(20.0),
                             child: TextFormField(
-                              cursorColor: const Color(0xff14697B),
+                              cursorColor: Colors.brown,
                               onFieldSubmitted: (value) {
                                 cubit.updateFilteredSurahs(value);
                               },
@@ -95,23 +101,23 @@ class searchScreen extends StatelessWidget {
                               decoration: InputDecoration(
                                 suffixIcon: const Icon(
                                   Icons.search,
-                                  color: Color(0xff14697B),
+                                  color: Colors.brown,
                                   size: 35,
                                   shadows: [
                                     Shadow(
-                                        color: Color(0xff14697B),
+                                        color: Colors.brown,
                                         blurRadius: 20,
                                         offset: Offset(5, 5))
                                   ],
                                 ),
                                 labelStyle: const TextStyle(
-                                    color: Color(0xff14697B),
+                                    color: Colors.brown,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 18),
                                 labelText: "اكتب اسم السوره",
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: const BorderSide(
-                                    color: Color(0xff14697B),
+                                    color: Colors.brown,
                                   ),
                                   gapPadding: 5,
                                   borderRadius: BorderRadius.circular(10),
@@ -126,14 +132,14 @@ class searchScreen extends StatelessWidget {
                                 // ),
                                 disabledBorder: OutlineInputBorder(
                                   borderSide: const BorderSide(
-                                    color: Color(0xff14697B),
+                                    color: Colors.brown,
                                   ),
                                   gapPadding: 5,
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 border: OutlineInputBorder(
                                   borderSide: const BorderSide(
-                                    color: Color(0xff14697B),
+                                    color: Colors.brown,
                                   ),
                                   gapPadding: 5,
                                   borderRadius: BorderRadius.circular(10),
@@ -142,7 +148,7 @@ class searchScreen extends StatelessWidget {
 
                                 enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
-                                      color: Color(0xff14697B),
+                                      color: Colors.brown,
                                     ),
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(10))),
@@ -179,7 +185,7 @@ class searchScreen extends StatelessWidget {
                                     const Icon(
                                       Icons.do_not_disturb_alt_sharp,
                                       size: 60,
-                                      color: Color(0xffE95C1F),
+                                      color: Colors.brown,
                                     ),
                                     const Spacer(
                                         // height: 20,
@@ -227,13 +233,17 @@ Widget BuildSearchSuraName(List<Surah> surahList) {
       return ListView.separated(
         physics: const BouncingScrollPhysics(),
         itemBuilder: (context, index) => ListTile(
-          leading: ArabicSuraNumber(
-            i: surahList[index].id - 1,
-          )
-          //  CircleAvatar(
-          //   child: Text(surahList[index].id.toString()),
-          // ),
-          ,
+          // leading: ArabicSuraNumber(
+          //   i: surahList[index].id - 1,
+          // )
+          leading: CircleAvatar(
+            backgroundColor: Colors.brown,
+            child: Text(
+              (surahList[index].id - 1).toString(),
+              style: const TextStyle(color: Colors.white),
+            ),
+          ),
+
           title: AutoSizeText(
             surahList[index].name,
             style: const TextStyle(

@@ -12,13 +12,12 @@ import 'package:sizer/sizer.dart';
 import '../../core/shared/components.dart';
 import '../../core/utils/assets_path.dart';
 import '../../core/utils/conestans.dart';
-import '../widgets/arabic_sura_num.dart';
 import '../widgets/mydrawer.dart';
 import 'Sora.dart';
 import 'surah_builder.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({
+class QuranHomeScreen extends StatelessWidget {
+  const QuranHomeScreen({
     Key? key,
     required this.data,
   }) : super(key: key);
@@ -66,9 +65,9 @@ class HomeScreen extends StatelessWidget {
                         // await settingsProvider.updateSettings(widget.nameField,valueInt);
                       },
                       value: cubit.isMoshaf,
-                      activeColor: const Color(0xff14697B),
+                      activeColor: Colors.brown,
                       activeTrackColor: Colors.white,
-                      inactiveThumbColor: const Color(0xff14697B),
+                      inactiveThumbColor: Colors.brown,
                       inactiveTrackColor: Colors.white),
                   SizedBox(
                     width: context.width * 0.05,
@@ -80,11 +79,11 @@ class HomeScreen extends StatelessWidget {
                       child: IconButton(
                         icon: const Icon(
                           Icons.search,
-                          color: Color(0xff14697B),
+                          color: Colors.brown,
                           size: 35,
                           shadows: [
                             Shadow(
-                                color: Color(0xff14697B),
+                                color: Colors.brown,
                                 blurRadius: 20,
                                 offset: Offset(5, 5))
                           ],
@@ -111,10 +110,13 @@ class HomeScreen extends StatelessWidget {
                       gradient: LinearGradient(
                         colors: [
                           // AppColors.kTealColor,
-                          Color(0xff14697B),
-                          Color(0xffE95C1F),
-                          Color(0xffE95C1F),
-                          Color(0xffE95C1F),
+                          Colors.brown,
+                          Colors.brown,
+                          Colors.brown,
+                          //    Colors.brown,
+                          // Color(0xffE95C1F),
+                          // Color(0xffE95C1F),
+                          // Color(0xffE95C1F),
                         ],
                       ),
                     ),
@@ -122,7 +124,7 @@ class HomeScreen extends StatelessWidget {
                 )),
             floatingActionButton: FloatingActionButton(
               tooltip: 'المحفوظ',
-              backgroundColor: const Color(0xffE95C1F),
+              backgroundColor: Colors.brown,
               onPressed: () async {
                 fabIsClicked = true;
                 if (await readBookmark() == true) {
@@ -195,10 +197,10 @@ class HomeScreen extends StatelessWidget {
             //   },
             // ),
             body: data && surahList.isNotEmpty
-                ? const HomeScreenWidgt()
+                ? const QuranHomeScreenWidgt()
                 : const Center(
                     child: CircularProgressIndicator(
-                      color: Color(0xff14697B),
+                      color: Colors.brown,
                     ),
                   )
 
@@ -216,7 +218,7 @@ class HomeScreen extends StatelessWidget {
             //         if (snapshot.hasError) {
             //           return const Text('حدث خطأ ما ');
             //         } else if (snapshot.hasData && surahList.isNotEmpty) {
-            //           return HomeScreenWidgt();
+            //           return QuranHomeScreenWidgt();
             //         } else {
             //           return const Text('لا يوجد بيانات');
             //         }
@@ -234,8 +236,8 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-class HomeScreenWidgt extends StatelessWidget {
-  const HomeScreenWidgt({
+class QuranHomeScreenWidgt extends StatelessWidget {
+  const QuranHomeScreenWidgt({
     super.key,
   });
 
@@ -261,10 +263,13 @@ class HomeScreenWidgt extends StatelessWidget {
                         gradient: LinearGradient(
                           colors: [
                             // AppColors.kTealColor,
-                            Color(0xff14697B),
-                            Color(0xffE95C1F),
-                            Color(0xffE95C1F),
-                            Color(0xffE95C1F),
+                            Colors.brown,
+                            Colors.brown,
+                            Colors.brown,
+                            //    Colors.brown,
+                            // Color(0xffE95C1F),
+                            // Color(0xffE95C1F),
+                            // Color(0xffE95C1F),
                           ],
                         ),
                         borderRadius: BorderRadiusDirectional.only(
@@ -317,13 +322,17 @@ Widget BuildSuraName() {
       return ListView.separated(
         physics: const BouncingScrollPhysics(),
         itemBuilder: (context, index) => ListTile(
-          leading: ArabicSuraNumber(
-            i: surahList[index].id - 1,
-          )
-          //  CircleAvatar(
-          //   child: Text(surahList[index].id.toString()),
-          // ),
-          ,
+          // leading: ArabicSuraNumber(
+          //   i: surahList[index].id - 1,
+          // )
+          leading: CircleAvatar(
+            backgroundColor: Colors.brown,
+            child: Text(
+              (surahList[index].id - 1).toString(),
+              style: const TextStyle(color: Colors.white),
+            ),
+          ),
+
           title: AutoSizeText(
             surahList[index].name,
             style: const TextStyle(

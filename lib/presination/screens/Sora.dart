@@ -113,7 +113,7 @@ class _SurahPageState extends State<SurahPage> {
               topRight: Radius.circular(10),
             ),
             border: Border.all(
-              color: const Color(0xffE95C1F),
+              color: Colors.brown,
               width: 7,
             ),
           ),

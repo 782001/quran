@@ -43,7 +43,7 @@ class _SettingsState extends State<Settings> {
             );
           },
         ),
-        backgroundColor: const Color(0xffE95C1F),
+        backgroundColor: Colors.brown,
       ),
       body: SafeArea(
         child: Padding(
@@ -63,7 +63,7 @@ class _SettingsState extends State<Settings> {
                         bottomRight: Radius.circular(20),
                         topLeft: Radius.circular(20)),
                     border: Border.all(
-                      color: const Color(0xff14697B),
+                      color: Colors.brown,
                     ),
                   ),
                   child: Column(
@@ -75,8 +75,8 @@ class _SettingsState extends State<Settings> {
                         value: arabicFontSize,
                         min: 20,
                         max: 40,
-                        activeColor: const Color(0xffE95C1F),
-                        thumbColor: const Color(0xff14697B),
+                        activeColor: Colors.brown,
+                        thumbColor: Colors.brown,
                         onChanged: (value) {
                           setState(() {
                             arabicFontSize = value;
@@ -113,7 +113,7 @@ class _SettingsState extends State<Settings> {
                         bottomRight: Radius.circular(20),
                         topLeft: Radius.circular(20)),
                     border: Border.all(
-                      color: const Color(0xff14697B),
+                      color: Colors.brown,
                     ),
                   ),
                   child: Column(
@@ -125,8 +125,8 @@ class _SettingsState extends State<Settings> {
                         value: mushafFontSize,
                         min: 20,
                         max: 50,
-                        activeColor: const Color(0xffE95C1F),
-                        thumbColor: const Color(0xff14697B),
+                        activeColor: Colors.brown,
+                        thumbColor: Colors.brown,
                         onChanged: (value) {
                           setState(() {
                             mushafFontSize = value;
@@ -155,7 +155,7 @@ class _SettingsState extends State<Settings> {
                       child: ElevatedButton(
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
-                            const Color(0xff14697B),
+                            Colors.brown,
                           ),
                         ),
                         onPressed: () {
@@ -181,7 +181,7 @@ class _SettingsState extends State<Settings> {
                       child: ElevatedButton(
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                              const Color(0xff14697B),
+                              Colors.brown,
                             ),
                           ),
                           onPressed: () {
@@ -212,7 +212,7 @@ class _SettingsState extends State<Settings> {
 Widget _buildTitle(String text) {
   return Container(
     decoration: const BoxDecoration(
-      color: Color(0xff14697B),
+      color: Colors.brown,
       borderRadius: BorderRadius.only(
         topLeft: Radius.circular(20),
         topRight: Radius.circular(20),

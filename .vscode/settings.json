@@ -1,6 +1,6 @@
 {
     "cmake.sourceDirectory": "${workspaceFolder}/linux",
     "editor.codeActionsOnSave": {
-        "source.fixAll": true
+        "source.fixAll": "explicit"
     }
 }

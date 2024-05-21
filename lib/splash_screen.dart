@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quran_v2/core/utils/assets_path.dart';
-import 'package:quran_v2/presination/screens/HomeScreen.dart';
+import 'package:quran_v2/presination/screens/Quran_HomeScreen.dart';
 
 import 'core/utils/conestans.dart';
 
@@ -74,7 +74,7 @@ class SplashScreen extends StatelessWidget {
             if (snapshot.hasError) {
               return const Text('هناك خطأ ما');
             } else if (snapshot.hasData) {
-              return HomeScreen(data: snapshot.hasData);
+              return QuranHomeScreen(data: snapshot.hasData);
             } else {
               return const Text('لا يوجد بيانات ');
             }
