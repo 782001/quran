@@ -23,7 +23,7 @@ double mushafFontSize = 40;
 Uri quranAppurl = Uri.parse(
     'https://play.google.com/store/apps/details?id=com.quran.quran_v2');
 Uri contacturl = Uri.parse('https://wsend.co/201281859862');
-Uri GitHuburl = Uri.parse('https://github.com/782001?tab=repositories');
+Uri PlayStoreAcounturl = Uri.parse('https://play.google.com/store/apps/developer?id=Abdullah+El-Awadi');
 
 Future saveSettings() async {
   final prefs = await SharedPreferences.getInstance();

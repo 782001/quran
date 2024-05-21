@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:quran_v2/core/utils/media_query_values.dart';
+import 'package:quran_v2/core/utils/strings.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -40,28 +42,35 @@ class MyDrawer extends StatelessWidget {
               ],
             ),
           ),
-          ListTile(
-            leading: const Icon(
-              Icons.settings,
-            ),
-            title: const Text(
-              'الاعدادات',
-            ),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const Settings()));
-            },
-          ),
+          // ListTile(
+          //   leading: const Icon(
+          //     Icons.settings,
+          //   ),
+          //   title: const Text(
+          //     'الاعدادات',
+          //   ),
+          //   onTap: () {
+          //     Navigator.pop(context);
+          //     Navigator.push(context,
+          //         MaterialPageRoute(builder: (context) => const Settings()));
+          //   },
+          // ),
           ListTile(
             leading: const Icon(
               Icons.share,
+              color: Colors.brown,
             ),
-            title: const Text(
+            title: Text(
               'مشاركه',
+              style: TextStyle(
+                fontFamily: cairoFont,
+                fontSize: context.width * 0.04,
+                color: Colors.brown,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             onTap: () {
-              Share.share('''* القرآن الكريم*\n
+              Share.share('''* القرآن الكريم بدون نت أو اعلانات*\n
 يمكنك تحميل البرنامج من:$quranAppurl''');
               Navigator.pop(context);
             },
@@ -69,23 +78,37 @@ class MyDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(
               Icons.link_outlined,
+              color: Colors.brown,
             ),
-            title: const Text(
-              'حساب جيت هاب',
+            title: Text(
+              'مزيد من التطبيقات ',
+              style: TextStyle(
+                fontFamily: cairoFont,
+                fontSize: context.width * 0.04,
+                color: Colors.brown,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             onTap: () async {
-              if (!await launchUrl(GitHuburl,
+              if (!await launchUrl(PlayStoreAcounturl,
                   mode: LaunchMode.externalApplication)) {
-                throw 'Could not launch $GitHuburl';
+                throw 'Could not launch $PlayStoreAcounturl';
               }
             },
           ),
           ListTile(
             leading: const Icon(
               Icons.contact_support,
+              color: Colors.brown,
             ),
-            title: const Text(
+            title: Text(
               'للتواصل',
+              style: TextStyle(
+                fontFamily: cairoFont,
+                fontSize: context.width * 0.04,
+                color: Colors.brown,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             onTap: () async {
               if (!await launchUrl(contacturl,

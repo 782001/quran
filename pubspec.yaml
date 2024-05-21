@@ -92,7 +92,11 @@ flutter:
      
     - family: Orbitron
       fonts:
-        - asset: assets/text/Orbitron-VariableFont_wght.ttf    
+        - asset: assets/text/Orbitron-VariableFont_wght.ttf   
+    - family: Cairo
+      fonts:
+        - asset: assets/text/Cairo-VariableFont_slnt,wght.ttf
+          
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

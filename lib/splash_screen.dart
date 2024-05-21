@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quran_v2/core/utils/assets_path.dart';
 import 'package:quran_v2/presination/screens/Quran_HomeScreen.dart';
+import 'package:quran_v2/presination/screens/home_screen.dart';
 
 import 'core/utils/conestans.dart';
 
@@ -17,11 +18,13 @@ class SplashScreen extends StatelessWidget {
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    // AppColors.kTealColor,
-                    Color(0xff14697B),
-                    Color(0xffE95C1F),
-                    Color(0xffE95C1F),
-                    Color(0xffE95C1F),
+                    Colors.brown,
+                    Colors.brown,
+                    Colors.brown,
+                    // Color(0xff14697B),
+                    // Color(0xffE95C1F),
+                    // Color(0xffE95C1F),
+                    // Color(0xffE95C1F),
                   ],
                 ),
               ),
@@ -51,18 +54,20 @@ class SplashScreen extends StatelessWidget {
                           decoration: const BoxDecoration(
                             gradient: LinearGradient(
                               colors: [
-                                // AppColors.kTealColor,
-                                Color(0xff14697B),
-                                Color(0xffE95C1F),
-                                Color(0xffE95C1F),
-                                Color(0xffE95C1F),
+                                Colors.brown,
+                                Colors.brown,
+                                Colors.brown,
+                                // Color(0xff14697B),
+                                // Color(0xffE95C1F),
+                                // Color(0xffE95C1F),
+                                // Color(0xffE95C1F),
                               ],
                             ),
                           ),
                         ),
                         const Center(
                             child: CircularProgressIndicator(
-                          color: Color(0xff14697B),
+                          color: Color(0xffFFFBE8),
                         )),
                       ],
                     ),
@@ -74,14 +79,15 @@ class SplashScreen extends StatelessWidget {
             if (snapshot.hasError) {
               return const Text('هناك خطأ ما');
             } else if (snapshot.hasData) {
-              return QuranHomeScreen(data: snapshot.hasData);
+              return const HomeScreen();
+              // return QuranHomeScreen(data: snapshot.hasData);
             } else {
               return const Text('لا يوجد بيانات ');
             }
           } else {
             return const Center(
               child: CircularProgressIndicator(
-                color: Color(0xff14697B),
+                color: Color(0xffFFFBE8),
               ),
             );
           }
