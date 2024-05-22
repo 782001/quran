@@ -92,10 +92,9 @@ class _SurahBuilderState extends State<SurahBuilder> {
                 children: [
                   const Background(),
                   Positioned(
-                    top: 20,
-                    // bottom: 5,
-                    left: 5,
-                    right: 5,
+                    top: context.height * .03,
+                    left: context.width * .01,
+                    right: context.width * .01,
                     child: Text(
                       //
                       widget.suraName,
@@ -103,7 +102,7 @@ class _SurahBuilderState extends State<SurahBuilder> {
                       style: TextStyle(
                           fontSize: 22.sp,
                           fontWeight: FontWeight.bold,
-                          color: Colors.brown,
+                          color: const Color(0xff592c01),
                           fontFamily: me_quranFont,
                           shadows: const [
                             Shadow(

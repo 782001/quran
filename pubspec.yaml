@@ -80,6 +80,13 @@ flutter:
     - assets/images/
     - assets/text/
     - assets/audio/
+    - assets/احاديث/
+    - assets/ادعيه/
+    - assets/اذكار/
+    - assets/اسلاميات/
+    - assets/الحج والعمره/
+    - assets/السيره النبويه/
+    - assets/قصص اسلاميه/
     - assets/
     - assets/surah.json
   fonts:

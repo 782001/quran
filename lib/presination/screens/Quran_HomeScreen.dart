@@ -2,10 +2,12 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quran_v2/core/utils/media_query_values.dart';
+import 'package:quran_v2/core/utils/strings.dart';
 import 'package:quran_v2/presination/controller/app_cubit.dart';
 import 'package:quran_v2/presination/controller/app_states.dart';
 import 'package:quran_v2/presination/screens/no_book_mark_screen.dart';
 import 'package:quran_v2/presination/screens/search_screen.dart';
+import 'package:quran_v2/presination/screens/settings.dart';
 import 'package:quran_v2/presination/widgets/sliver_delegate.dart';
 import 'package:sizer/sizer.dart';
 
@@ -29,61 +31,54 @@ class QuranHomeScreen extends StatelessWidget {
       builder: (context, state) {
         var cubit = AppCubit.get(context);
         return Scaffold(
-            drawer: const MyDrawer(),
+            // drawer: const MyDrawer(),
             appBar: AppBar(
                 elevation: 0,
-                leading: Builder(
-                  builder: (BuildContext context) {
-                    return IconButton(
-                      icon: const Icon(
-                        Icons.menu,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {
-                        Scaffold.of(context).openDrawer();
-                      },
-                      // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-                    );
-                  },
-                ),
+                // leading: Builder(
+                //   builder: (BuildContext context) {
+                //     return IconButton(
+                //       icon: const Icon(
+                //         Icons.menu,
+                //         color: Colors.white,
+                //       ),
+                //       onPressed: () {
+                //         Scaffold.of(context).openDrawer();
+                //       },
+                //       // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+                //     );
+                //   },
+                // ),
+                leading: Switch(
+                    onChanged: (value) async {
+                      debugPrint('Switch ${cubit.isMoshaf}');
+                      cubit.ChangeisMoshaf(value);
+                      // setState(() {
+                      //   cubit.isMoshaf = value;
+                      // });
+                      ShowToust(
+                          Text: cubit.isMoshaf ? 'وضع المشاف' : 'الوضع العادي',
+                          state: ToustStates.SUCSESS);
+                      // int valueInt= switchValue ? 1: 0;
+                      // await settingsProvider.updateSettings(widget.nameField,valueInt);
+                    },
+                    value: cubit.isMoshaf,
+                    activeColor: const Color(0xff592c01),
+                    activeTrackColor: const Color(0xffFFFBE8),
+                    inactiveThumbColor: const Color(0xff592c01),
+                    inactiveTrackColor: const Color(0xffFFFBE8)),
                 actions: [
-                  SizedBox(
-                    width: context.width * 0.05,
-                  ),
-                  Switch(
-                      onChanged: (value) async {
-                        debugPrint('Switch ${cubit.isMoshaf}');
-                        cubit.ChangeisMoshaf(value);
-                        // setState(() {
-                        //   cubit.isMoshaf = value;
-                        // });
-                        ShowToust(
-                            Text:
-                                cubit.isMoshaf ? 'وضع المشاف' : 'الوضع العادي',
-                            state: ToustStates.SUCSESS);
-                        // int valueInt= switchValue ? 1: 0;
-                        // await settingsProvider.updateSettings(widget.nameField,valueInt);
-                      },
-                      value: cubit.isMoshaf,
-                      activeColor: Colors.brown,
-                      activeTrackColor: Colors.white,
-                      inactiveThumbColor: Colors.brown,
-                      inactiveTrackColor: Colors.white),
-                  SizedBox(
-                    width: context.width * 0.05,
-                  ),
                   CircleAvatar(
-                    backgroundColor: Colors.white,
+                    backgroundColor: const Color(0xffFFFBE8),
                     radius: 25,
                     child: Center(
                       child: IconButton(
                         icon: const Icon(
                           Icons.search,
-                          color: Colors.brown,
+                          color: Color(0xff592c01),
                           size: 35,
                           shadows: [
                             Shadow(
-                                color: Colors.brown,
+                                color: Color(0xff592c01),
                                 blurRadius: 20,
                                 offset: Offset(5, 5))
                           ],
@@ -101,6 +96,58 @@ class QuranHomeScreen extends StatelessWidget {
                   SizedBox(
                     width: context.width * 0.05,
                   ),
+                  SizedBox(
+                    width: context.width * 0.05,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Settings()));
+                    },
+                    child: Padding(
+                      padding: const EdgeInsetsDirectional.only(start: 10),
+                      child: Container(
+                        width: context.width * 0.5,
+                        height: context.height * 0.05,
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                          color: Color(0xffFFFBE8),
+                        ),
+                        child: Row(children: [
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          const Icon(
+                            Icons.settings,
+                            color: Color(0xff592c01),
+                          ),
+                          const Spacer(
+                              // width: 10,
+                              ),
+                          Text(
+                            "حجم الخط",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontFamily: cairoFont,
+                              fontSize: context.width * 0.06,
+                              color: const Color(0xff592c01),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(
+                            width: context.width * 0.08,
+                          ),
+                        ]),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: context.width * 0.05,
+                  ),
                 ],
                 flexibleSpace: FlexibleSpaceBar(
                   // centerTitle: true,
@@ -110,10 +157,10 @@ class QuranHomeScreen extends StatelessWidget {
                       gradient: LinearGradient(
                         colors: [
                           // AppColors.kTealColor,
-                          Colors.brown,
-                          Colors.brown,
-                          Colors.brown,
-                          //    Colors.brown,
+                          Color(0xff592c01),
+                          Color(0xff592c01),
+                          Color(0xff592c01),
+                          //    Color(0xff592c01),
                           // Color(0xffE95C1F),
                           // Color(0xffE95C1F),
                           // Color(0xffE95C1F),
@@ -124,7 +171,7 @@ class QuranHomeScreen extends StatelessWidget {
                 )),
             floatingActionButton: FloatingActionButton(
               tooltip: 'المحفوظ',
-              backgroundColor: Colors.brown,
+              backgroundColor: const Color(0xff592c01),
               onPressed: () async {
                 fabIsClicked = true;
                 if (await readBookmark() == true) {
@@ -200,7 +247,7 @@ class QuranHomeScreen extends StatelessWidget {
                 ? const QuranHomeScreenWidgt()
                 : const Center(
                     child: CircularProgressIndicator(
-                      color: Colors.brown,
+                      color: Color(0xff592c01),
                     ),
                   )
 
@@ -256,17 +303,17 @@ class QuranHomeScreenWidgt extends StatelessWidget {
                 floating: false,
                 pinned: false,
                 delegate: SliverAppBarDelegate(
-                  maxHeight: context.height * 0.2,
+                  maxHeight: context.height * 0.15,
                   minHeight: context.height * 0.05,
                   child: Container(
                     decoration: const BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
                             // AppColors.kTealColor,
-                            Colors.brown,
-                            Colors.brown,
-                            Colors.brown,
-                            //    Colors.brown,
+                            Color(0xff592c01),
+                            Color(0xff592c01),
+                            Color(0xff592c01),
+                            //    Color(0xff592c01),
                             // Color(0xffE95C1F),
                             // Color(0xffE95C1F),
                             // Color(0xffE95C1F),
@@ -277,7 +324,7 @@ class QuranHomeScreenWidgt extends StatelessWidget {
                             bottomEnd: Radius.circular(25))),
                     child: Padding(
                       padding: const EdgeInsetsDirectional.only(
-                          top: 40.0, start: 20, end: 20),
+                          top: 10.0, start: 20, end: 20),
                       child: Row(
                         children: [
                           const AutoSizeText(
@@ -326,9 +373,9 @@ Widget BuildSuraName() {
           //   i: surahList[index].id - 1,
           // )
           leading: CircleAvatar(
-            backgroundColor: Colors.brown,
+            backgroundColor: const Color(0xff592c01),
             child: Text(
-              (surahList[index].id - 1).toString(),
+              (surahList[index].id).toString(),
               style: const TextStyle(color: Colors.white),
             ),
           ),
@@ -382,7 +429,6 @@ Widget BuildSuraName() {
     },
   );
 }
-
 
 // Widget BuildSuraName(quran, context) {
 //   return Container(

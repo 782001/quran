@@ -9,10 +9,12 @@ String doaaImage = _getAssetsImagePath('doaa.png');
 String azkarImage = _getAssetsImagePath('azkar.png');
 String islamicImage = _getAssetsImagePath('islamic.png');
 String sephaImage = _getAssetsImagePath('sepha.png');
-String ahadesImage = _getAssetsImagePath('ahades.png');
-String hag_omraImage = _getAssetsImagePath('hag_omra.png');
+String ahadesImage = _getAssetsImagePath('ahades.jpg');
+
+String hag_omraImage = _getAssetsImagePath('hag_omra.jpg');
 String qssIslamicImage = _getAssetsImagePath('qssIslamic.png');
-String seraNabweyaImage = _getAssetsImagePath('seraNabweya.jpg');
+String seraNabweyaImage = _getAssetsImagePath('seraNabweya.png');
+String HomequranImage = _getAssetsImagePath('Homequran.png');
 
 String quranJson = _getAssetsTextPath('hafs_smart_v8.json');
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quran/quran.dart';
 import 'package:quran_v2/core/utils/assets_path.dart';
+import 'package:quran_v2/core/utils/strings.dart';
 import 'package:quran_v2/presination/controller/app_cubit.dart';
 
 import '../../core/shared/components.dart';
@@ -22,12 +23,10 @@ class _SettingsState extends State<Settings> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
-          "الاعدادات",
+        title: const Text(
+          "حجم الخط",
           style: TextStyle(
-              fontFamily: quranFont,
-              fontSize: arabicFontSize,
-              color: Colors.white),
+              fontFamily: cairoFont, fontSize: 28, color: Colors.white),
         ),
         leading: Builder(
           builder: (BuildContext context) {
@@ -43,7 +42,7 @@ class _SettingsState extends State<Settings> {
             );
           },
         ),
-        backgroundColor: Colors.brown,
+        backgroundColor: const Color(0xff592c01),
       ),
       body: SafeArea(
         child: Padding(
@@ -63,7 +62,7 @@ class _SettingsState extends State<Settings> {
                         bottomRight: Radius.circular(20),
                         topLeft: Radius.circular(20)),
                     border: Border.all(
-                      color: Colors.brown,
+                      color: const Color(0xff592c01),
                     ),
                   ),
                   child: Column(
@@ -75,8 +74,8 @@ class _SettingsState extends State<Settings> {
                         value: arabicFontSize,
                         min: 20,
                         max: 40,
-                        activeColor: Colors.brown,
-                        thumbColor: Colors.brown,
+                        activeColor: const Color(0xff592c01),
+                        thumbColor: const Color(0xff592c01),
                         onChanged: (value) {
                           setState(() {
                             arabicFontSize = value;
@@ -113,7 +112,7 @@ class _SettingsState extends State<Settings> {
                         bottomRight: Radius.circular(20),
                         topLeft: Radius.circular(20)),
                     border: Border.all(
-                      color: Colors.brown,
+                      color: const Color(0xff592c01),
                     ),
                   ),
                   child: Column(
@@ -125,8 +124,8 @@ class _SettingsState extends State<Settings> {
                         value: mushafFontSize,
                         min: 20,
                         max: 50,
-                        activeColor: Colors.brown,
-                        thumbColor: Colors.brown,
+                        activeColor: const Color(0xff592c01),
+                        thumbColor: const Color(0xff592c01),
                         onChanged: (value) {
                           setState(() {
                             mushafFontSize = value;
@@ -155,7 +154,7 @@ class _SettingsState extends State<Settings> {
                       child: ElevatedButton(
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
-                            Colors.brown,
+                            const Color(0xff592c01),
                           ),
                         ),
                         onPressed: () {
@@ -169,7 +168,7 @@ class _SettingsState extends State<Settings> {
                           'الطبيعي',
                           style: TextStyle(
                               fontSize: 20,
-                              fontFamily: quranFont,
+                              fontFamily: cairoFont,
                               color: Colors.white),
                         ),
                       ),
@@ -181,7 +180,7 @@ class _SettingsState extends State<Settings> {
                       child: ElevatedButton(
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                              Colors.brown,
+                              const Color(0xff592c01),
                             ),
                           ),
                           onPressed: () {
@@ -194,7 +193,7 @@ class _SettingsState extends State<Settings> {
                             'حفظ',
                             style: TextStyle(
                                 fontSize: 20,
-                                fontFamily: quranFont,
+                                fontFamily: cairoFont,
                                 color: Colors.white),
                           )),
                     ),
@@ -212,7 +211,7 @@ class _SettingsState extends State<Settings> {
 Widget _buildTitle(String text) {
   return Container(
     decoration: const BoxDecoration(
-      color: Colors.brown,
+      color: Color(0xff592c01),
       borderRadius: BorderRadius.only(
         topLeft: Radius.circular(20),
         topRight: Radius.circular(20),
@@ -223,9 +222,7 @@ Widget _buildTitle(String text) {
       child: Text(
         text,
         style: const TextStyle(
-          color: Colors.white,
-          fontSize: 14,
-        ),
+            fontFamily: cairoFont, fontSize: 14, color: Colors.white),
       ),
     ),
   );

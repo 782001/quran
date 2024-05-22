@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quran/quran.dart' as quran;
 import 'package:quran_v2/core/responsive/screen_util.dart';
+import 'package:quran_v2/core/utils/media_query_values.dart';
 import 'package:quran_v2/presination/screens/surah_builder.dart';
 
 import '../../core/utils/assets_path.dart';
@@ -74,11 +75,9 @@ class _SurahPageState extends State<SurahPage> {
           children: [
             const Background(),
             Positioned(
-              top: 20,
-              // bottom: 5,
-              left: 5,
-              right: 5,
-              // bottom: 25,
+              top: context.height * .03,
+              left: context.width * .01,
+              right: context.width * .01,
               child: Text(
                 //
                 widget.surah.arabicName,
@@ -86,7 +85,7 @@ class _SurahPageState extends State<SurahPage> {
                 style: TextStyle(
                     fontSize: 22.sp,
                     fontWeight: FontWeight.bold,
-                    color: Colors.brown,
+                    color: const Color(0xff592c01),
                     fontFamily: me_quranFont,
                     shadows: const [
                       Shadow(
@@ -113,7 +112,7 @@ class _SurahPageState extends State<SurahPage> {
               topRight: Radius.circular(10),
             ),
             border: Border.all(
-              color: Colors.brown,
+              color: const Color(0xff592c01),
               width: 7,
             ),
           ),

@@ -58,19 +58,19 @@ class MyDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(
               Icons.share,
-              color: Colors.brown,
+              color: Color(0xff592c01),
             ),
             title: Text(
               'مشاركه',
               style: TextStyle(
                 fontFamily: cairoFont,
                 fontSize: context.width * 0.04,
-                color: Colors.brown,
+                color: const Color(0xff592c01),
                 fontWeight: FontWeight.bold,
               ),
             ),
             onTap: () {
-              Share.share('''* القرآن الكريم بدون نت أو اعلانات*\n
+              Share.share(''' القرآن الكريم بدون نت أو اعلانات\n
 يمكنك تحميل البرنامج من:$quranAppurl''');
               Navigator.pop(context);
             },
@@ -78,14 +78,14 @@ class MyDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(
               Icons.link_outlined,
-              color: Colors.brown,
+              color: Color(0xff592c01),
             ),
             title: Text(
               'مزيد من التطبيقات ',
               style: TextStyle(
                 fontFamily: cairoFont,
                 fontSize: context.width * 0.04,
-                color: Colors.brown,
+                color: const Color(0xff592c01),
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -99,14 +99,14 @@ class MyDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(
               Icons.contact_support,
-              color: Colors.brown,
+              color: Color(0xff592c01),
             ),
             title: Text(
               'للتواصل',
               style: TextStyle(
                 fontFamily: cairoFont,
                 fontSize: context.width * 0.04,
-                color: Colors.brown,
+                color: const Color(0xff592c01),
                 fontWeight: FontWeight.bold,
               ),
             ),

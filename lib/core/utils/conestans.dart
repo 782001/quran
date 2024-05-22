@@ -7,7 +7,8 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../presination/surah_model.dart';
-
+import 'dart:convert';
+import 'package:flutter/services.dart' show rootBundle;
 int bookmarkedAyah = 1;
 int bookmarkedSura = 1;
 bool fabIsClicked = true;
@@ -313,5 +314,23 @@ Future<void> readSuraNameJson() async {
   final data = await json.decode(response);
   for (var item in data["chapters"]) {
     surahList.add(Surah.fromMap(item));
+  }
+}
+
+
+class JsonFileReader {
+  final String jsonPath;
+
+  JsonFileReader(this.jsonPath);
+
+  Future<List<Map<String, dynamic>>> readJson() async {
+    try {
+      final String jsonString = await rootBundle.loadString(jsonPath);
+      final List<dynamic> jsonResponse = jsonDecode(jsonString);
+      return jsonResponse.map((item) => item as Map<String, dynamic>).toList();
+    } catch (e) {
+      print("Error reading JSON file: $e");
+      return [];
+    }
   }
 }

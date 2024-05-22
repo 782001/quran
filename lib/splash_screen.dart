@@ -18,9 +18,9 @@ class SplashScreen extends StatelessWidget {
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    Colors.brown,
-                    Colors.brown,
-                    Colors.brown,
+                    Color(0xff592c01),
+                    Color(0xff592c01),
+                    Color(0xff592c01),
                     // Color(0xff14697B),
                     // Color(0xffE95C1F),
                     // Color(0xffE95C1F),
@@ -54,9 +54,9 @@ class SplashScreen extends StatelessWidget {
                           decoration: const BoxDecoration(
                             gradient: LinearGradient(
                               colors: [
-                                Colors.brown,
-                                Colors.brown,
-                                Colors.brown,
+                                Color(0xff592c01),
+                                Color(0xff592c01),
+                                Color(0xff592c01),
                                 // Color(0xff14697B),
                                 // Color(0xffE95C1F),
                                 // Color(0xffE95C1F),
@@ -79,7 +79,7 @@ class SplashScreen extends StatelessWidget {
             if (snapshot.hasError) {
               return const Text('هناك خطأ ما');
             } else if (snapshot.hasData) {
-              return const HomeScreen();
+              return  HomeScreen(data: snapshot.hasData);
               // return QuranHomeScreen(data: snapshot.hasData);
             } else {
               return const Text('لا يوجد بيانات ');

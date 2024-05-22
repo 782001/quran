@@ -26,13 +26,13 @@ Color ChooseToustColor(ToustStates state) {
   Color color;
   switch (state) {
     case ToustStates.SUCSESS:
-      color = Colors.green;
+      color = const Color(0xff592c01);
       break;
     case ToustStates.ERROR:
-      color = Colors.red;
+      color = const Color(0xff592c01);
       break;
     case ToustStates.WARNNING:
-      color = Colors.amber;
+      color = const Color(0xff592c01);
       break;
   }
   return color;

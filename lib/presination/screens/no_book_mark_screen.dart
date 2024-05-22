@@ -22,7 +22,7 @@ class NoBookMarkScreen extends StatelessWidget {
               borderRadius: const BorderRadius.all(
                 Radius.circular(20),
               ),
-              border: Border.all(color: Colors.brown, width: 2),
+              border: Border.all(color: const Color(0xff592c01), width: 2),
             ),
             child: Column(
               children: [
@@ -32,7 +32,7 @@ class NoBookMarkScreen extends StatelessWidget {
                 const Icon(
                   Icons.do_not_disturb_alt_sharp,
                   size: 60,
-                  color: Colors.brown,
+                  color: Color(0xff592c01),
                 ),
                 const Spacer(
                     // height: 20,
