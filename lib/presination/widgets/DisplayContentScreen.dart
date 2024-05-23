@@ -90,7 +90,7 @@ class _JsonListViewState extends State<JsonListView> {
           return Column(
             children: [
               SizedBox(
-                height: context.height * 0.55,
+                height: context.height * 0.7,
                 child: PageView.builder(
                   controller: pageController,
                   physics: const BouncingScrollPhysics(),

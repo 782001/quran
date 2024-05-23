@@ -34,7 +34,9 @@ class QssIslamicScreen extends StatelessWidget {
           title: "قصص القرآن",
           JsonPath: 'assets/قصص اسلاميه/قصص القرآن.json'),
       CategoryContentModel(
-          id: 7, title: "معجزات الأنبياء", JsonPath: 'assets/قصص اسلاميه/معجزات الأنبياء.json'),
+          id: 7,
+          title: "معجزات الأنبياء",
+          JsonPath: 'assets/قصص اسلاميه/معجزات الأنبياء.json'),
     ];
 
     return Scaffold(
@@ -56,35 +58,34 @@ class QssIslamicScreen extends StatelessWidget {
       ),
       body: SafeArea(
         child: Center(
-          child: Column(
-            children: [
-              SizedBox(
-                height: context.height * 0.15,
-              ),
-              SizedBox(
-                height: context.height * 0.05,
-              ),
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: GridView.builder(
-                    shrinkWrap: true,
-                    physics: const BouncingScrollPhysics(),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      crossAxisSpacing: context.width * 0.01,
-                      mainAxisSpacing: context.width * 0.02,
-                      mainAxisExtent: context.height * 0.15,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: context.height * 0.1,
+                ),
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: GridView.builder(
+                      shrinkWrap: true,
+                      physics: const BouncingScrollPhysics(),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        crossAxisSpacing: context.width * 0.01,
+                        mainAxisSpacing: context.width * 0.02,
+                        mainAxisExtent: context.height * 0.18,
+                      ),
+                      itemBuilder: (BuildContext context, int index) {
+                        return CategoryContentCard(
+                            QssIslamicCategoryContentList[index], context);
+                      },
+                      itemCount: QssIslamicCategoryContentList.length,
                     ),
-                    itemBuilder: (BuildContext context, int index) {
-                      return CategoryContentCard(
-                          QssIslamicCategoryContentList[index], context);
-                    },
-                    itemCount: QssIslamicCategoryContentList.length,
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

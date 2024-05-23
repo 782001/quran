@@ -10,46 +10,38 @@ class IslamicScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     List<CategoryContentModel> IslamicCategoryContentList = [
       CategoryContentModel(
-           id: 1,
-         title: "55 وصية من النبى",
+          id: 1,
+          title: "٥٥ وصية من النبي",
           JsonPath: 'assets/اسلاميات/55 وصية من النبى.json'),
       CategoryContentModel(
-        
           id: 2,
-        title: "الإيمان بالله تعالى",
+          title: "الإيمان بالله تعالى",
           JsonPath: 'assets/اسلاميات/الإيمان بالله تعالى.json'),
       CategoryContentModel(
-        
           id: 3,
-   title: "الجنة ماهى وما درجاتها ووصفها",
+          title: "الجنة ماهى وما درجاتها ووصفها",
           JsonPath: 'assets/اسلاميات/الجنة ماهى وما درجاتها ووصفها.json'),
       CategoryContentModel(
-       
           id: 4,
-        title: "الرقية الشرعية",
+          title: "الرقية الشرعية",
           JsonPath: 'assets/اسلاميات/الرقية الشرعية.json'),
       CategoryContentModel(
-
           id: 5,
-    title: "رياض الصالحين",
+          title: "رياض الصالحين",
           JsonPath: 'assets/اسلاميات/رياض الصالحين.json'),
       CategoryContentModel(
-    
           id: 6,
-    title: "سنن مؤكدة",
+          title: "سنن مؤكدة",
           JsonPath: 'assets/اسلاميات/سنن مؤكدة.json'),
       CategoryContentModel(
-        
           id: 7,
-      title: "علمنى شيء فى الإسلام",
+          title: "علمنى شيء فى الإسلام",
           JsonPath: 'assets/اسلاميات/علمنى شيء فى الإسلام.json'),
       CategoryContentModel(
-        
           id: 8,
-      title: "فرص ذهبية",
+          title: "فرص ذهبية",
           JsonPath: 'assets/اسلاميات/فرص ذهبية.json'),
       CategoryContentModel(
-        
           id: 9,
           title: "فضائل الاعمال عند الله تعالى",
           JsonPath: 'assets/اسلاميات/فضائل الاعمال عند الله تعالى.json'),
@@ -74,35 +66,34 @@ class IslamicScreen extends StatelessWidget {
       ),
       body: SafeArea(
         child: Center(
-          child: Column(
-            children: [
-              SizedBox(
-                height: context.height * 0.15,
-              ),
-              SizedBox(
-                height: context.height * 0.05,
-              ),
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: GridView.builder(
-                    shrinkWrap: true,
-                    physics: const BouncingScrollPhysics(),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      crossAxisSpacing: context.width * 0.01,
-                      mainAxisSpacing: context.width * 0.02,
-                      mainAxisExtent: context.height * 0.15,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: context.height * 0.1,
+                ),
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: GridView.builder(
+                      shrinkWrap: true,
+                      physics: const BouncingScrollPhysics(),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        crossAxisSpacing: context.width * 0.01,
+                        mainAxisSpacing: context.width * 0.02,
+                        mainAxisExtent: context.height * 0.18,
+                      ),
+                      itemBuilder: (BuildContext context, int index) {
+                        return CategoryContentCard(
+                            IslamicCategoryContentList[index], context);
+                      },
+                      itemCount: IslamicCategoryContentList.length,
                     ),
-                    itemBuilder: (BuildContext context, int index) {
-                      return CategoryContentCard(
-                          IslamicCategoryContentList[index], context);
-                    },
-                    itemCount: IslamicCategoryContentList.length,
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

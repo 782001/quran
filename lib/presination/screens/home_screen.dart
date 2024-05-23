@@ -70,43 +70,45 @@ class HomeScreen extends StatelessWidget {
       ),
       body: SafeArea(
         child: Center(
-          child: Column(
-            children: [
-              SizedBox(
-                height: context.height * 0.15,
-              ),
-              SizedBox(
-                height: context.height * 0.05,
-              ),
-              Center(
-                child: Container(
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10),
-                    ),
-                    color: Color(0xffFFFBE8),
-                  ),
-                  width: context.width * 1,
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: GridView.builder(
-                      shrinkWrap: true,
-                      physics: const BouncingScrollPhysics(),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        crossAxisSpacing: context.width * 0.01,
-                        mainAxisSpacing: context.width * 0.02,
-                        mainAxisExtent: context.height * 0.15,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: context.height * 0.1,
+                ),
+                // SizedBox(
+                //   height: context.height * 0.05,
+                // ),
+                Center(
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
                       ),
-                      itemBuilder: (BuildContext context, int index) {
-                        return HomeCard(HomeList[index], data, context);
-                      },
-                      itemCount: HomeList.length,
+                      color: Color(0xffFFFBE8),
+                    ),
+                    width: context.width * 1,
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: GridView.builder(
+                        shrinkWrap: true,
+                        physics: const BouncingScrollPhysics(),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          crossAxisSpacing: context.width * 0.01,
+                          mainAxisSpacing: context.width * 0.02,
+                          mainAxisExtent: context.height * 0.2,
+                        ),
+                        itemBuilder: (BuildContext context, int index) {
+                          return HomeCard(HomeList[index], data, context);
+                        },
+                        itemCount: HomeList.length,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -211,7 +213,7 @@ Widget HomeCard(HomeModel model, data, BuildContext context) {
                         bottomLeft: Radius.circular(20),
                         bottomRight: Radius.circular(20))),
                 width: context.width * 0.3,
-                height: context.height * 0.05,
+                height: context.height * 0.09,
                 child: Center(
                   child: Text(
                     model.title,

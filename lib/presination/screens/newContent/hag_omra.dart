@@ -71,35 +71,34 @@ class HagOmraScreen extends StatelessWidget {
       ),
       body: SafeArea(
         child: Center(
-          child: Column(
-            children: [
-              SizedBox(
-                height: context.height * 0.15,
-              ),
-              SizedBox(
-                height: context.height * 0.05,
-              ),
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: GridView.builder(
-                    shrinkWrap: true,
-                    physics: const BouncingScrollPhysics(),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      crossAxisSpacing: context.width * 0.01,
-                      mainAxisSpacing: context.width * 0.02,
-                      mainAxisExtent: context.height * 0.15,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+               SizedBox(
+                  height: context.height * 0.1,
+                ),
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: GridView.builder(
+                      shrinkWrap: true,
+                      physics: const BouncingScrollPhysics(),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        crossAxisSpacing: context.width * 0.01,
+                        mainAxisSpacing: context.width * 0.02,
+                        mainAxisExtent: context.height * 0.15,
+                      ),
+                      itemBuilder: (BuildContext context, int index) {
+                        return CategoryContentCard(
+                            HagOmraCategoryContentList[index], context);
+                      },
+                      itemCount: HagOmraCategoryContentList.length,
                     ),
-                    itemBuilder: (BuildContext context, int index) {
-                      return CategoryContentCard(
-                          HagOmraCategoryContentList[index], context);
-                    },
-                    itemCount: HagOmraCategoryContentList.length,
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

@@ -81,38 +81,40 @@ class DoaaScreen extends StatelessWidget {
       ),
       body: SafeArea(
         child: Center(
-          child: Column(
-            children: [
-              // SizedBox(
-              //   height: context.height * 0.15,
-              // ),
-              // SizedBox(
-              //   height: context.height * 0.05,
-              // ),
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: SizedBox(
-                    height: context.height * 0.8,
-                    child: GridView.builder(
-                      shrinkWrap: true,
-                      physics: const BouncingScrollPhysics(),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        crossAxisSpacing: context.width * 0.01,
-                        mainAxisSpacing: context.width * 0.02,
-                        mainAxisExtent: context.height * 0.15,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                // SizedBox(
+                //   height: context.height * 0.15,
+                // ),
+                // SizedBox(
+                //   height: context.height * 0.05,
+                // ),
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: SizedBox(
+                      height: context.height * 0.8,
+                      child: GridView.builder(
+                        shrinkWrap: true,
+                        physics: const BouncingScrollPhysics(),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          crossAxisSpacing: context.width * 0.01,
+                          mainAxisSpacing: context.width * 0.02,
+                          mainAxisExtent: context.height * 0.15,
+                        ),
+                        itemBuilder: (BuildContext context, int index) {
+                          return CategoryContentCard(
+                              DoaaCategoryContentList[index], context);
+                        },
+                        itemCount: DoaaCategoryContentList.length,
                       ),
-                      itemBuilder: (BuildContext context, int index) {
-                        return CategoryContentCard(
-                            DoaaCategoryContentList[index], context);
-                      },
-                      itemCount: DoaaCategoryContentList.length,
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
