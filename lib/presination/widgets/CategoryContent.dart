@@ -23,7 +23,7 @@ Widget CategoryContentCard(CategoryContentModel model, BuildContext context) {
       NavTo(
           context,
           DisplayContentScreen(
-            jsonPath: model.JsonPath,
+            jsonPath: model.JsonPath, title:model.title,
           ));
       // }
       // if (model.id == 2) {

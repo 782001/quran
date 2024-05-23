@@ -4,8 +4,8 @@ import 'package:quran_v2/core/utils/strings.dart';
 import 'package:quran_v2/presination/widgets/CategoryContent.dart';
 
 class DoaaScreen extends StatelessWidget {
-  const DoaaScreen({Key? key}) : super(key: key);
-
+  const DoaaScreen({Key? key, required this.title}) : super(key: key);
+  final String title;
   @override
   Widget build(BuildContext context) {
     List<CategoryContentModel> DoaaCategoryContentList = [
@@ -63,15 +63,15 @@ class DoaaScreen extends StatelessWidget {
           JsonPath: "assets/ادعيه/فضل الدعاء.json"),
     ];
 
-    return Scaffold(
+    return Scaffold( backgroundColor: const Color(0xffFFFBE8),
       appBar: AppBar(
         backgroundColor: const Color(0xff592c01),
         title: Text(
-          "سبحان الله العظيم وبحمده",
+          title,
           textAlign: TextAlign.center,
           style: TextStyle(
             fontFamily: cairoFont,
-            fontSize: context.width * 0.04,
+            fontSize: context.width * 0.06,
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),

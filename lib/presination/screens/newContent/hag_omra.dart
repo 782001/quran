@@ -1,61 +1,67 @@
+
 import 'package:flutter/material.dart';
 import 'package:quran_v2/core/utils/media_query_values.dart';
 import 'package:quran_v2/core/utils/strings.dart';
 import 'package:quran_v2/presination/widgets/CategoryContent.dart';
 
-class AhadesScreen extends StatelessWidget {
-  const AhadesScreen({Key? key}) : super(key: key);
-
+class HagOmraScreen extends StatelessWidget {
+  const HagOmraScreen({Key? key, required this.title}) : super(key: key);
+  final String title;
   @override
   Widget build(BuildContext context) {
-    List<CategoryContentModel> AhadesCategoryContentList = [
+    List<CategoryContentModel> HagOmraCategoryContentList = [
       CategoryContentModel(
-          title: "أحاديث عامة",
-          id: 1,
-          JsonPath: 'assets/احاديث/أحاديث عامة.json'),
+           id: 1,
+         title: "أدعية متنوعة",
+          JsonPath: 'assets/الحج والعمره/أدعية متنوعة.json'),
       CategoryContentModel(
-          title: "أحاديث عن الصداقة",
+        
           id: 2,
-          JsonPath: 'assets/احاديث/أحاديث عن الصداقة.json'),
+ title: "أركان الحج",
+          JsonPath: 'assets/الحج والعمره/أركان الحج.json'),
       CategoryContentModel(
-          title: "أحاديث عن الصدق",
+        
           id: 3,
-          JsonPath: 'assets/احاديث/أحاديث عن الصدق.json'),
+ title: "الحج والعمرة",
+          JsonPath: 'assets/الحج والعمره/الحج والعمرة.json'),
       CategoryContentModel(
-          title: "أحاديث عن العلم",
+       
           id: 4,
-          JsonPath: 'assets/احاديث/أحاديث عن العلم.json'),
+      title: "حجة التمتع",
+          JsonPath: 'assets/الحج والعمره/حجة التمتع.json'),
       CategoryContentModel(
-          title: "أحاديث عن الماء",
+
           id: 5,
-          JsonPath: 'assets/احاديث/أحاديث عن الماء.json'),
+ title: "شروط الحج",
+          JsonPath: 'assets/الحج والعمره/شروط الحج.json'),
       CategoryContentModel(
-          title: "أحاديث عن النظافة",
+    
           id: 6,
-          JsonPath: 'assets/احاديث/أحاديث عن النظافة.json'),
+  title: "فضل الحج",
+          JsonPath: 'assets/الحج والعمره/فضل الحج.json'),
       CategoryContentModel(
-          title: "أحاديث مبوبة",
+        
           id: 7,
-          JsonPath: 'assets/احاديث/أحاديث مبوبة.json'),
+    title: "مبطلات الحج",
+          JsonPath: 'assets/الحج والعمره/مبطلات الحج.json'),
       CategoryContentModel(
-          title: "الأربعون النووية",
+        
           id: 8,
-          JsonPath: 'assets/احاديث/الأربعون النووية.json'),
-      CategoryContentModel(
-          title: "العشرة المبشرين بالجنة",
-          id: 9,
-          JsonPath: 'assets/احاديث/العشرة المبشرين بالجنة.json'),
+    title: "وقت الحج",
+          JsonPath: 'assets/الحج والعمره/وقت الحج.json'),
+   
     ];
 
     return Scaffold(
+      backgroundColor: const Color(0xffFFFBE8),
       appBar: AppBar(
         backgroundColor: const Color(0xff592c01),
         title: Text(
-          "سبحان الله العظيم وبحمده",
+          title,
           textAlign: TextAlign.center,
           style: TextStyle(
             fontFamily: cairoFont,
-            fontSize: context.width * 0.04,
+            fontSize: context.width * 0.06,
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
@@ -87,9 +93,9 @@ class AhadesScreen extends StatelessWidget {
                     ),
                     itemBuilder: (BuildContext context, int index) {
                       return CategoryContentCard(
-                          AhadesCategoryContentList[index], context);
+                          HagOmraCategoryContentList[index], context);
                     },
-                    itemCount: AhadesCategoryContentList.length,
+                    itemCount: HagOmraCategoryContentList.length,
                   ),
                 ),
               ),

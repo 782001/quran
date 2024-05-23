@@ -3,9 +3,14 @@ import 'package:quran_v2/core/shared/components.dart';
 import 'package:quran_v2/core/utils/assets_path.dart';
 import 'package:quran_v2/core/utils/media_query_values.dart';
 import 'package:quran_v2/core/utils/strings.dart';
-import 'package:quran_v2/presination/screens/AhadesScreen.dart';
+import 'package:quran_v2/presination/screens/newContent/AhadesScreen.dart';
 import 'package:quran_v2/presination/screens/Quran_HomeScreen.dart';
-import 'package:quran_v2/presination/screens/doaaScreen.dart';
+import 'package:quran_v2/presination/screens/newContent/azkarScreen.dart';
+import 'package:quran_v2/presination/screens/newContent/doaaScreen.dart';
+import 'package:quran_v2/presination/screens/newContent/hag_omra.dart';
+import 'package:quran_v2/presination/screens/newContent/islamic_screen.dart';
+import 'package:quran_v2/presination/screens/newContent/qss_islamic.dart';
+import 'package:quran_v2/presination/screens/newContent/seraNapaweaScreen.dart';
 import 'package:quran_v2/presination/widgets/DisplayContentScreen.dart';
 import 'package:quran_v2/presination/screens/sepha_screen.dart';
 import 'package:quran_v2/presination/widgets/mydrawer.dart';
@@ -123,10 +128,53 @@ Widget HomeCard(HomeModel model, data, BuildContext context) {
         NavTo(context, const SephaScreen());
       }
       if (model.id == 1) {
-        NavTo(context, const AhadesScreen());
+        NavTo(
+            context,
+            AhadesScreen(
+              title: model.title,
+            ));
       }
       if (model.id == 6) {
-        NavTo(context, const DoaaScreen());
+        NavTo(
+            context,
+            DoaaScreen(
+              title: model.title,
+            ));
+      }
+      if (model.id == 4) {
+        NavTo(
+            context,
+            AzkarScreen(
+              title: model.title,
+            ));
+      }
+      if (model.id == 5) {
+        NavTo(
+            context,
+            IslamicScreen(
+              title: model.title,
+            ));
+      }
+      if (model.id == 7) {
+        NavTo(
+            context,
+            HagOmraScreen(
+              title: model.title,
+            ));
+      }
+      if (model.id == 8) {
+        NavTo(
+            context,
+            SeraNapaweaScreen(
+              title: model.title,
+            ));
+      }
+      if (model.id == 9) {
+        NavTo(
+            context,
+            QssIslamicScreen(
+              title: model.title,
+            ));
       }
     },
     child: Column(

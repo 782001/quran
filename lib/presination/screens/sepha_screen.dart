@@ -13,8 +13,11 @@ class SephaScreen extends StatefulWidget {
 class _SephaScreenState extends State<SephaScreen> {
   int count = 0;
   final AudioPlayer _audioPlayer = AudioPlayer();
+  bool isAudioEnabled = true;
   void incrementCount() async {
-    _playTickSound();
+    if (isAudioEnabled) {
+      _playTickSound();
+    }
 
     setState(() {
       count++;
@@ -29,20 +32,22 @@ class _SephaScreenState extends State<SephaScreen> {
   //   super.dispose();
   // }
 
-  void decrementCount() {
+  void toggleAudio() {
+    if (isAudioEnabled) {
+      _playTickSound();
+    }
     setState(() {
-      if (count > 0) {
-        count--;
-      }
+      isAudioEnabled = !isAudioEnabled;
     });
-    _playTickSound();
   }
 
   void resetCount() {
     setState(() {
       count = 0;
     });
-    _playTickSound();
+    if (isAudioEnabled) {
+      _playTickSound();
+    }
   }
 
   void _playTickSound() async {
@@ -53,15 +58,6 @@ class _SephaScreenState extends State<SephaScreen> {
   Widget build(BuildContext context) {
     List<TaspehModel> TaspehList = [
       TaspehModel(title: "سُبْحَانَ اللَّهِ", id: 1),
-      TaspehModel(title: "سُبْحَانَ اللهِ العَظِيمِ وَبِحَمْدِهِ", id: 10),
-      TaspehModel(
-          title:
-              "سُبْحَانَ اللَّهِ ، وَالْحَمْدُ لِلَّهِ ، وَلا إِلَهَ إِلا اللَّهُ ، وَاللَّهُ أَكْبَرُ ، اللَّهُمَّ اغْفِرْ لِي ، اللَّهُمَّ ارْحَمْنِي ، اللَّهُمَّ ارْزُقْنِي.",
-          id: 12),
-      TaspehModel(
-          title:
-              " اللَّهُ أَكْبَرُ كَبِيرًا ، وَالْحَمْدُ لِلَّهِ كَثِيرًا ، وَسُبْحَانَ اللَّهِ بُكْرَةً وَأَصِيلاً.",
-          id: 11),
       TaspehModel(
           title: "الْلَّهُم صَلِّ وَسَلِم وَبَارِك عَلَى سَيِّدِنَا مُحَمَّد ",
           id: 2),
@@ -78,10 +74,19 @@ class _SephaScreenState extends State<SephaScreen> {
       TaspehModel(title: " لا حَوْلَ وَلا قُوَّةَ إِلا بِاللَّهِ ", id: 7),
       TaspehModel(title: "الْحَمْدُ للّهِ رَبِّ الْعَالَمِينَ ", id: 8),
       TaspehModel(title: "أستغفر الله", id: 9),
+      TaspehModel(title: "سُبْحَانَ اللهِ العَظِيمِ وَبِحَمْدِهِ", id: 10),
+      TaspehModel(
+          title:
+              " اللَّهُ أَكْبَرُ كَبِيرًا ، وَالْحَمْدُ لِلَّهِ كَثِيرًا ، وَسُبْحَانَ اللَّهِ بُكْرَةً وَأَصِيلاً.",
+          id: 11),
+      TaspehModel(
+          title:
+              "سُبْحَانَ اللَّهِ ، وَالْحَمْدُ لِلَّهِ ، وَلا إِلَهَ إِلا اللَّهُ ، وَاللَّهُ أَكْبَرُ ، اللَّهُمَّ اغْفِرْ لِي ، اللَّهُمَّ ارْحَمْنِي ، اللَّهُمَّ ارْزُقْنِي.",
+          id: 12),
       TaspehModel(
           title:
               "سُبْحَانَ الْلَّهِ، وَالْحَمْدُ لِلَّهِ، وَلَا إِلَهَ إِلَّا الْلَّهُ، وَالْلَّهُ أَكْبَرُ",
-          id: 9),
+          id: 13),
     ];
 
     return Scaffold(
@@ -166,7 +171,7 @@ class _SephaScreenState extends State<SephaScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       GestureDetector(
-                        onTap: decrementCount,
+                        onTap: toggleAudio,
                         child: Container(
                           width: 60,
                           height: 60,
@@ -174,13 +179,19 @@ class _SephaScreenState extends State<SephaScreen> {
                             shape: BoxShape.circle,
                             color: Colors.brown.shade100,
                           ),
-                          child: const Center(
-                            child: Text(
-                              '-1',
-                              style: TextStyle(
-                                fontSize: 22,
-                                color: Color(0xff592c01),
-                                fontWeight: FontWeight.bold,
+                          child: Container(
+                            width: 60,
+                            height: 60,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.brown.shade100,
+                            ),
+                            child: Center(
+                              child: Icon(
+                                isAudioEnabled
+                                    ? Icons.volume_up
+                                    : Icons.volume_off,
+                                color: const Color(0xff592c01),
                               ),
                             ),
                           ),
@@ -244,9 +255,9 @@ class _SephaScreenState extends State<SephaScreen> {
               model.title,
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontFamily: cairoFont,
-                fontSize: context.width * 0.07,
-                color: const Color(0xffFFFBE8),
+                // fontFamily: cairoFont,
+                fontSize: context.width * 0.06,
+                color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
             ),

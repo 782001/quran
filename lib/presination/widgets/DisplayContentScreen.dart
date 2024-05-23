@@ -8,9 +8,11 @@ import 'package:quran_v2/presination/widgets/to_arabic_no_converter.dart';
 import 'package:share_plus/share_plus.dart';
 
 class DisplayContentScreen extends StatefulWidget {
-  const DisplayContentScreen({Key? key, required this.jsonPath})
+  const DisplayContentScreen(
+      {Key? key, required this.jsonPath, required this.title})
       : super(key: key);
   final String jsonPath;
+  final String title;
   @override
   _DisplayContentScreenState createState() => _DisplayContentScreenState();
 }
@@ -20,7 +22,18 @@ class _DisplayContentScreenState extends State<DisplayContentScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(''),
+        backgroundColor: const Color(0xff592c01),
+        title: Text(
+          widget.title,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontFamily: cairoFont,
+            fontSize: context.width * 0.04,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
         leading: const SizedBox.shrink(),
       ),
       body:
@@ -73,16 +86,24 @@ class _JsonListViewState extends State<JsonListView> {
           return const Center(child: Text('عفوا اعد المحاوله لاحقا'));
         } else {
           final List<Map<String, dynamic>> data = snapshot.data!;
+
           return Column(
             children: [
               SizedBox(
                 height: context.height * 0.55,
                 child: PageView.builder(
                   controller: pageController,
-                  physics: const NeverScrollableScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
                   itemCount: data.length,
                   itemBuilder: (context, index) {
+                    String processedNumber = (data[index]['number'] is int
+                            ? data[index]['number']
+                                .toString()
+                                .replaceAll(RegExp(r'\d'), '')
+                            : data[index]['number']) ??
+                        "";
+
                     CurrentIndex = index;
                     return Padding(
                       padding: const EdgeInsetsDirectional.only(
@@ -101,7 +122,7 @@ class _JsonListViewState extends State<JsonListView> {
                           padding: const EdgeInsets.all(10.0),
                           child: Center(
                             child: SelectableText(
-                              "${data[index]['number'] ?? ""} \n ${data[index]['text'] == "" ? data[index]['label'] : data[index]['text']}\n${data[index]['hint'] ?? ""}",
+                              "$processedNumber \n ${data[index]['text'] == "" ? data[index]['label'] : data[index]['text']}\n${data[index]['hint'] ?? ""}",
                               cursorColor: const Color(0xff592c01),
                               textAlign: TextAlign.center,
                               style: TextStyle(
@@ -157,6 +178,10 @@ class _JsonListViewState extends State<JsonListView> {
                   GestureDetector(
                     onTap: () async {
                       await _audioPlayer.play(AssetSource('audio/tap.wav'));
+                      setState(() {
+                        CurrentIndex = pageController.page!.toInt();
+                      });
+                      print("CurrentIndex:$CurrentIndex");
                       Share.share(
                           ''' ${data[CurrentIndex]['number'] ?? ""} \n ${data[CurrentIndex]['text'] == "" ? data[CurrentIndex]['label'] : data[CurrentIndex]['text']}\n${data[CurrentIndex]['hint'] ?? ""}''');
                     },
@@ -176,7 +201,6 @@ class _JsonListViewState extends State<JsonListView> {
                       if (pageController.page ==
                               pageController.page!.roundToDouble() &&
                           pageController.page! > 0) {
-                        
                         pageController.previousPage(
                           duration: const Duration(milliseconds: 750),
                           curve: Curves.fastLinearToSlowEaseIn,
