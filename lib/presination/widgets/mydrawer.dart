@@ -117,6 +117,28 @@ class MyDrawer extends StatelessWidget {
               }
             },
           ),
+
+          ListTile(
+            leading: const Icon(
+              Icons.privacy_tip_outlined,
+              color: Color(0xff592c01),
+            ),
+            title: Text(
+              'سياسة الخصوصية',
+              style: TextStyle(
+                fontFamily: cairoFont,
+                fontSize: context.width * 0.04,
+                color: const Color(0xff592c01),
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            onTap: () async {
+              if (!await launchUrl(privacyurl,
+                  mode: LaunchMode.externalApplication)) {
+                throw 'Could not launch $privacyurl';
+              }
+            },
+          ),
         ],
       ),
     );

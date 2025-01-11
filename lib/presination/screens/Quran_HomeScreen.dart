@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quran/quran.dart';
 import 'package:quran_v2/core/utils/media_query_values.dart';
 import 'package:quran_v2/core/utils/strings.dart';
 import 'package:quran_v2/presination/controller/app_cubit.dart';
@@ -9,6 +10,7 @@ import 'package:quran_v2/presination/screens/no_book_mark_screen.dart';
 import 'package:quran_v2/presination/screens/search_screen.dart';
 import 'package:quran_v2/presination/screens/settings.dart';
 import 'package:quran_v2/presination/widgets/sliver_delegate.dart';
+import 'package:quran_v2/presination/widgets/to_arabic_no_converter.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../core/shared/components.dart';
@@ -200,94 +202,31 @@ class QuranHomeScreen extends StatelessWidget {
                 color: Colors.white,
               ),
             ),
-
-            //  FutureBuilder(
-            //   future: readJson(),
-            //   builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-            //     if (snapshot.connectionState == ConnectionState.waiting) {
-            //       return FloatingActionButton(
-            //         tooltip: 'المحفوظ',
-            //         backgroundColor: Color(0xffE95C1F),
-            //         elevation: 0,
-            //         onPressed: () async {},
-            //       );
-            //     } else if (snapshot.connectionState == ConnectionState.done) {
-            //       if (snapshot.hasError) {
-            //         return const Text('هناك خطأ ما');
-            //       } else if (snapshot.hasData) {
-            //         return FloatingActionButton(
-            //           tooltip: 'المحفوظ',
-            //           child: Icon(Icons.bookmark),
-            //           backgroundColor: Color(0xffE95C1F),
-            //           onPressed: () async {
-            //             fabIsClicked = true;
-            //             if (await readBookmark() == true) {
-            //               Navigator.push(
-            //                   context,
-            //                   MaterialPageRoute(
-            //                       builder: (context) => SurahBuilder(
-            //                             arabic: quran[0],
-            //                             sura: bookmarkedSura - 1,
-            //                             suraName: arabicName[bookmarkedSura - 1]
-            //                                 ['name'],
-            //                             ayah: bookmarkedAyah,
-            //                           )));
-            //             }
-            //           },
-            //         );
-            //       } else {
-            //         return const Text('لا يوجد بيانات ');
-            //       }
-            //     } else {
-            //       return Text('State: ${snapshot.connectionState}');
-            //     }
-            //   },
-            // ),
             body: data && surahList.isNotEmpty
                 ? const QuranHomeScreenWidgt()
                 : const Center(
                     child: CircularProgressIndicator(
                       color: Color(0xff592c01),
                     ),
-                  )
-
-            // SafeArea(
-            //   child: FutureBuilder(
-            //     future: readJson(),
-            //     builder:
-            //         (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-            //       if (snapshot.connectionState == ConnectionState.waiting &&
-            //           surahList.isEmpty) {
-            //         return SplashScreen();
-            //         // color: Color(0xffE95C1F),
-
-            //       } else if (snapshot.connectionState == ConnectionState.done) {
-            //         if (snapshot.hasError) {
-            //           return const Text('حدث خطأ ما ');
-            //         } else if (snapshot.hasData && surahList.isNotEmpty) {
-            //           return QuranHomeScreenWidgt();
-            //         } else {
-            //           return const Text('لا يوجد بيانات');
-            //         }
-            //       } else {
-            //         return Center(
-            //           child: CircularProgressIndicator(),
-            //         );
-            //       }
-            //     },
-            //   ),
-            // ),
-            );
+                  ));
       },
     );
   }
 }
 
-class QuranHomeScreenWidgt extends StatelessWidget {
+class QuranHomeScreenWidgt extends StatefulWidget {
   const QuranHomeScreenWidgt({
     super.key,
   });
 
+  @override
+  State<QuranHomeScreenWidgt> createState() => _QuranHomeScreenWidgtState();
+}
+
+class _QuranHomeScreenWidgtState extends State<QuranHomeScreenWidgt> {
+  TextEditingController textEditingController = TextEditingController();
+  var searchQuery = "";
+  var ayatFiltered;
   @override
   Widget build(BuildContext context) {
     ScrollController? scrollController;
@@ -348,13 +287,179 @@ class QuranHomeScreenWidgt extends StatelessWidget {
               ),
               SliverList(
                 delegate: SliverChildListDelegate([
-                  SizedBox(
-                      height: context.height * 0.7, child: BuildSuraName()),
-                  SizedBox(
-                    height: context.height * 0.06,
-                  )
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: const Color.fromARGB(255, 253, 247, 230),
+                                borderRadius: BorderRadius.circular(12)),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 12.0.w),
+                                    child: TextFormField(
+                                      textDirection: TextDirection.rtl,
+                                      controller: textEditingController,
+                                      cursorColor: const Color(0xff592c01),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          searchQuery = value;
+                                        });
+
+                                        /*https://api.alquran.cloud/v1/search/%D8%A7%D8%A8%D8%B1%D8%A7%D9%87%D9%8A%D9%85/all/ar*/
+
+                                        if (searchQuery.length > 3 ||
+                                            searchQuery
+                                                .toString()
+                                                .contains(" ")) {
+                                          setState(() {
+                                            ayatFiltered = [];
+                                            searchQuery = value;
+
+                                            ayatFiltered =
+                                                searchWords(searchQuery);
+                                          });
+                                        }
+                                      },
+                                      style: const TextStyle(
+                                        fontFamily: cairoFont,
+                                        color: Color(0xff592c01),
+                                      ),
+                                      decoration: const InputDecoration(
+                                        hintText: 'ابحث عن ايه',
+                                        hintStyle: TextStyle(
+                                          fontFamily: cairoFont,
+                                          color: Color(0xff592c01),
+                                        ),
+                                        border: InputBorder.none,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    if (searchQuery.isNotEmpty) {
+                                      textEditingController.clear();
+                                      setState(() {
+                                        searchQuery = "";
+                                        ayatFiltered = null;
+                                        ayatFiltered = [];
+                                      });
+                                    }
+                                  },
+                                  child: searchQuery.isNotEmpty
+                                      ? const Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Padding(
+                                            padding: EdgeInsets.all(8.0),
+                                            child: Icon(
+                                              Icons.close,
+                                              color: Color(0xff592c01),
+                                            ),
+                                          ),
+                                        )
+                                      : Container(
+                                          child: const Padding(
+                                            padding: EdgeInsets.all(8.0),
+                                            child: Icon(
+                                              Icons.search,
+                                              color: Color(0xff592c01),
+                                            ),
+                                          ),
+                                        ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ]),
-              )
+              ),
+              (searchQuery.length > 3 || searchQuery.toString().contains(" "))
+                  ? SliverList(
+                      delegate: SliverChildListDelegate([
+                      SizedBox(
+                        height: context.height * 0.65,
+                        child: ListView.builder(
+                          // physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: ayatFiltered["occurences"],
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(6.0),
+                              child: GestureDetector(
+                                onTap: () {
+                                  fabIsClicked = true;
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute<void>(
+                                      builder: (BuildContext context) =>
+                                          SurahBuilder(
+                                        arabic: quran[0],
+                                        // sura: bookmarkedSura - 1,
+                                        sura: ayatFiltered["result"][index]
+                                                ["surah"] -
+                                            1,
+                                        // suraName: arabicName[bookmarkedSura - 1]['name'],
+                                        suraName: arabicName[
+                                            ayatFiltered["result"][index]
+                                                    ["surah"] -
+                                                1]['name'],
+                                        ayah: ayatFiltered["result"][index]
+                                                ["verse"] -
+                                            1,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: Container(
+                                  // color: Colors.white70,
+                                  decoration: BoxDecoration(
+                                      color: const Color.fromARGB(
+                                          255, 253, 247, 230),
+                                      borderRadius: BorderRadius.circular(14)),
+
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(3.0),
+                                    child: Column(
+                                      children: [
+                                        AutoSizeText(
+                                          "سورة ${getSurahNameArabic(ayatFiltered["result"][index]["surah"])} -\n\n ${getVerse(ayatFiltered["result"][index]["surah"], ayatFiltered["result"][index]["verse"], verseEndSymbol: false)}${"\uFD3F${(ayatFiltered["result"][index]["verse"]).toString().toArabicNumbers}\uFD3E"}\n",
+                                          textDirection: TextDirection.rtl,
+                                          style: const TextStyle(
+                                            color: Colors.black,
+                                            // fontFamily: "uthmanic",
+                                            fontSize: 20,
+                                            fontFamily: me_quranFont,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ]))
+                  : SliverList(
+                      delegate: SliverChildListDelegate([
+                        SizedBox(
+                            height: context.height * 0.65,
+                            child: BuildSuraName()),
+                        SizedBox(
+                          height: context.height * 0.06,
+                        )
+                      ]),
+                    )
             ],
           );
         });
@@ -387,7 +492,28 @@ Widget BuildSuraName() {
               fontWeight: FontWeight.w500,
             ),
           ),
-          subtitle: AutoSizeText(surahList[index].versesCount.toString()),
+          subtitle: Row(
+            children: [
+              SizedBox(
+                  width: 30,
+                  child: AutoSizeText(surahList[index].versesCount.toString())),
+              const SizedBox(
+                width: 3,
+              ),
+              surahList[index].revelationPlace.toString() == "makkah"
+                  ? Image.asset(
+                      "assets/images/makkah.png",
+                      height: 35,
+                      width: 35,
+                    )
+                  : Image.asset(
+                      "assets/images/madinah.png",
+                      height: 35,
+                      width: 35,
+                    )
+              //  (surahList[index].revelationPlace.toString()),
+            ],
+          ),
           trailing: AutoSizeText(
             surahList[index].arabicName,
             style: const TextStyle(

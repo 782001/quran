@@ -231,6 +231,10 @@ class _SephaScreenState extends State<SephaScreen> {
                 ],
               ),
             ),
+
+            const SizedBox(
+              height: 30,
+            ),
           ],
         ),
       ),

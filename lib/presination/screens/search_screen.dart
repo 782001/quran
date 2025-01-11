@@ -251,7 +251,28 @@ Widget BuildSearchSuraName(List<Surah> surahList) {
               fontWeight: FontWeight.w500,
             ),
           ),
-          subtitle: AutoSizeText(surahList[index].versesCount.toString()),
+          subtitle: Row(
+            children: [
+              SizedBox(
+                  width: 30,
+                  child: AutoSizeText(surahList[index].versesCount.toString())),
+              const SizedBox(
+                width: 3,
+              ),
+              surahList[index].revelationPlace.toString() == "makkah"
+                  ? Image.asset(
+                      "assets/images/makkah.png",
+                      height: 35,
+                      width: 35,
+                    )
+                  : Image.asset(
+                      "assets/images/madinah.png",
+                      height: 35,
+                      width: 35,
+                    )
+              //  (surahList[index].revelationPlace.toString()),
+            ],
+          ),
           trailing: AutoSizeText(
             surahList[index].arabicName,
             style: const TextStyle(

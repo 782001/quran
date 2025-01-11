@@ -186,8 +186,8 @@ class _SettingsState extends State<Settings> {
                           onPressed: () {
                             saveSettings();
                             Navigator.of(context).pop();
-                            String s = getAudioURLByVerse(114, 2);
-                            print(s);
+                            // String s = getAudioURLByVerse(114, 2);
+                            // print(s);
                           },
                           child: const Text(
                             'حفظ',

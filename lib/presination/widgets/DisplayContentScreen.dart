@@ -1,11 +1,17 @@
+import 'dart:io';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'package:quran_v2/core/utils/conestans.dart';
 import 'package:quran_v2/core/utils/media_query_values.dart';
 import 'package:quran_v2/core/utils/strings.dart';
 import 'package:quran_v2/presination/widgets/to_arabic_no_converter.dart';
-import 'package:share_plus/share_plus.dart';
+// import 'package:share_plus/share_plus.dart';
+import 'package:share/share.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DisplayContentScreen extends StatefulWidget {
   const DisplayContentScreen(
@@ -36,8 +42,10 @@ class _DisplayContentScreenState extends State<DisplayContentScreen> {
         centerTitle: true,
         leading: const SizedBox.shrink(),
       ),
-      body:
-          SingleChildScrollView(child: JsonListView(jsonPath: widget.jsonPath)),
+      body: SingleChildScrollView(
+          child: JsonListView(
+        jsonPath: widget.jsonPath,
+      )),
     );
   }
 }
@@ -45,7 +53,10 @@ class _DisplayContentScreenState extends State<DisplayContentScreen> {
 class JsonListView extends StatefulWidget {
   final String jsonPath;
 
-  const JsonListView({super.key, required this.jsonPath});
+  const JsonListView({
+    super.key,
+    required this.jsonPath,
+  });
 
   @override
   _JsonListViewState createState() => _JsonListViewState();
@@ -55,7 +66,7 @@ class _JsonListViewState extends State<JsonListView> {
   late Future<List<Map<String, dynamic>>> _jsonFuture;
   PageController pageController = PageController();
   int CurrentIndex = 0;
-  final AudioPlayer _audioPlayer = AudioPlayer();
+  // final AudioPlayer _audioPlayer = AudioPlayer();
   @override
   void initState() {
     super.initState();
@@ -69,6 +80,26 @@ class _JsonListViewState extends State<JsonListView> {
       }
     });
   }
+
+ void addToFavorites(String text) async {
+  final prefs = await SharedPreferences.getInstance();
+  if (!favoritesList.contains(text)) {
+    setState(() {
+      favoritesList.add(text);
+    });
+    await prefs.setStringList('favoritesList', favoritesList);
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text(
+          'تمت الإضافة إلى المفضلة',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontFamily: cairoFont),
+        ),
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -177,13 +208,14 @@ class _JsonListViewState extends State<JsonListView> {
                   const Spacer(),
                   GestureDetector(
                     onTap: () async {
-                      await _audioPlayer.play(AssetSource('audio/tap.wav'));
+                      // await _audioPlayer.play(AssetSource('audio/tap.wav'));
                       setState(() {
                         CurrentIndex = pageController.page!.toInt();
                       });
                       print("CurrentIndex:$CurrentIndex");
                       Share.share(
-                          ''' ${data[CurrentIndex]['number'] ?? ""} \n ${data[CurrentIndex]['text'] == "" ? data[CurrentIndex]['label'] : data[CurrentIndex]['text']}\n${data[CurrentIndex]['hint'] ?? ""}''');
+                          // ''' ${data[CurrentIndex]['number'] ?? ""} \n ${data[CurrentIndex]['text'] == "" ? data[CurrentIndex]['label'] : data[CurrentIndex]['text']}\n${data[CurrentIndex]['hint'] ?? ""}''');
+                          '''${(data[CurrentIndex]['number'] is int ? data[CurrentIndex]['number'].toString().replaceAll(RegExp(r'\d'), '') : data[CurrentIndex]['number']) ?? ""} \n ${data[CurrentIndex]['text'] == "" ? data[CurrentIndex]['label'] : data[CurrentIndex]['text']}\n${data[CurrentIndex]['hint'] ?? ""}''');
                     },
                     child: Container(
                       width: 60,
@@ -196,16 +228,10 @@ class _JsonListViewState extends State<JsonListView> {
                   ),
                   const Spacer(),
                   GestureDetector(
-                    onTap: () async {
-                      await _audioPlayer.play(AssetSource('audio/tap.wav'));
-                      if (pageController.page ==
-                              pageController.page!.roundToDouble() &&
-                          pageController.page! > 0) {
-                        pageController.previousPage(
-                          duration: const Duration(milliseconds: 750),
-                          curve: Curves.fastLinearToSlowEaseIn,
-                        );
-                      }
+                    onTap: () {
+                      String favoriteText =
+                          '''${(data[CurrentIndex]['number'] is int ? data[CurrentIndex]['number'].toString().replaceAll(RegExp(r'\d'), '') : data[CurrentIndex]['number']) ?? ""} \n ${data[CurrentIndex]['text'] == "" ? data[CurrentIndex]['label'] : data[CurrentIndex]['text']}\n${data[CurrentIndex]['hint'] ?? ""}''';
+                      addToFavorites(favoriteText);
                     },
                     child: Container(
                       width: 60,
@@ -213,22 +239,30 @@ class _JsonListViewState extends State<JsonListView> {
                       decoration: const BoxDecoration(
                           shape: BoxShape.circle, color: Color(0xff592c01)),
                       child: const Center(
-                          child: Icon(Icons.arrow_back_ios_new_rounded,
-                              color: Color(0xffFFFBE8))),
+                          child:
+                              Icon(Icons.favorite, color: Color(0xffFFFBE8))),
                     ),
                   ),
                   const Spacer(),
                   GestureDetector(
                     onTap: () async {
-                      await _audioPlayer.play(AssetSource('audio/tap.wav'));
-
-                      if (pageController.page ==
-                          pageController.page!.roundToDouble()) {
-                        pageController.nextPage(
-                          duration: const Duration(milliseconds: 750),
-                          curve: Curves.fastLinearToSlowEaseIn,
-                        );
-                      }
+                      // Copy current page text to clipboard
+                      String textToCopy =
+                          '''${(data[CurrentIndex]['number'] is int ? data[CurrentIndex]['number'].toString().replaceAll(RegExp(r'\d'), '') : data[CurrentIndex]['number']) ?? ""} \n ${data[CurrentIndex]['text'] == "" ? data[CurrentIndex]['label'] : data[CurrentIndex]['text']}\n${data[CurrentIndex]['hint'] ?? ""}''';
+                      await Clipboard.setData(ClipboardData(text: textToCopy));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            'تم نسخ النص',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontFamily: cairoFont,
+                              color: Colors.white,
+                            ),
+                          ),
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
                     },
                     child: Container(
                       width: 60,
@@ -236,8 +270,7 @@ class _JsonListViewState extends State<JsonListView> {
                       decoration: const BoxDecoration(
                           shape: BoxShape.circle, color: Color(0xff592c01)),
                       child: const Center(
-                          child: Icon(Icons.arrow_forward_ios_rounded,
-                              color: Color(0xffFFFBE8))),
+                          child: Icon(Icons.copy, color: Color(0xffFFFBE8))),
                     ),
                   ),
                   const Spacer(),

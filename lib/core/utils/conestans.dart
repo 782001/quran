@@ -9,9 +9,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../presination/surah_model.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
+
 int bookmarkedAyah = 1;
 int bookmarkedSura = 1;
 bool fabIsClicked = true;
+List<String> favoritesList = []; // Store favorite items
 
 final ItemScrollController itemScrollController = ItemScrollController();
 final ItemPositionsListener itemPositionsListener =
@@ -23,8 +25,11 @@ double mushafFontSize = 40;
 
 Uri quranAppurl = Uri.parse(
     'https://play.google.com/store/apps/details?id=com.quran.quran_v2');
-Uri contacturl = Uri.parse('https://wsend.co/201281859862');
-Uri PlayStoreAcounturl = Uri.parse('https://play.google.com/store/apps/developer?id=Abdullah+El-Awadi');
+Uri contacturl = Uri.parse('https://api.whatsapp.com/send?phone=+201281859862');
+Uri privacyurl = Uri.parse(
+    'https://www.termsfeed.com/live/4121ff19-e482-46ac-8b5e-09ea612effaf');
+Uri PlayStoreAcounturl = Uri.parse(
+    'https://play.google.com/store/apps/developer?id=Abdullah+El-Awadi');
 
 Future saveSettings() async {
   final prefs = await SharedPreferences.getInstance();
@@ -316,7 +321,6 @@ Future<void> readSuraNameJson() async {
     surahList.add(Surah.fromMap(item));
   }
 }
-
 
 class JsonFileReader {
   final String jsonPath;

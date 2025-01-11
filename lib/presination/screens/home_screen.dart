@@ -13,6 +13,7 @@ import 'package:quran_v2/presination/screens/newContent/qss_islamic.dart';
 import 'package:quran_v2/presination/screens/newContent/seraNapaweaScreen.dart';
 import 'package:quran_v2/presination/widgets/DisplayContentScreen.dart';
 import 'package:quran_v2/presination/screens/sepha_screen.dart';
+import 'package:quran_v2/presination/widgets/favourite_screen.dart';
 import 'package:quran_v2/presination/widgets/mydrawer.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -34,6 +35,7 @@ class HomeScreen extends StatelessWidget {
       HomeModel(image: hag_omraImage, title: "الحج والعمره", id: 7),
       HomeModel(image: seraNabweyaImage, title: "السيرة النبويه", id: 8),
       HomeModel(image: qssIslamicImage, title: "قصص اسلاميه", id: 9),
+      HomeModel(image: qssIslamicImage, title: "المفضله", id: 10),
     ];
 
     return Scaffold(
@@ -74,7 +76,7 @@ class HomeScreen extends StatelessWidget {
             child: Column(
               children: [
                 SizedBox(
-                  height: context.height * 0.1,
+                  height: context.height * 0.05,
                 ),
                 // SizedBox(
                 //   height: context.height * 0.05,
@@ -125,6 +127,9 @@ Widget HomeCard(HomeModel model, data, BuildContext context) {
             QuranHomeScreen(
               data: data,
             ));
+      }
+      if (model.id == 10) {
+        NavTo(context, const FavouriteScreen());
       }
       if (model.id == 2) {
         NavTo(context, const SephaScreen());
@@ -185,7 +190,7 @@ Widget HomeCard(HomeModel model, data, BuildContext context) {
         Card(
           color: const Color(0xff592c01),
           clipBehavior: Clip.antiAliasWithSaveLayer,
-          elevation: 50,
+          elevation: 0,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(20),
@@ -196,16 +201,25 @@ Widget HomeCard(HomeModel model, data, BuildContext context) {
               SizedBox(
                 height: context.height * 0.01,
               ),
-              Padding(
-                padding: const EdgeInsets.all(2.0),
-                child: Image(
-                  image: AssetImage(model.image),
-                  fit: BoxFit.contain,
-                  width: context.width * 0.3,
-                  height: context.height * 0.07,
-                  color: model.id == 1 ? null : const Color(0xfff2e3a0),
-                ),
-              ),
+              (model.id != 10)
+                  ? Padding(
+                      padding: const EdgeInsets.all(2.0),
+                      child: Image(
+                        image: AssetImage(model.image),
+                        fit: BoxFit.contain,
+                        width: context.width * 0.3,
+                        height: context.height * 0.07,
+                        color: model.id == 1 ? null : const Color(0xfff2e3a0),
+                      ),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.all(2),
+                      child: SizedBox(
+                          width: context.width * 0.3,
+                          height: context.height * 0.07,
+                          child: const Icon(Icons.favorite,
+                              size: 40, color: Color(0xfff2e3a0))),
+                    ),
               Container(
                 decoration: const BoxDecoration(
                     color: Color(0xff592c01),
