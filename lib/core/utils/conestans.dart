@@ -7,7 +7,6 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../presination/surah_model.dart';
-import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 
 int bookmarkedAyah = 1;

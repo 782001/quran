@@ -13,6 +13,9 @@ String ahadesImage = _getAssetsImagePath('ahades.jpg');
 
 String hag_omraImage = _getAssetsImagePath('hag_omra.jpg');
 String qssIslamicImage = _getAssetsImagePath('qssIslamic.png');
+String namesOfAllahImage = _getAssetsImagePath('Names_Of_Allah.jpg');
+String ramadanhomeImage = _getAssetsImagePath('ramadanhome.png');
+String ramadanbackgroundImage = _getAssetsImagePath('ramadan_background.webp');
 String seraNabweyaImage = _getAssetsImagePath('seraNabweya.png');
 String HomequranImage = _getAssetsImagePath('Homequran.png');
 

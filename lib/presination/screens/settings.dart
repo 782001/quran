@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quran/quran.dart';
 import 'package:quran_v2/core/utils/assets_path.dart';
 import 'package:quran_v2/core/utils/strings.dart';
-import 'package:quran_v2/presination/controller/app_cubit.dart';
 
-import '../../core/shared/components.dart';
 import '../../core/utils/conestans.dart';
-import '../controller/app_states.dart';
-import 'package:flutter/material.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);

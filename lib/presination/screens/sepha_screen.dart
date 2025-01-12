@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:quran_v2/core/utils/media_query_values.dart';
-import 'package:quran_v2/core/utils/strings.dart';
 
 class SephaScreen extends StatefulWidget {
   const SephaScreen({super.key});

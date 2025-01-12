@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:quran_v2/core/utils/app_theme_colors.dart';
 import 'package:quran_v2/core/utils/strings.dart';
 
 abstract class TextStyles {

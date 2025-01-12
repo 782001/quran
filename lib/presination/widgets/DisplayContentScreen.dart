@@ -1,9 +1,6 @@
-import 'dart:io';
 
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
 
 import 'package:quran_v2/core/utils/conestans.dart';
 import 'package:quran_v2/core/utils/media_query_values.dart';

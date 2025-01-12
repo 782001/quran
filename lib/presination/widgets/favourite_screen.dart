@@ -1,4 +1,3 @@
-import 'dart:io';
 
 // import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +8,6 @@ import 'package:quran_v2/core/shared/components.dart';
 import 'package:quran_v2/core/utils/conestans.dart';
 import 'package:quran_v2/core/utils/media_query_values.dart';
 import 'package:quran_v2/core/utils/strings.dart';
-import 'package:quran_v2/presination/screens/home_screen.dart';
 import 'package:quran_v2/presination/widgets/to_arabic_no_converter.dart';
 import 'package:quran_v2/splash_screen.dart';
 // import 'package:share_plus/share_plus.dart';

@@ -5,12 +5,14 @@ import 'package:quran_v2/core/utils/media_query_values.dart';
 import 'package:quran_v2/core/utils/strings.dart';
 import 'package:quran_v2/presination/screens/newContent/AhadesScreen.dart';
 import 'package:quran_v2/presination/screens/Quran_HomeScreen.dart';
+import 'package:quran_v2/presination/screens/newContent/RamadanScreen.dart';
 import 'package:quran_v2/presination/screens/newContent/azkarScreen.dart';
 import 'package:quran_v2/presination/screens/newContent/doaaScreen.dart';
 import 'package:quran_v2/presination/screens/newContent/hag_omra.dart';
 import 'package:quran_v2/presination/screens/newContent/islamic_screen.dart';
 import 'package:quran_v2/presination/screens/newContent/qss_islamic.dart';
 import 'package:quran_v2/presination/screens/newContent/seraNapaweaScreen.dart';
+import 'package:quran_v2/presination/widgets/CategoryContent.dart';
 import 'package:quran_v2/presination/widgets/DisplayContentScreen.dart';
 import 'package:quran_v2/presination/screens/sepha_screen.dart';
 import 'package:quran_v2/presination/widgets/favourite_screen.dart';
@@ -26,16 +28,18 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<HomeModel> HomeList = [
-      HomeModel(image: ahadesImage, title: "أحاديث", id: 1),
-      HomeModel(image: sephaImage, title: "المسبحه", id: 2),
+      HomeModel(image: namesOfAllahImage, title: "أسماء الله الحسني", id: 1),
+      HomeModel(image: ramadanhomeImage, title: "رمضان كريم", id: 2),
       HomeModel(image: HomequranImage, title: "القرآن الكريم", id: 3),
       HomeModel(image: azkarImage, title: "أذكار", id: 4),
-      HomeModel(image: islamicImage, title: "اسلاميات", id: 5),
-      HomeModel(image: doaaImage, title: "أدعيه", id: 6),
-      HomeModel(image: hag_omraImage, title: "الحج والعمره", id: 7),
-      HomeModel(image: seraNabweyaImage, title: "السيرة النبويه", id: 8),
-      HomeModel(image: qssIslamicImage, title: "قصص اسلاميه", id: 9),
-      HomeModel(image: qssIslamicImage, title: "المفضله", id: 10),
+      HomeModel(image: sephaImage, title: "المسبحه", id: 5),
+      HomeModel(image: islamicImage, title: "اسلاميات", id: 6),
+      HomeModel(image: ahadesImage, title: "أحاديث", id: 7),
+      HomeModel(image: doaaImage, title: "أدعيه", id: 8),
+      HomeModel(image: hag_omraImage, title: "الحج والعمره", id: 9),
+      HomeModel(image: seraNabweyaImage, title: "السيرة النبويه", id: 10),
+      HomeModel(image: qssIslamicImage, title: "قصص اسلاميه", id: 11),
+      HomeModel(image: qssIslamicImage, title: "المفضله", id: 12),
     ];
 
     return Scaffold(
@@ -121,6 +125,14 @@ class HomeScreen extends StatelessWidget {
 Widget HomeCard(HomeModel model, data, BuildContext context) {
   return InkWell(
     onTap: () {
+      if (model.id == 1) {
+        NavTo(
+            context,
+            DisplayContentScreen(
+              jsonPath: NameOfAllahCategoryContentList[0].JsonPath,
+              title: model.title,
+            ));
+      }
       if (model.id == 3) {
         NavTo(
             context,
@@ -128,23 +140,30 @@ Widget HomeCard(HomeModel model, data, BuildContext context) {
               data: data,
             ));
       }
-      if (model.id == 10) {
+      if (model.id == 12) {
         NavTo(context, const FavouriteScreen());
       }
-      if (model.id == 2) {
+      if (model.id == 5) {
         NavTo(context, const SephaScreen());
       }
-      if (model.id == 1) {
+      if (model.id == 7) {
         NavTo(
             context,
             AhadesScreen(
               title: model.title,
             ));
       }
-      if (model.id == 6) {
+      if (model.id == 8) {
         NavTo(
             context,
             DoaaScreen(
+              title: model.title,
+            ));
+      }
+      if (model.id == 2) {
+        NavTo(
+            context,
+            RamadanScreen(
               title: model.title,
             ));
       }
@@ -155,28 +174,28 @@ Widget HomeCard(HomeModel model, data, BuildContext context) {
               title: model.title,
             ));
       }
-      if (model.id == 5) {
+      if (model.id == 6) {
         NavTo(
             context,
             IslamicScreen(
               title: model.title,
             ));
       }
-      if (model.id == 7) {
+      if (model.id == 9) {
         NavTo(
             context,
             HagOmraScreen(
               title: model.title,
             ));
       }
-      if (model.id == 8) {
+      if (model.id == 10) {
         NavTo(
             context,
             SeraNapaweaScreen(
               title: model.title,
             ));
       }
-      if (model.id == 9) {
+      if (model.id == 11) {
         NavTo(
             context,
             QssIslamicScreen(
@@ -201,7 +220,7 @@ Widget HomeCard(HomeModel model, data, BuildContext context) {
               SizedBox(
                 height: context.height * 0.01,
               ),
-              (model.id != 10)
+              (model.id != 12)
                   ? Padding(
                       padding: const EdgeInsets.all(2.0),
                       child: Image(
@@ -209,7 +228,7 @@ Widget HomeCard(HomeModel model, data, BuildContext context) {
                         fit: BoxFit.contain,
                         width: context.width * 0.3,
                         height: context.height * 0.07,
-                        color: model.id == 1 ? null : const Color(0xfff2e3a0),
+                        color: model.id == 7 ? null : const Color(0xfff2e3a0),
                       ),
                     )
                   : Padding(
@@ -248,6 +267,13 @@ Widget HomeCard(HomeModel model, data, BuildContext context) {
     ),
   );
 }
+
+List<CategoryContentModel> NameOfAllahCategoryContentList = [
+  CategoryContentModel(
+      id: 1,
+      title: "اسماء الله الحسني",
+      JsonPath: 'assets/اسماء الله الحسني/Names_Of_Allah.json'),
+];
 
 class HomeModel {
   final String image;
