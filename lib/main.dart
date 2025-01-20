@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quran_v2/core/network/local/cashhelper.dart';
 import 'package:quran_v2/presination/controller/app_cubit.dart';
-
+import 'package:quran_v2/presination/pray_time_presentation/controller/pray_time_cubit.dart';
 import 'package:quran_v2/splash_screen.dart';
 import 'package:sizer/sizer.dart';
 
 import 'core/utils/conestans.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await CashHelper.init();
+
   runApp(const MyApp());
 }
 
@@ -40,6 +44,9 @@ class _MyAppState extends State<MyApp> {
         providers: [
           BlocProvider(
             create: (context) => AppCubit()..initState(bookmarkedAyah),
+          ),
+          BlocProvider(
+            create: (context) => PrayTimeCubit()..fetchPrayData(context),
           ),
         ],
         child: MaterialApp(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:quran_v2/core/utils/assets_path.dart';
-import 'package:quran_v2/core/utils/conestans.dart';
+import 'package:quran_v2/core/utils/media_query_values.dart';
+import 'package:quran_v2/core/utils/strings.dart';
 
 class NoBookMarkScreen extends StatelessWidget {
   const NoBookMarkScreen({Key? key}) : super(key: key);
@@ -8,51 +8,18 @@ class NoBookMarkScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(''),
-      ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(30.0),
-          child: Container(
-            width: double.infinity,
-            height: 200,
-            decoration: BoxDecoration(
-              color: const Color(0xffFFFBE8),
-              borderRadius: const BorderRadius.all(
-                Radius.circular(20),
-              ),
-              border: Border.all(color: const Color(0xff592c01), width: 2),
-            ),
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 30,
-                ),
-                const Icon(
-                  Icons.do_not_disturb_alt_sharp,
-                  size: 60,
-                  color: Color(0xff592c01),
-                ),
-                const Spacer(
-                    // height: 20,
-                    ),
-                Text(
-                  "لا يوجد آيات مضافه",
-                  style: TextStyle(
-                    fontFamily: quranFont,
-                    fontSize: arabicFontSize,
-                  ),
-                  textDirection: TextDirection.rtl,
-                ),
-                const SizedBox(
-                  height: 30,
-                )
-              ],
-            ),
-          ),
+        appBar: AppBar(
+          title: const Text(''),
         ),
-      ),
-    );
+        body: Center(
+            child: Text(
+          "لا يوجد آيات مضافه",
+          style: TextStyle(
+            fontFamily: cairoFont,
+            fontSize: context.width * 0.05,
+            color: Colors.grey,
+          ),
+          textDirection: TextDirection.rtl,
+        )));
   }
 }

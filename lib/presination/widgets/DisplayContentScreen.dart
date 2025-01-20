@@ -1,7 +1,5 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:quran_v2/core/utils/conestans.dart';
 import 'package:quran_v2/core/utils/media_query_values.dart';
 import 'package:quran_v2/core/utils/strings.dart';
@@ -78,25 +76,25 @@ class _JsonListViewState extends State<JsonListView> {
     });
   }
 
- void addToFavorites(String text) async {
-  final prefs = await SharedPreferences.getInstance();
-  if (!favoritesList.contains(text)) {
-    setState(() {
-      favoritesList.add(text);
-    });
-    await prefs.setStringList('favoritesList', favoritesList);
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text(
-          'تمت الإضافة إلى المفضلة',
-          textAlign: TextAlign.center,
-          style: TextStyle(fontFamily: cairoFont),
+  void addToFavorites(String text) async {
+    final prefs = await SharedPreferences.getInstance();
+    if (!favoritesList.contains(text)) {
+      setState(() {
+        favoritesList.add(text);
+      });
+      await prefs.setStringList('favoritesList', favoritesList);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'تمت الإضافة إلى المفضلة',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontFamily: cairoFont),
+          ),
+          duration: Duration(seconds: 2),
         ),
-        duration: Duration(seconds: 2),
-      ),
-    );
+      );
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -247,19 +245,19 @@ class _JsonListViewState extends State<JsonListView> {
                       String textToCopy =
                           '''${(data[CurrentIndex]['number'] is int ? data[CurrentIndex]['number'].toString().replaceAll(RegExp(r'\d'), '') : data[CurrentIndex]['number']) ?? ""} \n ${data[CurrentIndex]['text'] == "" ? data[CurrentIndex]['label'] : data[CurrentIndex]['text']}\n${data[CurrentIndex]['hint'] ?? ""}''';
                       await Clipboard.setData(ClipboardData(text: textToCopy));
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text(
-                            'تم نسخ النص',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontFamily: cairoFont,
-                              color: Colors.white,
-                            ),
-                          ),
-                          duration: Duration(seconds: 2),
-                        ),
-                      );
+                      // ScaffoldMessenger.of(context).showSnackBar(
+                      //   const SnackBar(
+                      //     content: Text(
+                      //       'تم نسخ النص',
+                      //       textAlign: TextAlign.center,
+                      //       style: TextStyle(
+                      //         fontFamily: cairoFont,
+                      //         color: Colors.white,
+                      //       ),
+                      //     ),
+                      //     duration: Duration(seconds: 2),
+                      //   ),
+                      // );
                     },
                     child: Container(
                       width: 60,

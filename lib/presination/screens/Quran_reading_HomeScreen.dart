@@ -525,16 +525,16 @@ Widget BuildSuraName() {
             ),
           ),
 
-          title: const SuraAudioPlayer(
-            audioUrl: "https://server11.mp3quran.net/hawashi/010.mp3",
-          ),
-          // title: AutoSizeText(
-          //   surahList[index].name,
-          //   style: const TextStyle(
-          //     fontSize: 20,
-          //     fontWeight: FontWeight.w500,
-          //   ),
+          // title: const SuraAudioPlayer(
+          //   audioUrl: "https://server11.mp3quran.net/hawashi/010.mp3",
           // ),
+          title: AutoSizeText(
+            surahList[index].name,
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
           subtitle: Row(
             children: [
               SizedBox(
@@ -666,130 +666,3 @@ Widget BuildSuraName() {
 //   );
 // }
 
-class SuraAudioPlayer extends StatefulWidget {
-  final String audioUrl; // Pass the URL or local path of the sura audio.
-
-  const SuraAudioPlayer({Key? key, required this.audioUrl}) : super(key: key);
-
-  @override
-  _SuraAudioPlayerState createState() => _SuraAudioPlayerState();
-}
-
-class _SuraAudioPlayerState extends State<SuraAudioPlayer> {
-  late AudioPlayer _audioPlayer;
-  bool isPlaying = false;
-  Duration _currentPosition = Duration.zero;
-  Duration _totalDuration = Duration.zero;
-
-  @override
-  void initState() {
-    super.initState();
-    _audioPlayer = AudioPlayer();
-
-    // Load the audio file.
-    _audioPlayer.setUrl(widget.audioUrl).then((duration) {
-      setState(() {
-        _totalDuration = duration ?? Duration.zero;
-      });
-    });
-
-    // Listen to playback position updates.
-    _audioPlayer.positionStream.listen((position) {
-      setState(() {
-        _currentPosition = position;
-      });
-    });
-
-    // Handle playback completion.
-    _audioPlayer.playerStateStream.listen((state) {
-      if (state.processingState == ProcessingState.completed) {
-        setState(() {
-          isPlaying = false;
-          _currentPosition = Duration.zero;
-        });
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _audioPlayer.dispose();
-    super.dispose();
-  }
-
-  void _togglePlayPause() async {
-    if (isPlaying) {
-      await _audioPlayer.pause();
-    } else {
-      await _audioPlayer.play();
-    }
-    setState(() {
-      isPlaying = !isPlaying;
-    });
-  }
-
-  void _stopAudio() async {
-    await _audioPlayer.stop();
-    setState(() {
-      isPlaying = false;
-      _currentPosition = Duration.zero;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            IconButton(
-              icon: Icon(isPlaying ? Icons.pause : Icons.play_arrow),
-              iconSize: 48,
-              onPressed: _togglePlayPause,
-            ),
-            if (isPlaying)
-              IconButton(
-                icon: const Icon(Icons.stop),
-                iconSize: 48,
-                onPressed: _stopAudio,
-              ),
-          ],
-        ),
-        if (isPlaying)
-          Column(
-            children: [
-              Slider(
-                min: 0.0,
-                max: _totalDuration.inSeconds.toDouble(),
-                value: _currentPosition.inSeconds
-                    .toDouble()
-                    .clamp(0.0, _totalDuration.inSeconds.toDouble()),
-                onChanged: (value) async {
-                  final newPosition = Duration(seconds: value.toInt());
-                  await _audioPlayer.seek(newPosition);
-                },
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(formatDuration(_currentPosition)),
-                    Text(formatDuration(_totalDuration)),
-                  ],
-                ),
-              ),
-            ],
-          ),
-      ],
-    );
-  }
-
-  String formatDuration(Duration duration) {
-    final minutes = duration.inMinutes.remainder(60).toString().padLeft(2, '0');
-    final seconds = duration.inSeconds.remainder(60).toString().padLeft(2, '0');
-    return '$minutes:$seconds';
-  }
-}

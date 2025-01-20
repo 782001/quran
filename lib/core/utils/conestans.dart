@@ -6,12 +6,18 @@ import 'package:quran_v2/core/utils/assets_path.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../presination/surah_model.dart';
+import '../../models/surah_model.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 int bookmarkedAyah = 1;
 int bookmarkedSura = 1;
 bool fabIsClicked = true;
+late String fajrTime;
+late String shroukTime;
+late String duhrTime;
+late String asrTime;
+late String maghrbTime;
+late String ishaTime;
 List<String> favoritesList = []; // Store favorite items
 
 final ItemScrollController itemScrollController = ItemScrollController();

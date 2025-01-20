@@ -8,7 +8,7 @@ import 'package:quran_v2/presination/controller/app_cubit.dart';
 import 'package:quran_v2/presination/controller/app_states.dart';
 import 'package:quran_v2/presination/screens/Sora.dart';
 import 'package:quran_v2/presination/screens/surah_builder.dart';
-import 'package:quran_v2/presination/surah_model.dart';
+import 'package:quran_v2/models/surah_model.dart';
 
 class searchScreen extends StatelessWidget {
   const searchScreen({super.key});

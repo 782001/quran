@@ -7,19 +7,20 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:quran/quran.dart';
 import 'package:quran_v2/core/shared/components.dart';
 import 'package:quran_v2/core/utils/media_query_values.dart';
 import 'package:quran_v2/core/utils/strings.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:sizer/sizer.dart';
-import 'package:just_audio/just_audio.dart';
-import 'package:rxdart/rxdart.dart';
+
 import '../../core/utils/assets_path.dart';
 import '../../core/utils/conestans.dart';
 import '../controller/app_cubit.dart';
 import '../controller/app_states.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class SurahBuilder extends StatefulWidget {
   final sura;
@@ -244,14 +245,6 @@ class _SingleSuraBuildeState extends State<SingleSuraBuilder> {
   }
 
   Future<void> loadTafseerData() async {
-    // Map<dynamic, dynamic> ayaTexts = searchWords("الله الذي");
-    // log("${ayaTexts["result"]}");
-
-    // Map<dynamic, dynamic> ayaaTexts = searchWords(["بسم"]);
-    // log("$ayaaTexts");
-    // Map<dynamic, dynamic> ayaaaTexts = searchWords(["وهي تجري"]);
-    // log("$ayaaaTexts");
-
     final String response = await rootBundle.loadString('assets/tafseer.json');
     setState(() {
       tafseerData = jsonDecode(response);
@@ -268,18 +261,6 @@ class _SingleSuraBuildeState extends State<SingleSuraBuilder> {
     return tafseer != null ? tafseer['text'] : 'تفسير  الآيه عير متاح';
   }
 
-  // getConnectivity() =>
-  //     subscription = Connectivity().onConnectivityChanged.listen(
-  //       (ConnectivityResult result) async {
-  //         isDeviceConnected = await InternetConnectionChecker().hasConnection;
-  //         if (!isDeviceConnected && isAlertSet == false) {
-  //           showDialogBox();
-  //           setState(() {
-  //             isAlertSet = true;
-  //           });
-  //         }
-  //       },
-  //     );
   @override
   void initState() {
     super.initState();
@@ -318,16 +299,6 @@ class _SingleSuraBuildeState extends State<SingleSuraBuilder> {
             child: widget.view
                 ? ScrollablePositionedList.builder(
                     itemBuilder: (BuildContext context, int index) {
-                      // void playAyaAudio(int suraNumper, int verseIndex) {
-                      //   // Assuming that you have audio files corresponding to each ayah
-                      //   // and they are named in a way that corresponds to their verse numbers.
-                      //   // String audioPath = 'assets/audio/${verse.surahNumber}_${verse.ayahNumber}.mp3';
-                      //   String audioUrl =
-                      //       getAudioURLByVerse(suraNumper, verseIndex);
-                      //   print(audioUrl);
-                      //   widget._audioPlayer.play(UrlSource(audioUrl));
-                      // }
-
                       return Column(
                         children: [
                           (index != 0) ||
@@ -364,20 +335,20 @@ class _SingleSuraBuildeState extends State<SingleSuraBuilder> {
                                           log(textToCopy);
                                           await Clipboard.setData(
                                               ClipboardData(text: textToCopy));
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            const SnackBar(
-                                              content: Text(
-                                                'تم نسخ النص',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  fontFamily: cairoFont,
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                              duration: Duration(seconds: 2),
-                                            ),
-                                          );
+                                          // ScaffoldMessenger.of(context)
+                                          //     .showSnackBar(
+                                          //   const SnackBar(
+                                          //     content: Text(
+                                          //       'تم نسخ النص',
+                                          //       textAlign: TextAlign.center,
+                                          //       style: TextStyle(
+                                          //         fontFamily: cairoFont,
+                                          //         color: Colors.white,
+                                          //       ),
+                                          //     ),
+                                          //     duration: Duration(seconds: 2),
+                                          //   ),
+                                          // );
                                         },
                                         child: const Row(
                                           children: [
@@ -553,7 +524,6 @@ class _SingleSuraBuildeState extends State<SingleSuraBuilder> {
     );
   }
 }
-
 
 class ReturnBasmala extends StatelessWidget {
   const ReturnBasmala({Key? key}) : super(key: key);

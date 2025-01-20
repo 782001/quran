@@ -1,6 +1,21 @@
+// {
+//     "editor.codeActionsOnSave": {
+//         "source.fixAll": "explicit",
+//         "source.organizeImports": "always"
+//     },
+//     "java.configuration.updateBuildConfiguration": "interactive"
+// }
 {
-    "cmake.sourceDirectory": "${workspaceFolder}/linux",
     "editor.codeActionsOnSave": {
-        "source.fixAll": "explicit"
-    }
+        "source.fixAll": "explicit",
+        "source.organizeImports": "always"
+    },
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "[dart]": {
+        "editor.codeActionsOnSave": {
+            "source.fixAll": "explicit", // Ensure the same behavior for Dart files
+            "source.organizeImports": "always"
+        }
+    },
+    "dart.removeUnusedImports": true
 }

@@ -6,7 +6,7 @@ import 'package:quran_v2/presination/screens/surah_builder.dart';
 
 import '../../core/utils/assets_path.dart';
 import '../../core/utils/conestans.dart';
-import '../surah_model.dart';
+import '../../models/surah_model.dart';
 import '../widgets/arabic_sura_num.dart';
 
 class SurahPage extends StatefulWidget {

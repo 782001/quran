@@ -13,10 +13,15 @@ String ahadesImage = _getAssetsImagePath('ahades.jpg');
 
 String hag_omraImage = _getAssetsImagePath('hag_omra.jpg');
 String qssIslamicImage = _getAssetsImagePath('qssIslamic.png');
+String masjed_icon = _getAssetsImagePath('masjed_icon.png');
 String namesOfAllahImage = _getAssetsImagePath('Names_Of_Allah.jpg');
+String audioBackgroundImage = _getAssetsImagePath('audioBackground.jpg');
 String ramadanhomeImage = _getAssetsImagePath('ramadanhome.png');
 String ramadanbackgroundImage = _getAssetsImagePath('ramadan_background.webp');
 String seraNabweyaImage = _getAssetsImagePath('seraNabweya.png');
+String pray_backgraoundImage = _getAssetsImagePath('pray_backgraound.png');
+String timer_icon = _getAssetsImagePath('timer_icon.png');
+String pray_icon = _getAssetsImagePath('pray_icon.png');
 String HomequranImage = _getAssetsImagePath('Homequran.png');
 
 String quranJson = _getAssetsTextPath('hafs_smart_v8.json');

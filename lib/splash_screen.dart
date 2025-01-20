@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quran_v2/core/utils/assets_path.dart';
-import 'package:quran_v2/presination/screens/Quran_HomeScreen.dart';
+import 'package:quran_v2/presination/screens/Quran_reading_HomeScreen.dart';
 import 'package:quran_v2/presination/screens/home_screen.dart';
 
 import 'core/utils/conestans.dart';
