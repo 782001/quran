@@ -1,6 +1,6 @@
 package com.quran.quran_v2
+import com.ryanheise.audioservice.AudioServiceActivity
 
-import io.flutter.embedding.android.FlutterActivity
 
-class MainActivity: FlutterActivity() {
+class MainActivity: AudioServiceActivity() {
 }

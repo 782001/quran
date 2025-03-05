@@ -1,14 +1,15 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quran_v2/core/responsive/screen_util.dart';
 import 'package:quran_v2/core/utils/assets_path.dart';
 import 'package:quran_v2/core/utils/conestans.dart';
 import 'package:quran_v2/core/utils/media_query_values.dart';
+import 'package:quran_v2/models/surah_model.dart';
 import 'package:quran_v2/presination/controller/app_cubit.dart';
 import 'package:quran_v2/presination/controller/app_states.dart';
-import 'package:quran_v2/presination/screens/Sora.dart';
-import 'package:quran_v2/presination/screens/surah_builder.dart';
-import 'package:quran_v2/models/surah_model.dart';
+import 'package:quran_v2/presination/screens/quran/quran_reading/Sora.dart';
+import 'package:quran_v2/presination/screens/quran/quran_reading/surah_builder.dart';
 
 class searchScreen extends StatelessWidget {
   const searchScreen({super.key});
@@ -271,12 +272,15 @@ Widget BuildSearchSuraName(List<Surah> surahList) {
               //  (surahList[index].revelationPlace.toString()),
             ],
           ),
-          trailing: AutoSizeText(
-            surahList[index].arabicName,
-            style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-                fontFamily: me_quranFont),
+          trailing: RichText(
+            text: TextSpan(
+              text: surahList[index].id.toString(),
+              style: TextStyle(
+                  // fontWeight: FontWeight.bold,
+                  color: Colors.black, //fontWeight: FontWeight.bold,
+                  fontSize: 28.sp, // Text color
+                  fontFamily: arFont),
+            ),
           ),
           // onTap: () {
           //   fabIsClicked = false;

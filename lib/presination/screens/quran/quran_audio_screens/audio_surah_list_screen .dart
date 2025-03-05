@@ -9,7 +9,7 @@ import 'package:quran_v2/core/utils/assets_path.dart';
 import 'package:quran_v2/core/utils/media_query_values.dart';
 import 'package:quran_v2/core/utils/strings.dart';
 import 'package:quran_v2/models/audio_sura_model.dart';
-import 'package:quran_v2/presination/screens/quran_audio_screens/shukh_list_screen.dart';
+import 'package:quran_v2/presination/screens/quran/quran_audio_screens/shukh_list_screen.dart';
 import 'package:quran_v2/presination/widgets/to_arabic_no_converter.dart';
 
 class AudioSurahListScreen extends StatefulWidget {
@@ -24,6 +24,7 @@ class _AudioSurahListScreenState extends State<AudioSurahListScreen> {
   TextEditingController searchController = TextEditingController();
   List<SurahAudio> filteredSuras = [];
   List<SurahAudio> allSuras = [];
+  bool loadingDownload = false;
 
   @override
   void initState() {
@@ -152,7 +153,9 @@ class _AudioSurahListScreenState extends State<AudioSurahListScreen> {
                         leading: CircleAvatar(
                           backgroundColor: const Color(0xff592c01),
                           child: Text(
-                            (surah.reciters.length).toArabicNumbers.toString(),
+                            (surah.reciters.length + mashaikhAudio.length)
+                                .toArabicNumbers
+                                .toString(),
                             style: const TextStyle(color: Colors.white),
                           ),
                         ),
@@ -167,25 +170,26 @@ class _AudioSurahListScreenState extends State<AudioSurahListScreen> {
                         ),
                         onTap: () {
                           // Navigate with a loading indicator until data is ready
-                          showDialog(
-                            context: context,
-                            builder: (_) => const Center(
-                              child: CircularProgressIndicator(
-                                color: Color(0xff592c01),
-                              ),
+                          // showDialog(
+                          //   context: context,
+                          //   builder: (_) => const Center(
+                          //     child: CircularProgressIndicator(
+                          //       color: Color(0xff592c01),
+                          //     ),
+                          //   ),
+                          // );
+                          // Load reciter details, then navigate
+                          // Future.delayed(const Duration(seconds: 1), () {
+                          //   Navigator.pop(context); // Dismiss loading dialog
+                          NavTo(
+                            context,
+                            ReciterListScreen(
+                              suraNum: surah.surahId,
+                              reciters: surah.reciters,
+                              SuraName: surah.surahNameAr,
                             ),
                           );
-                          // Load reciter details, then navigate
-                          Future.delayed(const Duration(seconds: 1), () {
-                            Navigator.pop(context); // Dismiss loading dialog
-                            NavTo(
-                              context,
-                              ReciterListScreen(
-                                reciters: surah.reciters,
-                                SuraName: surah.surahNameAr,
-                              ),
-                            );
-                          });
+                          // });
                           // NavTo(
                           //     context,
                           //     ReciterListScreen(

@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:quran_v2/core/utils/app_theme_colors.dart';
 import 'package:quran_v2/core/utils/assets_path.dart';
 import 'package:quran_v2/core/utils/media_query_values.dart';
 import 'package:quran_v2/core/utils/strings.dart';
@@ -97,12 +98,31 @@ class _QuranAudioScreenState extends State<QuranAudioScreen>
                       SizedBox(
                         height: context.height * .07,
                       ),
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: Text(
+                          "ملحوظة \n ان واجهت مشكلة اثناء الاستماع الي السورة \n يمكنك الضغط علي زر تحميل السورة بالاسفل حيث سيتم تحميل السورة علي جهازك ويمكن الاستماع عليها من جهازك",
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                            fontFamily: cairoFont,
+                            fontSize: context.width * 0.04,
+                            color: MyColors.babyBrown,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: context.height * .07,
+                      ),
                       ScaleTransition(
                         scale: _scaleAnimation,
                         child: Image.asset(audioBackgroundImage),
                       ),
                       const Spacer(), // Pushes the `SuraAudioPlayer` to the bottom
-                      SuraAudioPlayer(audioUrl: widget.audioUrl),
+                      SuraAudioPlayer(
+                          shekhNam: widget.reciterName,
+                          suraNam: widget.SuraName,
+                          audioUrl: widget.audioUrl),
                       const SizedBox(
                         height: 15,
                       ),

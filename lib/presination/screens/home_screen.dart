@@ -1,5 +1,9 @@
+import 'dart:io';
+
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:quran_v2/core/network/local/cashhelper.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:quran_v2/core/services/notification_helper.dart';
 import 'package:quran_v2/core/shared/components.dart';
 import 'package:quran_v2/core/utils/app_theme_colors.dart';
 import 'package:quran_v2/core/utils/assets_path.dart';
@@ -7,7 +11,6 @@ import 'package:quran_v2/core/utils/media_query_values.dart';
 import 'package:quran_v2/core/utils/strings.dart';
 import 'package:quran_v2/presination/pray_time_presentation/controller/pray_time_cubit.dart';
 import 'package:quran_v2/presination/pray_time_presentation/views/pray_time_body.dart';
-import 'package:quran_v2/presination/pray_time_presentation/views/widgets/timer_count_widget.dart';
 import 'package:quran_v2/presination/screens/newContent/AhadesScreen.dart';
 import 'package:quran_v2/presination/screens/newContent/RamadanScreen.dart';
 import 'package:quran_v2/presination/screens/newContent/azkarScreen.dart';
@@ -15,21 +18,47 @@ import 'package:quran_v2/presination/screens/newContent/doaaScreen.dart';
 import 'package:quran_v2/presination/screens/newContent/favourite_screen.dart';
 import 'package:quran_v2/presination/screens/newContent/hag_omra.dart';
 import 'package:quran_v2/presination/screens/newContent/islamic_screen.dart';
+import 'package:quran_v2/presination/screens/newContent/notification_screen.dart';
 import 'package:quran_v2/presination/screens/newContent/qss_islamic.dart';
+import 'package:quran_v2/presination/screens/newContent/sepha_screen.dart';
 import 'package:quran_v2/presination/screens/newContent/seraNapaweaScreen.dart';
-import 'package:quran_v2/presination/screens/quran_screen.dart';
-import 'package:quran_v2/presination/screens/sepha_screen.dart';
+import 'package:quran_v2/presination/screens/quran/quran_screen.dart';
 import 'package:quran_v2/presination/widgets/CategoryContent.dart';
 import 'package:quran_v2/presination/widgets/DisplayContentScreen.dart';
 import 'package:quran_v2/presination/widgets/mydrawer.dart';
+import 'package:permission_handler/permission_handler.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({
     Key? key,
     required this.data,
   }) : super(key: key);
   final data;
+
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  Future<void> checkAndShowPermissionDialog() async {
+    PermissionStatus status = await Permission.notification.status;
+
+    if (!status.isGranted) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showPermissionDialog(context);
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    checkAndShowPermissionDialog();
+    NotificationHelper();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     PrayTimeCubit cubit = PrayTimeCubit.get(context);
@@ -41,13 +70,14 @@ class HomeScreen extends StatelessWidget {
       HomeModel(image: namesOfAllahImage, title: "أسماء الله الحسني", id: 4),
       HomeModel(image: azkarImage, title: "أذكار", id: 5),
       HomeModel(image: sephaImage, title: "المسبحه", id: 6),
+      HomeModel(image: laylatElqadrImage, title: "ليلة القدر", id: 13),
       HomeModel(image: islamicImage, title: "اسلاميات", id: 7),
       HomeModel(image: ahadesImage, title: "أحاديث", id: 8),
       HomeModel(image: doaaImage, title: "أدعيه", id: 9),
       HomeModel(image: hag_omraImage, title: "الحج والعمره", id: 10),
       HomeModel(image: seraNabweyaImage, title: "السيرة النبويه", id: 11),
       HomeModel(image: qssIslamicImage, title: "قصص اسلاميه", id: 12),
-      HomeModel(image: qssIslamicImage, title: "المفضله", id: 13),
+      HomeModel(image: qssIslamicImage, title: "المفضله", id: 14),
     ];
 
     return Scaffold(
@@ -70,6 +100,26 @@ class HomeScreen extends StatelessWidget {
           },
         ),
         backgroundColor: const Color(0xff592c01),
+        actions: [
+          IconButton(
+              onPressed: () {
+                // NotificationHelper.scheduleNotification(
+                //   id: 2,
+                //   title: '.. هل تعلم',
+                //   body: getRandomFact(),
+                //   scheduledTime: DateTime.now()
+                //       .add(const Duration(minutes: 1)), // Change this to any time
+                // );
+                NavTo(context, const ScheduleNotificationScreen());
+              },
+              icon: const Icon(
+                Icons.notifications,
+                color: MyColors.creamColor,
+              )),
+          const SizedBox(
+            width: 10,
+          )
+        ],
         title: Text(
           "استغفر الله العظيم وأتوب اليه",
           textAlign: TextAlign.center,
@@ -90,31 +140,31 @@ class HomeScreen extends StatelessWidget {
                 // SizedBox(
                 //   height: context.height * 0.05,
                 // ),
-                if (CashHelper.GetData(key: AppStrings.locationKey) ==
-                        true /*&&
-        location != null*/
-                    ) ...[
-                  GestureDetector(
-                    onTap: () {
-                      NavTo(context, const PrayTimeScreen());
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height * 0.2,
-                        decoration: BoxDecoration(
-                          color: MyColors.lightBrown,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: TimerCountWidget(
-                          cubit: cubit,
-                          color: MyColors.appBackGroundColor,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                //         if (CashHelper.GetData(key: AppStrings.locationKey) ==
+                //                 true /*&&
+                // location != null*/
+                //             ) ...[
+                //           GestureDetector(
+                //             onTap: () {
+                //               NavTo(context, const PrayTimeScreen());
+                //             },
+                //             child: Padding(
+                //               padding: const EdgeInsets.all(20.0),
+                //               child: Container(
+                //                 width: MediaQuery.of(context).size.width,
+                //                 height: MediaQuery.of(context).size.height * 0.2,
+                //                 decoration: BoxDecoration(
+                //                   color: MyColors.lightBrown,
+                //                   borderRadius: BorderRadius.circular(20),
+                //                 ),
+                //                 child: TimerCountWidget(
+                //                   cubit: cubit,
+                //                   color: MyColors.appBackGroundColor,
+                //                 ),
+                //               ),
+                //             ),
+                //           ),
+                //         ],
 
                 // SizedBox(
                 //   height: context.height * 0.05,
@@ -140,7 +190,8 @@ class HomeScreen extends StatelessWidget {
                           mainAxisExtent: context.height * 0.2,
                         ),
                         itemBuilder: (BuildContext context, int index) {
-                          return HomeCard(HomeList[index], data, context);
+                          return HomeCard(
+                              HomeList[index], widget.data, context);
                         },
                         itemCount: HomeList.length,
                       ),
@@ -162,6 +213,14 @@ Widget HomeCard(HomeModel model, data, BuildContext context) {
       if (model.id == 1) {
         NavTo(context, const PrayTimeScreen());
       }
+      if (model.id == 13) {
+        NavTo(
+            context,
+            DisplayContentScreen(
+              jsonPath: Laylat_Al_QadrList[0].JsonPath,
+              title: model.title,
+            ));
+      }
       if (model.id == 4) {
         NavTo(
             context,
@@ -177,7 +236,7 @@ Widget HomeCard(HomeModel model, data, BuildContext context) {
               data: data,
             ));
       }
-      if (model.id == 13) {
+      if (model.id == 14) {
         NavTo(context, const FavouriteScreen());
       }
       if (model.id == 6) {
@@ -257,7 +316,7 @@ Widget HomeCard(HomeModel model, data, BuildContext context) {
               SizedBox(
                 height: context.height * 0.01,
               ),
-              (model.id != 13)
+              (model.id != 14)
                   ? Padding(
                       padding: const EdgeInsets.all(2.0),
                       child: Image(
@@ -265,7 +324,7 @@ Widget HomeCard(HomeModel model, data, BuildContext context) {
                         fit: BoxFit.contain,
                         width: context.width * 0.3,
                         height: context.height * 0.07,
-                        color: model.id == 8 || model.id == 1
+                        color: model.id == 8 || model.id == 1 || model.id == 13
                             ? null
                             : const Color(0xfff2e3a0),
                       ),
@@ -313,6 +372,12 @@ List<CategoryContentModel> NameOfAllahCategoryContentList = [
       title: "اسماء الله الحسني",
       JsonPath: 'assets/اسماء الله الحسني/Names_Of_Allah.json'),
 ];
+List<CategoryContentModel> Laylat_Al_QadrList = [
+  CategoryContentModel(
+      id: 1,
+      title: "ليلة القدر خير من ألف شهر",
+      JsonPath: 'assets/laylat_elqadr/Laylat-Al-Qadr.json'),
+];
 
 class HomeModel {
   final String image;
@@ -330,3 +395,59 @@ class HomeModel {
 //   double get width => MediaQuery.of(this).size.width;
 //   double get height => MediaQuery.of(this).size.height;
 // }
+final FlutterLocalNotificationsPlugin _notificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
+Future<void> requestPermissions() async {
+  // Check if the device is running Android
+  if (Platform.isAndroid) {
+    // Extract major version
+    AndroidDeviceInfo androidInfo = await DeviceInfoPlugin().androidInfo;
+    int sdkInt =
+        androidInfo.version.sdkInt; // ✅ This gives the correct API level
+
+    print(sdkInt);
+    if (sdkInt >= 23) {
+      await _notificationsPlugin
+          .resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>()
+          ?.requestNotificationsPermission();
+    }
+  }
+
+  // Request permission on iOS
+  if (Platform.isIOS) {
+    await _notificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            IOSFlutterLocalNotificationsPlugin>()
+        ?.requestPermissions(
+          alert: true,
+          badge: true,
+          sound: true,
+        );
+  }
+}
+  Future<void> showPermissionDialog(context) async {
+    showDialog(
+      context: context,
+      barrierDismissible: false, // Prevent closing without interaction
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("إذن الإشعارات", textAlign: TextAlign.center),
+          content: const Text(
+            "نحتاج إلى إذن لإرسال الإشعارات لك. يرجى السماح بذلك للاستفادة من جميع الميزات.",
+            textAlign: TextAlign.center,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () async {
+                Navigator.of(context).pop(); // Close dialog
+                await requestPermissions(); // Request notification permission
+              },
+              child: const Text("حسنا"),
+            ),
+          ],
+        );
+      },
+    );
+  }

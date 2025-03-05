@@ -42,7 +42,7 @@ class TimeWidget extends StatelessWidget {
               Text(
                 prayTime.toArabicNumbers,
                 textAlign: TextAlign.right,
-                style: GoogleFonts.notoNastaliqUrdu(
+                style: GoogleFonts.abel(
                   fontSize: 16.sp,
                 ),
               ),

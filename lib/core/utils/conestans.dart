@@ -307,15 +307,16 @@ List<int> noOfVerses = [
 ];
 
 List arabic = [];
-List malayalam = [];
+// List malayalam = [];
 List quran = [];
 
 Future readJson() async {
   final String response = await rootBundle.loadString(quranJson);
   final data = json.decode(response);
   arabic = data["quran"];
-  malayalam = data["malayalam"];
-  return quran = [arabic, malayalam];
+  // malayalam = data["malayalam"];
+  return quran = [arabic];
+  // return quran = [arabic, malayalam];
 }
 
 List<Surah> surahList = [];

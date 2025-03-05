@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:quran_v2/core/utils/assets_path.dart';
 import 'package:quran_v2/core/utils/strings.dart';
 
-import '../../core/utils/conestans.dart';
+import '../../../../core/utils/conestans.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);

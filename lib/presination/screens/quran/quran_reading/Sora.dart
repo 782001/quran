@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:quran/quran.dart' as quran;
 import 'package:quran_v2/core/responsive/screen_util.dart';
 import 'package:quran_v2/core/utils/media_query_values.dart';
-import 'package:quran_v2/presination/screens/surah_builder.dart';
+import 'package:quran_v2/presination/screens/quran/quran_reading/surah_builder.dart';
 
-import '../../core/utils/assets_path.dart';
-import '../../core/utils/conestans.dart';
-import '../../models/surah_model.dart';
-import '../widgets/arabic_sura_num.dart';
+import '../../../../core/utils/assets_path.dart';
+import '../../../../core/utils/conestans.dart';
+import '../../../../models/surah_model.dart';
+import '../../../widgets/arabic_sura_num.dart';
 
 class SurahPage extends StatefulWidget {
   final Surah surah;
@@ -75,25 +75,22 @@ class _SurahPageState extends State<SurahPage> {
           children: [
             const Background(),
             Positioned(
-              top: context.height * .03,
+              top: context.height * .035,
               left: context.width * .01,
               right: context.width * .01,
-              child: Text(
-                //
-                widget.surah.arabicName,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 22.sp,
-                    fontWeight: FontWeight.bold,
-                    color: const Color(0xff592c01),
-                    fontFamily: me_quranFont,
-                    shadows: const [
-                      Shadow(
-                        offset: Offset(1, 1),
-                        blurRadius: 2.0,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                    ]),
+              child: Center(
+                child: RichText(
+                  text: TextSpan(
+                    text: widget.surah.id.toString(),
+                    // textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 28.sp,
+                      fontWeight: FontWeight.bold,
+                      color: const Color(0xff592c01),
+                      fontFamily: arFont,
+                    ),
+                  ),
+                ),
               ),
             ),
           ],

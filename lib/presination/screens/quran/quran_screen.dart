@@ -3,8 +3,8 @@ import 'package:quran_v2/core/shared/components.dart';
 import 'package:quran_v2/core/utils/assets_path.dart';
 import 'package:quran_v2/core/utils/media_query_values.dart';
 import 'package:quran_v2/core/utils/strings.dart';
-import 'package:quran_v2/presination/screens/Quran_reading_HomeScreen.dart';
-import 'package:quran_v2/presination/screens/quran_audio_screens/audio_surah_list_screen%20.dart';
+import 'package:quran_v2/presination/screens/quran/quran_reading/Quran_reading_HomeScreen.dart';
+import 'package:quran_v2/presination/screens/quran/quran_audio_screens/audio_surah_list_screen%20.dart';
 
 class QuranScreen extends StatelessWidget {
   const QuranScreen({

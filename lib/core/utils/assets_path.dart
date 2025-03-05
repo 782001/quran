@@ -2,6 +2,7 @@ const String imageAssetsRoot = "assets/images/";
 const String TextAssetsRoot = "assets/text/";
 const String me_quranFont = "me_quran";
 const String quranFont = "quran";
+const String arFont = "arFont";
 
 String quranImage = _getAssetsImagePath('quran.png');
 String SplashImage = _getAssetsImagePath('splash.png');
@@ -13,6 +14,7 @@ String ahadesImage = _getAssetsImagePath('ahades.jpg');
 
 String hag_omraImage = _getAssetsImagePath('hag_omra.jpg');
 String qssIslamicImage = _getAssetsImagePath('qssIslamic.png');
+String laylatElqadrImage = _getAssetsImagePath('laylatElqadr.png');
 String masjed_icon = _getAssetsImagePath('masjed_icon.png');
 String namesOfAllahImage = _getAssetsImagePath('Names_Of_Allah.jpg');
 String audioBackgroundImage = _getAssetsImagePath('audioBackground.jpg');

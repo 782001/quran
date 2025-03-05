@@ -1,13 +1,15 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:quran_v2/core/shared/components.dart';
 import 'package:quran_v2/core/utils/media_query_values.dart';
 import 'package:quran_v2/core/utils/strings.dart';
+import 'package:quran_v2/presination/screens/newContent/notification_screen.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/utils/assets_path.dart';
 import '../../core/utils/conestans.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({
@@ -60,7 +62,7 @@ class MyDrawer extends StatelessWidget {
               color: Color(0xff592c01),
             ),
             title: Text(
-              'مشاركه',
+              'مشاركة التطبيق',
               style: TextStyle(
                 fontFamily: cairoFont,
                 fontSize: context.width * 0.04,
@@ -101,7 +103,7 @@ class MyDrawer extends StatelessWidget {
               color: Color(0xff592c01),
             ),
             title: Text(
-              'للتواصل',
+              'للتواصل مع مطور التطبيق',
               style: TextStyle(
                 fontFamily: cairoFont,
                 fontSize: context.width * 0.04,
@@ -136,6 +138,25 @@ class MyDrawer extends StatelessWidget {
                   mode: LaunchMode.externalApplication)) {
                 throw 'Could not launch $privacyurl';
               }
+            },
+          ),
+
+          ListTile(
+            leading: const Icon(
+              Icons.notifications,
+              color: Color(0xff592c01),
+            ),
+            title: Text(
+              "إعدادات الإشعارات",
+              style: TextStyle(
+                fontFamily: cairoFont,
+                fontSize: context.width * 0.04,
+                color: const Color(0xff592c01),
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            onTap: () async {
+              NavTo(context, const ScheduleNotificationScreen());
             },
           ),
         ],

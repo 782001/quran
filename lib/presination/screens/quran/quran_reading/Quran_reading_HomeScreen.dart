@@ -9,17 +9,17 @@ import 'package:quran_v2/core/utils/media_query_values.dart';
 import 'package:quran_v2/core/utils/strings.dart';
 import 'package:quran_v2/presination/controller/app_cubit.dart';
 import 'package:quran_v2/presination/controller/app_states.dart';
-import 'package:quran_v2/presination/screens/no_book_mark_screen.dart';
-import 'package:quran_v2/presination/screens/search_screen.dart';
-import 'package:quran_v2/presination/screens/settings.dart';
+import 'package:quran_v2/presination/screens/quran/quran_reading/no_book_mark_screen.dart';
+import 'package:quran_v2/presination/screens/quran/quran_reading/search_screen.dart';
+import 'package:quran_v2/presination/screens/quran/quran_reading/settings.dart';
 import 'package:quran_v2/presination/widgets/sliver_delegate.dart';
 import 'package:quran_v2/presination/widgets/to_arabic_no_converter.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../core/shared/components.dart';
-import '../../core/utils/assets_path.dart';
-import '../../core/utils/conestans.dart';
+import '../../../../core/shared/components.dart';
+import '../../../../core/utils/assets_path.dart';
+import '../../../../core/utils/conestans.dart';
 import 'Sora.dart';
 import 'surah_builder.dart';
 
@@ -425,6 +425,40 @@ class _QuranHomeScreenWidgtState extends State<QuranHomeScreenWidgt> {
               (searchQuery.length > 3 || searchQuery.toString().contains(" "))
                   ? SliverList(
                       delegate: SliverChildListDelegate([
+                      Padding(
+                        padding: const EdgeInsetsDirectional.only(
+                            start: 20.0, end: 20),
+                        child: Row(
+                          textDirection: TextDirection.rtl,
+                          children: [
+                            const Text(
+                              "عدد النتائج  : ",
+                              textDirection: TextDirection.rtl,
+                              style: TextStyle(
+                                color: Colors.black,
+                                // fontFamily: "uthmanic",
+                                fontSize: 20,
+                                fontFamily: me_quranFont,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              (ayatFiltered["occurences"])
+                                  .toString()
+                                  .toArabicNumbers,
+                              textDirection: TextDirection.rtl,
+                              style: const TextStyle(
+                                color: Colors.black,
+                                // fontFamily: "uthmanic",
+                                fontSize: 20,
+                                fontFamily: cairoFont,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                       SizedBox(
                         height: context.height * 0.65,
                         child: ListView.builder(
@@ -557,13 +591,23 @@ Widget BuildSuraName() {
               //  (surahList[index].revelationPlace.toString()),
             ],
           ),
-          trailing: AutoSizeText(
-            surahList[index].arabicName,
-            style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-                fontFamily: me_quranFont),
+          trailing: RichText(
+            text: TextSpan(
+              text: surahList[index].id.toString(),
+              style: TextStyle(
+                  // fontWeight: FontWeight.bold,
+                  color: Colors.black, //fontWeight: FontWeight.bold,
+                  fontSize: 28.sp, // Text color
+                  fontFamily: arFont),
+            ),
           ),
+          // trailing: AutoSizeText(
+          //   surahList[index].id.toString(),
+          //   style: const TextStyle(
+          //       fontSize: 20,
+          //       fontWeight: FontWeight.w500,
+          //       fontFamily: arFont),
+          // ),
           // onTap: () {
           //   fabIsClicked = false;
           //   Navigator.push(

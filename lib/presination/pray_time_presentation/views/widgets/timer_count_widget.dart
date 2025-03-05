@@ -7,6 +7,7 @@ import 'package:quran_v2/core/responsive/screen_util.dart';
 import 'package:quran_v2/core/utils/app_theme_colors.dart';
 import 'package:quran_v2/core/utils/assets_path.dart';
 import 'package:quran_v2/presination/pray_time_presentation/controller/pray_time_cubit.dart';
+import 'package:quran_v2/presination/widgets/to_arabic_no_converter.dart';
 
 import '../constance/functions.dart';
 
@@ -144,77 +145,86 @@ class _TimerCountWidgetState
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(
-          width: 3.w,
-        ),
-        Stack(
-          alignment: AlignmentDirectional.center,
-          children: [
-            const SizedBox(
-              width: 4,
-            ),
-            CircleAvatar(
-              radius: 50.sp,
-              backgroundColor: MyColors.darkBrown,
-            ),
-            CircleAvatar(
-              radius: 43.sp,
-              backgroundColor: widget.color,
-              child: Text(
-                getPrayArabicName(widget.cubit.nextPray!.name),
-                textAlign: TextAlign.right,
-                style: GoogleFonts.notoNastaliqUrdu(
-                  fontSize: 22.sp,
-                ),
+    if (_hours == 0 && _minutes == 0 && _seconds == 0) {
+      widget.cubit.fetchPrayData(context).then((value) => setState(() {}));
+    }
+
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: 3.w,
+          ),
+          Stack(
+            alignment: AlignmentDirectional.center,
+            children: [
+              SizedBox(
+                width: 4.w,
               ),
-            ),
-          ],
-        ),
-        // SizedBox(
-        //   width: 25.w,
-        // ),
-        const Spacer(),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'الصلاة القادمة',
-              textAlign: TextAlign.right,
-              style: GoogleFonts.noticiaText(
-                fontWeight: FontWeight.w400,
-                fontSize: 28.sp,
-                color: MyColors.darkBrown,
+              CircleAvatar(
+                radius: 50.sp,
+                backgroundColor: MyColors.darkBrown,
               ),
-            ),
-            Row(
-              children: [
-                Text(
-                  '$_hours:$_minutes:$_seconds',
+              CircleAvatar(
+                radius: 43.sp,
+                backgroundColor: widget.color,
+                child: Text(
+                  getPrayArabicName(widget.cubit.nextPray!.name),
                   textAlign: TextAlign.right,
-                  style: GoogleFonts.noticiaText(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 25.sp,
-                    color: MyColors.darkBrown,
+                  style: GoogleFonts.notoNastaliqUrdu(
+                    fontSize: 22.sp,
                   ),
                 ),
-                SizedBox(
-                  width: 5.w,
+              ),
+            ],
+          ),
+          // SizedBox(
+          //   width: 25.w,
+          // ),
+          SizedBox(
+            width: 4.w,
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'الصلاة القادمة',
+                textAlign: TextAlign.right,
+                style: GoogleFonts.noticiaText(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 28.sp,
+                  color: MyColors.darkBrown,
                 ),
-                Image.asset(
-                  timer_icon,
-                  width: MediaQuery.of(context).size.width * 0.14,
-                ),
-              ],
-            ),
-          ],
-        ),
-        SizedBox(
-          width: 3.w,
-        ),
-      ],
+              ),
+              Row(
+                children: [
+                  Text(
+                    '${_hours.toArabicNumbers}:${_minutes.toArabicNumbers}:${_seconds.toArabicNumbers}',
+                    textAlign: TextAlign.right,
+                    style: GoogleFonts.noticiaText(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 25.sp,
+                      color: MyColors.darkBrown,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 5.w,
+                  ),
+                  Image.asset(
+                    timer_icon,
+                    width: MediaQuery.of(context).size.width * 0.14,
+                  ),
+                ],
+              ),
+            ],
+          ),
+          SizedBox(
+            width: 3.w,
+          ),
+        ],
+      ),
     );
   }
 }

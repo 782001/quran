@@ -13,7 +13,7 @@ class QuranAudioModel {
 }
 
 class SurahAudio {
-  final String surahId;
+  final int surahId;
   final String surahNameAr;
   final List<ReciterAudio> reciters;
 
