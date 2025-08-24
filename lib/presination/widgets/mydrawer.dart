@@ -97,27 +97,27 @@ class MyDrawer extends StatelessWidget {
               }
             },
           ),
-          ListTile(
-            leading: const Icon(
-              Icons.contact_support,
-              color: Color(0xff592c01),
-            ),
-            title: Text(
-              'للتواصل مع مطور التطبيق',
-              style: TextStyle(
-                fontFamily: cairoFont,
-                fontSize: context.width * 0.04,
-                color: const Color(0xff592c01),
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            onTap: () async {
-              if (!await launchUrl(contacturl,
-                  mode: LaunchMode.externalApplication)) {
-                throw 'Could not launch $contacturl';
-              }
-            },
-          ),
+          // ListTile(
+          //   leading: const Icon(
+          //     Icons.contact_support,
+          //     color: Color(0xff592c01),
+          //   ),
+          //   title: Text(
+          //     'للتواصل مع مطور التطبيق',
+          //     style: TextStyle(
+          //       fontFamily: cairoFont,
+          //       fontSize: context.width * 0.04,
+          //       color: const Color(0xff592c01),
+          //       fontWeight: FontWeight.bold,
+          //     ),
+          //   ),
+          //   onTap: () async {
+          //     if (!await launchUrl(contacturl,
+          //         mode: LaunchMode.externalApplication)) {
+          //       throw 'Could not launch $contacturl';
+          //     }
+          //   },
+          // ),
 
           ListTile(
             leading: const Icon(

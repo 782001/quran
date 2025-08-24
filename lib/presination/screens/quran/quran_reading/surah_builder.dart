@@ -1,5 +1,4 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, curly_braces_in_flow_control_structures, non_constant_identifier_names, depend_on_referenced_packages
-
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
@@ -10,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:quran/quran.dart' as quran;
 import 'package:quran/quran.dart';
 import 'package:quran_v2/core/shared/components.dart';
 import 'package:quran_v2/core/utils/app_theme_colors.dart';
@@ -17,6 +17,7 @@ import 'package:quran_v2/core/utils/media_query_values.dart';
 import 'package:quran_v2/core/utils/strings.dart';
 import 'package:quran_v2/main.dart';
 import 'package:quran_v2/presination/widgets/sura_audio_player.dart';
+import 'package:quran_v2/presination/widgets/to_arabic_no_converter.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:sizer/sizer.dart';
@@ -138,21 +139,22 @@ class verseBuilder extends StatelessWidget {
   const verseBuilder(
       {super.key,
       required this.index,
+      required this.sura,
       required this.previousVerses,
       required this.arabic});
   final int index;
-  final previousVerses;
+  final int sura;
+  final int previousVerses;
   final arabic;
   @override
   Widget build(BuildContext context) {
     String fixedAyaText = "";
     if (arabic[index + previousVerses]['sura_no'] == 7 &&
         arabic[index + previousVerses]['aya_no'] == 46) {
-      fixedAyaText = arabic[index + previousVerses]['aya_text']
-          .replaceAll('\ue45e', ''); // Zero Width Space (ZWSP)
+      fixedAyaText =
+          "${quran.getVerse(7, 46, verseEndSymbol: false)}\ufd3f${46.toString().toArabicNumbers}\ufd3e";
     }
 
-    // Removes extra "ن"
     return Row(
       children: [
         Expanded(
@@ -166,8 +168,14 @@ class verseBuilder extends StatelessWidget {
                     : arabic[index + previousVerses]['aya_text'],
                 textDirection: TextDirection.rtl,
                 style: TextStyle(
-                  fontSize: mushafFontSize,
-                  fontFamily: arabicFont,
+                  fontSize: arabic[index + previousVerses]['sura_no'] == 7 &&
+                          arabic[index + previousVerses]['aya_no'] == 46
+                      ? mushafFontSize - 10
+                      : mushafFontSize,
+                  fontFamily: arabic[index + previousVerses]['sura_no'] == 7 &&
+                          arabic[index + previousVerses]['aya_no'] == 46
+                      ? me_quranFont
+                      : arabicFont,
                   color: const Color.fromARGB(196, 0, 0, 0),
                 ),
               ),
@@ -369,6 +377,7 @@ class _SingleSuraBuildeState extends State<SingleSuraBuilder> {
                                         padding: const EdgeInsets.all(8.0),
                                         child: verseBuilder(
                                           index: index,
+                                          sura: widget.sura,
                                           previousVerses: previousVerses,
                                           arabic: arabic,
                                         ),
@@ -377,11 +386,14 @@ class _SingleSuraBuildeState extends State<SingleSuraBuilder> {
                                             PopupMenuItem(
                                               onTap: () async {
                                                 log("${widget.sura + 1}");
-                                                log("${index + previousVerses + 1}");
+                                                log("${arabic[index + previousVerses]['aya_no']}");
+
                                                 String textToCopy = getVerse(
                                                     widget.sura + 1,
-                                                    index + previousVerses + 1,
-                                                    verseEndSymbol: false);
+                                                    arabic[index +
+                                                            previousVerses]
+                                                        ['aya_no'],
+                                                    verseEndSymbol: true);
                                                 log(textToCopy);
                                                 await Clipboard.setData(
                                                     ClipboardData(
@@ -560,7 +572,7 @@ class _SingleSuraBuildeState extends State<SingleSuraBuilder> {
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                             fontSize: mushafFontSize,
-                                            fontFamily: arabicFont,
+                                            fontFamily: "Taha",
                                             color: const Color.fromARGB(
                                                 196, 44, 44, 44),
                                           ),

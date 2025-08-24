@@ -4,8 +4,9 @@ import 'package:quran_v2/core/utils/conestans.dart';
 import 'package:quran_v2/core/utils/media_query_values.dart';
 import 'package:quran_v2/core/utils/strings.dart';
 import 'package:quran_v2/presination/widgets/to_arabic_no_converter.dart';
+import 'package:share_plus/share_plus.dart';
 // import 'package:share_plus/share_plus.dart';
-import 'package:share/share.dart';
+// import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DisplayContentScreen extends StatefulWidget {

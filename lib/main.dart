@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:io';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -164,13 +165,26 @@ Future<void> main() async {
     callbackDispatcher,
     isInDebugMode: false, // Set to false in production
   );
+    // Extract major version
+    AndroidDeviceInfo androidInfo = await DeviceInfoPlugin().androidInfo;
+    int sdkInt =
+        androidInfo.version.sdkInt; // ✅ This gives the correct API level
 
-  // Schedule background tasks
+    print(sdkInt);
+    if (sdkInt >= 26) {
+    Workmanager().initialize(
+    callbackDispatcher,
+    isInDebugMode: false, // Set to false in production
+  );
+ // Schedule background tasks  
   Workmanager().registerPeriodicTask(
     "scheduled_notifications",
     "show_notifications",
     frequency: const Duration(minutes: 15), // Min interval is 15 min on Android
-  );
+  ); }
+ 
+  
+ 
 
   runApp(const MyApp());
 }

@@ -144,20 +144,29 @@ class PrayTimeScreen extends StatelessWidget {
                             ) ...[
                           Padding(
                             padding: const EdgeInsets.all(10.0),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: MediaQuery.of(context).size.height * 0.17,
-                              decoration: BoxDecoration(
-                                color: MyColors.lightBrown,
+                            child: Card(
+                              shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20),
                               ),
-                              child: TimerCountWidget(
-                                cubit: cubit,
-                                color: MyColors.appBackGroundColor,
+                              color: MyColors.lightBrown,
+                              child: SizedBox(
+                                width: MediaQuery.of(context).size.width * .85,
+                                // height:
+                                //     MediaQuery.of(context).size.height * 0.17,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: TimerCountWidget(
+                                    cubit: cubit,
+                                    color: MyColors.appBackGroundColor,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
                         ],
+                        const SizedBox(
+                          height: 30,
+                        ),
                       ],
                     ),
                   ),

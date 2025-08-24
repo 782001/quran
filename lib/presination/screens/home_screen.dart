@@ -1,8 +1,11 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:quran_v2/core/services/notification_helper.dart';
 import 'package:quran_v2/core/shared/components.dart';
 import 'package:quran_v2/core/utils/app_theme_colors.dart';
@@ -26,7 +29,6 @@ import 'package:quran_v2/presination/screens/quran/quran_screen.dart';
 import 'package:quran_v2/presination/widgets/CategoryContent.dart';
 import 'package:quran_v2/presination/widgets/DisplayContentScreen.dart';
 import 'package:quran_v2/presination/widgets/mydrawer.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -203,6 +205,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
+   
     );
   }
 }
@@ -234,6 +237,7 @@ Widget HomeCard(HomeModel model, data, BuildContext context) {
             context,
             QuranScreen(
               data: data,
+      
             ));
       }
       if (model.id == 14) {
@@ -427,27 +431,66 @@ Future<void> requestPermissions() async {
         );
   }
 }
-  Future<void> showPermissionDialog(context) async {
-    showDialog(
-      context: context,
-      barrierDismissible: false, // Prevent closing without interaction
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text("إذن الإشعارات", textAlign: TextAlign.center),
-          content: const Text(
-            "نحتاج إلى إذن لإرسال الإشعارات لك. يرجى السماح بذلك للاستفادة من جميع الميزات.",
-            textAlign: TextAlign.center,
-          ),
-          actions: [
-            TextButton(
-              onPressed: () async {
-                Navigator.of(context).pop(); // Close dialog
-                await requestPermissions(); // Request notification permission
-              },
-              child: const Text("حسنا"),
+
+Future<void> showPermissionDialog(context) async {
+  showDialog(
+    context: context,
+    barrierDismissible: false, // Prevent closing without interaction
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text("إذن الإشعارات",
+            style: TextStyle(
+              fontFamily: cairoFont,
+              fontSize: context.width * 0.06,
+              color: MyColors.babyBrown,
+              fontWeight: FontWeight.bold,
             ),
-          ],
-        );
-      },
-    );
-  }
+            textAlign: TextAlign.center),
+        content: Text(
+          "نحتاج إلى إذن لإرسال الإشعارات لك. يرجى السماح بذلك للاستفادة من جميع الميزات.",
+          style: TextStyle(
+            fontFamily: cairoFont,
+            fontSize: context.width * 0.04,
+            color: MyColors.babyBrown,
+            fontWeight: FontWeight.bold,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () async {
+              Navigator.of(context).pop(); // Close dialog
+              await requestPermissions(); // Request notification permission
+            },
+            child: Text(
+              "حسنا",
+              style: TextStyle(
+                fontFamily: cairoFont,
+                fontSize: context.width * 0.06,
+                color: MyColors.babyBrown,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          // const Spacer(),
+          TextButton(
+            onPressed: () async {
+              Navigator.of(context).pop(); // Close dialog
+            },
+            child: Text(
+              "لاحقا",
+              style: TextStyle(
+                fontFamily: cairoFont,
+                fontSize: context.width * 0.06,
+                color: Colors.red,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ],
+      );
+    },
+  );
+}
