@@ -239,7 +239,7 @@ class _SingleSuraBuildeState extends State<SingleSuraBuilder> {
   var isDeviceConnected = false;
   bool isAlertSet = false;
   List<dynamic> tafseerData = [];
-
+  bool isLoading = false;
   Stream<PossitionData> get _positionDataStream =>
       Rx.combineLatest3<Duration, Duration, Duration?, PossitionData>(
           _audioPlayer.positionStream,
@@ -250,22 +250,37 @@ class _SingleSuraBuildeState extends State<SingleSuraBuilder> {
   String? audioUrl;
   String tafserText = "";
   Future<void> playAyaAudio(int suraNumper, int verseIndex) async {
-    audioUrl = getAudioURLByVerse(suraNumper, verseIndex, "ar.minshawi") ?? "";
-    log(audioUrl ?? "");
-    // _audioPlayer = AudioPlayer()..setUrl(audioUrl);
-    Uri assetUri = await getAssetUri('assets/images/quran.png');
-    await _audioPlayer.setAudioSource(AudioSource.uri(
-      Uri.parse(audioUrl ?? ""),
-      tag: MediaItem(
-          playable: true,
-          id: '1',
-          album: widget.suraName,
-          title: "آية رقم $verseIndex",
-          artUri: assetUri),
-    ));
-    _audioPlayer.positionStream;
-    _audioPlayer.bufferedPositionStream;
-    _audioPlayer.durationStream;
+    setState(() {
+      isLoading = true; // بدأ التحميل
+    });
+    try {
+      audioUrl =
+          getAudioURLByVerse(suraNumper, verseIndex, "ar.minshawi") ?? "";
+      log(audioUrl ?? "");
+      // _audioPlayer = AudioPlayer()..setUrl(audioUrl);
+      Uri assetUri = await getAssetUri('assets/images/quran.png');
+      await _audioPlayer.setAudioSource(AudioSource.uri(
+        Uri.parse(audioUrl ?? ""),
+        tag: MediaItem(
+            playable: true,
+            id: '1',
+            album: widget.suraName,
+            title: "آية رقم $verseIndex",
+            artUri: assetUri),
+      ));
+      _audioPlayer.positionStream;
+      _audioPlayer.bufferedPositionStream;
+      _audioPlayer.durationStream;
+    } catch (e) {
+      log("Error in playAyaAudio: $e");
+      setState(() {
+        isLoading = false; // انتهى التحميل
+      });
+    } finally {
+      setState(() {
+        isLoading = false; // انتهى التحميل
+      });
+    }
     // _audioPlayer.play;
   }
 
@@ -298,13 +313,14 @@ class _SingleSuraBuildeState extends State<SingleSuraBuilder> {
   }
 
   void _onItemPositionChanged() {
-    if (!mounted) return; // Prevent setState after dispose
+    if (!mounted) return;
     final positions = itemPositionsListener.itemPositions.value;
-    if (positions.isNotEmpty) {
-      int firstVisibleIndex = positions
-          .where((pos) => pos.itemLeadingEdge >= 0)
+    final visiblePositions = positions.where((pos) => pos.itemLeadingEdge >= 0);
+
+    if (visiblePositions.isNotEmpty) {
+      int firstVisibleIndex = visiblePositions
           .map((pos) => pos.index)
-          .reduce((min, index) => index); // Get the first visible item
+          .reduce((a, b) => a < b ? a : b);
 
       setState(() {
         widget.ayahindex = firstVisibleIndex;
@@ -583,7 +599,47 @@ class _SingleSuraBuildeState extends State<SingleSuraBuilder> {
                           ],
                         ),
                 ),
-                audioUrl?.contains("https://cdn.islamic.") ?? false
+                if (isLoading)
+                  Positioned(
+                    bottom: 150, // بعيد شوية عن الأسفل
+                    right: 20,
+                    left: 20,
+                    child: Container(
+                      padding: const EdgeInsets.all(16), // مساحة داخلية
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color:
+                            Colors.white.withOpacity(0.9), // خلفية شفافة فاتحة
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 10,
+                            offset: Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircularProgressIndicator(
+                            color: Color(0xffD87C33), // لون إبداعي جذاب
+                          ),
+                          SizedBox(width: 16),
+                          Text(
+                            "... جاري تحميل الصوت",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xff592c01),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                (!isLoading) &&
+                        (audioUrl?.contains("https://cdn.islamic.") ?? false)
                     ? Positioned(
                         bottom: 1,
                         right: 0,

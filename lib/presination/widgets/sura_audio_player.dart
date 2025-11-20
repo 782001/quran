@@ -11,6 +11,7 @@ import 'package:just_audio_background/just_audio_background.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:quran_v2/core/shared/components.dart';
 import 'package:quran_v2/core/utils/app_theme_colors.dart';
+import 'package:quran_v2/presination/screens/quran/quran_reading/surah_builder.dart';
 import 'package:rxdart/rxdart.dart';
 
 Future<Uri> getAssetUri(String assetPath) async {
@@ -406,12 +407,6 @@ class PossitionData {
   final Duration duration;
 
   const PossitionData(this.position, this.bufferedPosition, this.duration);
-}
-
-class AudioService {
-  static final AudioPlayer _player = AudioPlayer();
-
-  static AudioPlayer get instance => _player;
 }
 
 //------------------ Hizb Data ---------------------

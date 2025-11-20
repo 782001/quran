@@ -20,15 +20,24 @@ class AppCubit extends Cubit<AppStates> {
     emit(InitState());
   }
 
-  jumbToAyah(ayah) {
+  jumbToAyah(ayah) async {
     if (fabIsClicked) {
-      itemScrollController.scrollTo(
+      if (itemScrollController.isAttached) {
+        itemScrollController.scrollTo(
           index: ayah,
           duration: const Duration(seconds: 2),
-          curve: Curves.easeInOutCubic);
+          curve: Curves.easeInOutCubic,
+        );
+      } else {
+        // انتظر لحد ما يجهز
+        Future.delayed(const Duration(milliseconds: 100), () {
+          jumbToAyah(ayah);
+        });
+        return;
+      }
     }
-    fabIsClicked = false;
 
+    fabIsClicked = false;
     emit(JumbToState());
   }
 
