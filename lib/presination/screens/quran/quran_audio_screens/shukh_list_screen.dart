@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:quran_v2/core/shared/components.dart';
@@ -74,10 +76,10 @@ class _ReciterListScreenState extends State<ReciterListScreen> {
       suraNum = "$sura";
     }
     switch (audioValue) {
-      // case "محمد صديق المنشاوي - مجود":
-      //   return "https://server10.mp3quran.net/minsh/Almusshaf-Al-Mojawwad/$suraNum.mp3";
-      // case "محمد صديق المنشاوي - مرتل":
-      //   return "https://server10.mp3quran.net/minsh/$suraNum.mp3";
+      case "محمد صديق المنشاوي - مجود":
+        return "https://server10.mp3quran.net/minsh/Almusshaf-Al-Mojawwad/$suraNum.mp3";
+      case "محمد صديق المنشاوي - مرتل":
+        return "https://server10.mp3quran.net/minsh/$suraNum.mp3";
       case "الحصري - مجود":
         return "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/$suraNum.mp3";
       case "الحصري - مرتل":
@@ -218,6 +220,7 @@ class _ReciterListScreenState extends State<ReciterListScreen> {
                                 reciterName: reciter.reciterName,
                               ),
                             );
+                            log("Audio URL: ${reciter.audioUrl}");
                           },
                         );
                       },

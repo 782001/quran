@@ -61,6 +61,7 @@ class _SuraAudioPlayerState extends State<SuraAudioPlayer> {
     super.initState();
 
     audioPlayer = AudioPlayer();
+
     _initializeAudioPlayer();
 
     // Listen for changes in player state
@@ -100,9 +101,7 @@ class _SuraAudioPlayerState extends State<SuraAudioPlayer> {
               title: widget.shekhNam,
               artUri: assetUri,
             ),
-     
-               headers: {"User-Agent": "Mozilla/5.0"},
-            
+            headers: {"User-Agent": "Mozilla/5.0"},
           ),
           preload: true);
 

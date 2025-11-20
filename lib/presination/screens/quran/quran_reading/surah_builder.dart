@@ -55,57 +55,54 @@ class _SurahBuilderState extends State<SurahBuilder> {
           var cubit = AppCubit.get(context);
           var view = AppCubit.get(context).view;
 
-          return Scaffold(
-            appBar: AppBar(
-              // backgroundColor: const Color(0xff14697B),
-              // actions: [
-              //   IconButton(
-              //       onPressed: () {
-              //         Navigator.push(context,
-              //             MaterialPageRoute(builder: (context) => Settings()));
-              //       },
-              //       icon: Icon(
-              //         Icons.settings,
-              //       )),
-              // ],
-              // leading: Tooltip(
-              //   message: 'مشاف',
-              //   child: TextButton(
-              //     child: const Icon(
-              //       Icons.chrome_reader_mode,
-              //       color: Colors.white,
-              //     ),
-              //     onPressed: () {
-              //       cubit.ChangeView();
+          return SafeArea(
+            child: Scaffold(
+              appBar: AppBar(
+                // backgroundColor: const Color(0xff14697B),
+                // actions: [
+                //   IconButton(
+                //       onPressed: () {
+                //         Navigator.push(context,
+                //             MaterialPageRoute(builder: (context) => Settings()));
+                //       },
+                //       icon: Icon(
+                //         Icons.settings,
+                //       )),
+                // ],
+                // leading: Tooltip(
+                //   message: 'مشاف',
+                //   child: TextButton(
+                //     child: const Icon(
+                //       Icons.chrome_reader_mode,
+                //       color: Colors.white,
+                //     ),
+                //     onPressed: () {
+                //       cubit.ChangeView();
 
-              //       // setState(() {
-              //       //   view = !view;
-              //       // });
-              //     },
-              //   ),
-              // ),
-              leading: Builder(
-                builder: (BuildContext context) {
-                  return IconButton(
-                    icon: const Icon(
-                      Icons.arrow_back_ios,
-                      color: Colors.transparent,
-                    ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-                  );
-                },
-              ),
-              flexibleSpace: Stack(
-                children: [
-                  const Background(),
-                  Positioned(
-                    top: context.height * .035,
-                    left: context.width * .01,
-                    right: context.width * .01,
-                    child: Center(
+                //       // setState(() {
+                //       //   view = !view;
+                //       // });
+                //     },
+                //   ),
+                // ),
+                leading: Builder(
+                  builder: (BuildContext context) {
+                    return IconButton(
+                      icon: const Icon(
+                        Icons.arrow_back_ios,
+                        color: Colors.transparent,
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+                    );
+                  },
+                ),
+                flexibleSpace: Stack(
+                  children: [
+                    const Background(),
+                    Center(
                       child: RichText(
                         text: TextSpan(
                           text: (widget.sura + 1).toString(),
@@ -117,16 +114,16 @@ class _SurahBuilderState extends State<SurahBuilder> {
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            body: SingleSuraBuilder(
-              view: view,
-              sura: widget.sura,
-              arabic: widget.arabic,
-              LenghtOfSura: LengthOfSura,
-              suraName: widget.suraName,
+              body: SingleSuraBuilder(
+                view: view,
+                sura: widget.sura,
+                arabic: widget.arabic,
+                LenghtOfSura: LengthOfSura,
+                suraName: widget.suraName,
+              ),
             ),
           );
         },
@@ -250,20 +247,20 @@ class _SingleSuraBuildeState extends State<SingleSuraBuilder> {
           _audioPlayer.durationStream,
           (position, bufferedPosition, duration) => PossitionData(
               position, bufferedPosition, duration ?? Duration.zero));
-  String audioUrl = "";
+  String? audioUrl;
   String tafserText = "";
   Future<void> playAyaAudio(int suraNumper, int verseIndex) async {
-    audioUrl = getAudioURLByVerse(suraNumper, verseIndex, "ar.minshawi");
-    print(audioUrl);
-    _audioPlayer = AudioPlayer()..setUrl(audioUrl);
+    audioUrl = getAudioURLByVerse(suraNumper, verseIndex, "ar.minshawi") ?? "";
+    log(audioUrl ?? "");
+    // _audioPlayer = AudioPlayer()..setUrl(audioUrl);
     Uri assetUri = await getAssetUri('assets/images/quran.png');
     await _audioPlayer.setAudioSource(AudioSource.uri(
-      Uri.parse(audioUrl),
+      Uri.parse(audioUrl ?? ""),
       tag: MediaItem(
           playable: true,
           id: '1',
           album: widget.suraName,
-          title: "ايه رقم $verseIndex",
+          title: "آية رقم $verseIndex",
           artUri: assetUri),
     ));
     _audioPlayer.positionStream;
@@ -586,7 +583,7 @@ class _SingleSuraBuildeState extends State<SingleSuraBuilder> {
                           ],
                         ),
                 ),
-                audioUrl.contains("https://cdn.islamic.")
+                audioUrl?.contains("https://cdn.islamic.") ?? false
                     ? Positioned(
                         bottom: 1,
                         right: 0,
@@ -753,23 +750,23 @@ class Controls extends StatelessWidget {
               child: ElevatedButton(
                   style: ButtonStyle(
                     //padding: EdgeInsets.all(10.0),
-                    backgroundColor: MaterialStateProperty.all(
+                    backgroundColor: WidgetStateProperty.all(
                       const Color(0xff592c01),
                     ),
-                    textStyle: MaterialStateProperty.all(
+                    textStyle: WidgetStateProperty.all(
                         const TextStyle(color: Colors.white)),
-                    elevation: MaterialStateProperty.resolveWith<double>(
-                      (Set<MaterialState> states) {
+                    elevation: WidgetStateProperty.resolveWith<double>(
+                      (Set<WidgetState> states) {
                         // if the button is pressed the elevation is 10.0, if not
                         // it is 5.0
-                        if (states.contains(MaterialState.pressed)) {
+                        if (states.contains(WidgetState.pressed)) {
                           return 10.0;
                         }
                         return 0;
                       },
                     ),
                     // textColor: Colors.white,
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                         // side: const BorderSide(
@@ -803,23 +800,23 @@ class Controls extends StatelessWidget {
               child: ElevatedButton(
                   style: ButtonStyle(
                     //padding: EdgeInsets.all(10.0),
-                    backgroundColor: MaterialStateProperty.all(
+                    backgroundColor: WidgetStateProperty.all(
                       const Color(0xff592c01),
                     ),
-                    textStyle: MaterialStateProperty.all(
+                    textStyle: WidgetStateProperty.all(
                         const TextStyle(color: Colors.white)),
-                    elevation: MaterialStateProperty.resolveWith<double>(
-                      (Set<MaterialState> states) {
+                    elevation: WidgetStateProperty.resolveWith<double>(
+                      (Set<WidgetState> states) {
                         // if the button is pressed the elevation is 10.0, if not
                         // it is 5.0
-                        if (states.contains(MaterialState.pressed)) {
+                        if (states.contains(WidgetState.pressed)) {
                           return 10.0;
                         }
                         return 0;
                       },
                     ),
                     // textColor: Colors.white,
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                         // side: const BorderSide(
@@ -848,7 +845,7 @@ class Background extends StatelessWidget {
     return Image.asset(
       'assets/images/suraBackground.jpg',
       fit: BoxFit.fill,
-      height: 100,
+      height: 70,
       width: size.width,
     );
   }

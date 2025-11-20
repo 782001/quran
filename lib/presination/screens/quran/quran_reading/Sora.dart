@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quran/quran.dart' as quran;
 import 'package:quran_v2/core/responsive/screen_util.dart';
-import 'package:quran_v2/core/utils/media_query_values.dart';
 import 'package:quran_v2/presination/screens/quran/quran_reading/surah_builder.dart';
 
 import '../../../../core/utils/assets_path.dart';
@@ -27,58 +26,55 @@ class _SurahPageState extends State<SurahPage> {
     int count = widget.surah.versesCount;
     int index = widget.surah.id;
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        // backgroundColor: const Color(0xff14697B),
-        // actions: [
-        //   IconButton(
-        //       onPressed: () {
-        //         Navigator.push(context,
-        //             MaterialPageRoute(builder: (context) => Settings()));
-        //       },
-        //       icon: Icon(
-        //         Icons.settings,
-        //       )),
-        // ],
-        // leading: Tooltip(
-        //   message: 'مشاف',
-        //   child: TextButton(
-        //     child: const Icon(
-        //       Icons.chrome_reader_mode,
-        //       color: Colors.white,
-        //     ),
-        //     onPressed: () {
-        //       cubit.ChangeView();
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          // backgroundColor: const Color(0xff14697B),
+          // actions: [
+          //   IconButton(
+          //       onPressed: () {
+          //         Navigator.push(context,
+          //             MaterialPageRoute(builder: (context) => Settings()));
+          //       },
+          //       icon: Icon(
+          //         Icons.settings,
+          //       )),
+          // ],
+          // leading: Tooltip(
+          //   message: 'مشاف',
+          //   child: TextButton(
+          //     child: const Icon(
+          //       Icons.chrome_reader_mode,
+          //       color: Colors.white,
+          //     ),
+          //     onPressed: () {
+          //       cubit.ChangeView();
 
-        //       // setState(() {
-        //       //   view = !view;
-        //       // });
-        //     },
-        //   ),
-        // ),
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: const Icon(
-                Icons.arrow_back_ios,
-                color: Colors.transparent,
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-            );
-          },
-        ),
-        flexibleSpace: Stack(
-          children: [
-            const Background(),
-            Positioned(
-              top: context.height * .035,
-              left: context.width * .01,
-              right: context.width * .01,
-              child: Center(
+          //       // setState(() {
+          //       //   view = !view;
+          //       // });
+          //     },
+          //   ),
+          // ),
+          leading: Builder(
+            builder: (BuildContext context) {
+              return IconButton(
+                icon: const Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.transparent,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+              );
+            },
+          ),
+          flexibleSpace: Stack(
+            children: [
+              const Background(),
+              Center(
                 child: RichText(
                   text: TextSpan(
                     text: widget.surah.id.toString(),
@@ -92,100 +88,100 @@ class _SurahPageState extends State<SurahPage> {
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
-      ),
-      body: SafeArea(
-        minimum: const EdgeInsets.all(2),
-        child: Container(
-          padding: const EdgeInsets.all(15),
-          decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 253, 251, 240),
-            borderRadius: const BorderRadius.only(
-              bottomLeft: Radius.circular(10),
-              bottomRight: Radius.circular(10),
-              topLeft: Radius.circular(10),
-              topRight: Radius.circular(10),
-            ),
-            border: Border.all(
-              color: const Color(0xff592c01),
-              width: 7,
-            ),
+            ],
           ),
-          child: ListView(children: [
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.all(5),
-                child: widget.sura + 1 != 1 && widget.sura + 1 != 9
-                    ? header()
-                    : const Text(''),
-
-                // (index != 0) || (sura == 0) || (sura == 8)
-                //     ? const Text('')
-                //     : ReturnBasmala(),
+        ),
+        body: SafeArea(
+          minimum: const EdgeInsets.all(2),
+          child: Container(
+            padding: const EdgeInsets.all(15),
+            decoration: BoxDecoration(
+              color: const Color.fromARGB(255, 253, 251, 240),
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(10),
+                bottomRight: Radius.circular(10),
+                topLeft: Radius.circular(10),
+                topRight: Radius.circular(10),
+              ),
+              border: Border.all(
+                color: const Color(0xff592c01),
+                width: 7,
               ),
             ),
-            const SizedBox(
-              height: 5,
-            ),
-            RichText(
-              textAlign: count <= 20 ? TextAlign.center : TextAlign.justify,
-              text: TextSpan(
-                children: [
-                  for (var i = 1; i <= count; i++) ...{
-                    TextSpan(
-                      text:
-                          ' ${quran.getVerse(index, i, verseEndSymbol: false)} ',
-                      style: TextStyle(
-                        fontFamily: "Taha",
-                        fontSize: arabicFontSize,
-                        fontWeight: FontWeight.w200,
-                        color: Colors.black87,
-                      ),
-                    ),
-                    WidgetSpan(
-                      alignment: PlaceholderAlignment.middle,
-                      child: Directionality(
-                        textDirection: TextDirection.ltr,
-                        child: ArabicSuraNumber(
-                          i: i - 1,
+            child: ListView(children: [
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(5),
+                  child: widget.sura + 1 != 1 && widget.sura + 1 != 9
+                      ? header()
+                      : const Text(''),
+
+                  // (index != 0) || (sura == 0) || (sura == 8)
+                  //     ? const Text('')
+                  //     : ReturnBasmala(),
+                ),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              RichText(
+                textAlign: count <= 20 ? TextAlign.center : TextAlign.justify,
+                text: TextSpan(
+                  children: [
+                    for (var i = 1; i <= count; i++) ...{
+                      TextSpan(
+                        text:
+                            ' ${quran.getVerse(index, i, verseEndSymbol: false)} ',
+                        style: TextStyle(
+                          fontFamily: "Taha",
+                          fontSize: arabicFontSize,
+                          fontWeight: FontWeight.w200,
+                          color: Colors.black87,
                         ),
                       ),
-                      // InkWell(
-                      //     onTap: () {
-                      //       debugPrint(i.toString());
-                      //     },
-                      //     child: Stack(
-                      //       alignment: AlignmentDirectional.center,
-                      //       children: [
-                      //         Container(
-                      //           height: fontSize,
-                      //           width: fontSize,
-                      //           clipBehavior: Clip.none,
-                      //           child: Image.asset(
-                      //             "assets/101.png",
-                      //             color: mark == i
-                      //                 ? Colors.orange
-                      //                 : Colors.black,
-                      //             fit: BoxFit.cover,
-                      //           ),
-                      //         ),
-                      //         Text(
-                      //           arabicNumber.convert(i),
-                      //           // '${i.c}',
-                      //           textAlign: TextAlign.center,
-                      //           textScaleFactor:
-                      //               i.toString().length <= 2 ? 1 : .8,
-                      //         ),
-                      //       ],
-                      //     )))
-                    )
-                  }
-                ],
+                      WidgetSpan(
+                        alignment: PlaceholderAlignment.middle,
+                        child: Directionality(
+                          textDirection: TextDirection.ltr,
+                          child: ArabicSuraNumber(
+                            i: i - 1,
+                          ),
+                        ),
+                        // InkWell(
+                        //     onTap: () {
+                        //       debugPrint(i.toString());
+                        //     },
+                        //     child: Stack(
+                        //       alignment: AlignmentDirectional.center,
+                        //       children: [
+                        //         Container(
+                        //           height: fontSize,
+                        //           width: fontSize,
+                        //           clipBehavior: Clip.none,
+                        //           child: Image.asset(
+                        //             "assets/101.png",
+                        //             color: mark == i
+                        //                 ? Colors.orange
+                        //                 : Colors.black,
+                        //             fit: BoxFit.cover,
+                        //           ),
+                        //         ),
+                        //         Text(
+                        //           arabicNumber.convert(i),
+                        //           // '${i.c}',
+                        //           textAlign: TextAlign.center,
+                        //           textScaleFactor:
+                        //               i.toString().length <= 2 ? 1 : .8,
+                        //         ),
+                        //       ],
+                        //     )))
+                      )
+                    }
+                  ],
+                ),
               ),
-            ),
-          ]),
+            ]),
+          ),
         ),
       ),
     );
