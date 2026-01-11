@@ -19,6 +19,7 @@ class MyDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: Colors.white,
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
@@ -33,7 +34,7 @@ class MyDrawer extends StatelessWidget {
                   height: 9.h,
                 ),
                 const AutoSizeText(
-                  "القرآن الكريم",
+                  "القرآن نور",
                   style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,

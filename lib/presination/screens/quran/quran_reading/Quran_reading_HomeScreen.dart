@@ -306,13 +306,14 @@ class _QuranHomeScreenWidgtState extends State<QuranHomeScreenWidgt> {
                           top: 10.0, start: 20, end: 20),
                       child: Row(
                         children: [
+                          const Spacer(),
                           const AutoSizeText(
-                            "القرآن الكريم",
+                            "القرآن نور",
                             style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 25,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
-                                fontFamily: me_quranFont),
+                                fontFamily: cairoFont),
                           ),
                           const Spacer(),
                           SizedBox(
@@ -709,4 +710,3 @@ Widget BuildSuraName() {
 //     ),
 //   );
 // }
-

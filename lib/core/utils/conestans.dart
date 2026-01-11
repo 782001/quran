@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter/services.dart';
 import 'package:quran_v2/core/shared/components.dart';
 import 'package:quran_v2/core/utils/assets_path.dart';
@@ -7,7 +8,6 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../models/surah_model.dart';
-import 'package:flutter/services.dart' show rootBundle;
 
 int bookmarkedAyah = 1;
 int bookmarkedSura = 1;
@@ -25,12 +25,12 @@ final ItemPositionsListener itemPositionsListener =
     ItemPositionsListener.create();
 
 String arabicFont = 'quran';
-String  hafs_smart_07Font = "hafs-smart-07";
+String hafs_smart_07Font = "hafs-smart-07";
 double arabicFontSize = 28;
 double mushafFontSize = 40;
 
 Uri quranAppurl = Uri.parse(
-    'https://play.google.com/store/apps/details?id=com.quran.quran_v2');
+    'https://play.google.com/store/apps/details?id=com.quran.quran_v3');
 Uri contacturl = Uri.parse('https://api.whatsapp.com/send?phone=+201281859862');
 Uri privacyurl = Uri.parse(
     'https://www.termsfeed.com/live/4121ff19-e482-46ac-8b5e-09ea612effaf');
@@ -346,9 +346,6 @@ class JsonFileReader {
   }
 }
 
-
-
-
 List zikrNotfications = [
   "(ﷺ  صلي علي محمد)",
   "(لَبَّيْكَ اللَّهُمَّ لَبَّيْكَ، لَبَّيْكَ لاَ شَرِيكَ لَكَ لَبَّيْكَ، إِنَّ الْحَمْدَ، وَالنِّعْمَةَ، لَكَ وَالْمُلْكَ، لاَ شَرِيكَ لَكَ)",
@@ -463,8 +460,6 @@ const List indexes = [
   [233, 234, 235, 236],
   [237, 238, 239, 240]
 ];
-
-
 
 const List<String> fontFamilies = [
   "UthmanicHafs13",

@@ -186,7 +186,7 @@ class PrayTimeScreen extends StatelessWidget {
               //   print("----offline-----");
               //   await CashHelper.SaveData(
               //       key: AppStrings.locationKey, value: false);
-              //   ShowToust(state: ToustStates.ERROR, Text: 'لا يوجد انترنيت');
+              //   ShowToust(state: ToustStates.ERROR, Text: 'لا يوجد انترنت');
               // } else {
               // Request location permission
               var status = await Permission.locationWhenInUse.request();

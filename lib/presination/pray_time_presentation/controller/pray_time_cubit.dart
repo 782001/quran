@@ -121,7 +121,7 @@ class PrayTimeCubit extends Cubit<PrayTimeState> {
   }
 
   Future<void> fetchFromApi() async {
-    const String url = 'https://alquran.vip/APIs/getPrayerTimes';
+    const String url = 'https://quran.yousefheiba.com/api/getPrayerTimes';
     print('My Prayer Times');
     try {
       emit(PrayTimeLoadingFetchData());
