@@ -4,17 +4,22 @@ import 'package:quran_v2/core/utils/app_theme_colors.dart';
 import 'package:quran_v2/core/utils/assets_path.dart';
 import 'package:quran_v2/core/utils/media_query_values.dart';
 import 'package:quran_v2/core/utils/strings.dart';
+import 'package:quran_v2/models/audio_sura_model.dart';
 import 'package:quran_v2/presination/widgets/sura_audio_player.dart';
 
 class QuranAudioScreen extends StatefulWidget {
   const QuranAudioScreen(
       {Key? key,
       required this.audioUrl,
+      required this.surahNumber,
+      required this.reciter,
       required this.SuraName,
       required this.reciterName})
       : super(key: key);
   final String audioUrl;
   final String SuraName;
+  final ReciterAudio reciter;
+  final int surahNumber;
   final String reciterName;
 
   @override
@@ -122,6 +127,8 @@ class _QuranAudioScreenState extends State<QuranAudioScreen>
                       SuraAudioPlayer(
                           shekhNam: widget.reciterName,
                           suraNam: widget.SuraName,
+                          reciter: widget.reciter,
+                          surahNumber: widget.surahNumber,
                           audioUrl: widget.audioUrl),
                       const SizedBox(
                         height: 15,
