@@ -158,7 +158,8 @@ class _ReciterListScreenState extends State<ReciterListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(leading: Builder(
+      appBar: AppBar(
+        leading: Builder(
           builder: (BuildContext context) {
             return const SizedBox.shrink();
           },
@@ -204,10 +205,8 @@ class _ReciterListScreenState extends State<ReciterListScreen> {
           ),
           Expanded(
             child: filteredReciters.isNotEmpty
-                ? ListView.separated(
+                ? ListView.builder(
                     itemCount: filteredReciters.length,
-                    separatorBuilder: (context, index) =>
-                        const Divider(height: 1),
                     itemBuilder: (context, index) {
                       final reciter = filteredReciters[index];
                       return Card(

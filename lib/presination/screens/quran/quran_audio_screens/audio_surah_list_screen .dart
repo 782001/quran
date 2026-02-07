@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:quran_v2/core/responsive/screen_util.dart';
 import 'package:quran_v2/core/shared/components.dart';
-import 'package:quran_v2/core/utils/app_theme_colors.dart';
 import 'package:quran_v2/core/utils/assets_path.dart';
 import 'package:quran_v2/core/utils/media_query_values.dart';
 import 'package:quran_v2/core/utils/strings.dart';
@@ -35,8 +34,8 @@ class _AudioSurahListScreenState extends State<AudioSurahListScreen> {
   }
 
   Future<QuranAudioModel> loadQuranAudio() async {
-    String jsonString =
-        await rootBundle.loadString('assets/audio/audio_reciters.json');
+    String jsonString = await rootBundle
+        .loadString('assets/audio/audio_recitersbeforeclosed.json');
     Map<String, dynamic> jsonResponse = json.decode(jsonString);
     return QuranAudioModel.fromJson(jsonResponse);
   }
@@ -231,13 +230,36 @@ class _AudioSurahListScreenState extends State<AudioSurahListScreen> {
     SurahAudio surah,
   ) {
     final service = QuranAudioService();
-    final reciters = mashaikhAudio.map((name) {
+
+    /// 1️⃣ شيوخ الجيسون
+    final jsonReciters = surah.reciters;
+
+    /// 2️⃣ شيوخ mashaikhAudio
+    final mashaikhReciters = mashaikhAudio.map((name) {
       return ReciterAudio(
         reciterId: name,
         reciterName: name,
-        audioUrl: getAudioUrl(audioValue: name, sura: surah.surahId),
+        audioUrl: getAudioUrl(
+          audioValue: name,
+          sura: surah.surahId,
+        ),
       );
     }).toList();
+
+    /// 3️⃣ دمج الاتنين + منع التكرار
+    final Map<String, ReciterAudio> mergedMap = {};
+
+    for (final r in jsonReciters) {
+      mergedMap[r.reciterName] = r;
+    }
+
+    for (final r in mashaikhReciters) {
+      mergedMap.putIfAbsent(r.reciterName, () => r);
+    }
+
+    final reciters = mergedMap.values.toList();
+    final TextEditingController searchController = TextEditingController();
+    List<ReciterAudio> filteredReciters = List.from(reciters);
 
     showModalBottomSheet(
       context: context,
@@ -245,229 +267,260 @@ class _AudioSurahListScreenState extends State<AudioSurahListScreen> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       backgroundColor: Colors.transparent,
+      isScrollControlled: true,
       builder: (_) {
-        return Container(
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-          ),
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: 60,
-                height: 6,
-                decoration: BoxDecoration(
-                    color: Colors.grey[400],
-                    borderRadius: BorderRadius.circular(3)),
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            return Container(
+              height: context.height * 0.8,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
               ),
-              const SizedBox(height: 12),
-              Text(
-                "اختر الشيخ لتحميل السورة",
-                style: TextStyle(
-                    fontFamily: cairoFont,
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.bold,
-                    color: const Color(0xff592c01)),
-              ),
-              const SizedBox(height: 12),
-              Directionality(
-                textDirection: TextDirection.rtl,
-                child: Flexible(
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: reciters.length,
-                    itemBuilder: (context, index) {
-                      final reciter = reciters[index];
-                      return Card(
-                        elevation: 3,
-                        color: const Color(0xffFFFBE8),
-                        shape: RoundedRectangleBorder(
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  /// drag handle
+                  Container(
+                    width: 60,
+                    height: 6,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[400],
+                      borderRadius: BorderRadius.circular(3),
+                    ),
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  Text(
+                    "اختر الشيخ لتحميل السورة",
+                    style: TextStyle(
+                      fontFamily: cairoFont,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.bold,
+                      color: const Color(0xff592c01),
+                    ),
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  /// 🔍 البحث باسم الشيخ
+                  Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: TextField(
+                      controller: searchController,
+                      onChanged: (value) {
+                        setModalState(() {
+                          filteredReciters = reciters
+                              .where((r) => r.reciterName
+                                  .toLowerCase()
+                                  .contains(value.toLowerCase()))
+                              .toList();
+                        });
+                      },
+                      decoration: InputDecoration(
+                        hintText: "ابحث باسم الشيخ",
+                        prefixIcon: const Icon(Icons.search),
+                        border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 6, horizontal: 4),
-                        child: ListTile(
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 8, horizontal: 12),
-                          title: Text(
-                            reciter.reciterName,
-                            style: const TextStyle(
-                                fontFamily: cairoFont,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16),
-                          ),
-                          trailing: FutureBuilder<bool>(
-                            future: QuranAudioService().isDownloaded(
-                                reciterName: reciter.reciterName,
-                                surahNumber: surah.surahId),
-                            builder: (context, snapshot) {
-                              final downloaded = snapshot.data ?? false;
-                              return (downloaded)
-                                  ? const Icon(
-                                      Icons.check_circle,
-                                      color: Colors.green,
-                                    )
-                                  : ElevatedButton.icon(
-                                      onPressed: () async {
-                                        Navigator.pop(
-                                            context); // اغلاق الـ BottomSheet
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide:
+                              const BorderSide(color: Color(0xff592c01)),
+                        ),
+                      ),
+                    ),
+                  ),
 
-                                        bool downloaded =
-                                            await service.isDownloaded(
-                                          reciterName: reciter.reciterName,
-                                          surahNumber: surah.surahId,
-                                        );
+                  const SizedBox(height: 12),
 
-                                        if (!context.mounted) return;
+                  /// 📜 القائمة
+                  Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: Expanded(
+                      child: filteredReciters.isEmpty
+                          ? const Center(
+                              child: Text(
+                                "لا يوجد شيوخ مطابقين",
+                                style: TextStyle(fontFamily: cairoFont),
+                              ),
+                            )
+                          : ListView.builder(
+                              itemCount: filteredReciters.length,
+                              itemBuilder: (context, index) {
+                                final reciter = filteredReciters[index];
 
-                                        if (downloaded) {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            const SnackBar(
-                                              content: Directionality(
-                                                textDirection:
-                                                    TextDirection.rtl,
-                                                child: Text(
-                                                  "السورة محمّلة بالفعل",
-                                                  textAlign: TextAlign.right,
-                                                ),
-                                              ),
-                                              backgroundColor:
-                                                  Color(0xff592c01),
-                                              duration: Duration(seconds: 3),
-                                            ),
-                                          );
+                                return Card(
+                                  elevation: 3,
+                                  color: const Color(0xffFFFBE8),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  margin: const EdgeInsets.symmetric(
+                                      vertical: 6, horizontal: 12),
+                                  child: ListTile(
+                                    title: Text(
+                                      reciter.reciterName,
+                                      style: const TextStyle(
+                                        fontFamily: cairoFont,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    trailing: FutureBuilder<bool>(
+                                      future: service.isDownloaded(
+                                        reciterName: reciter.reciterName,
+                                        surahNumber: surah.surahId,
+                                      ),
+                                      builder: (context, snapshot) {
+                                        final downloaded =
+                                            snapshot.data ?? false;
 
-                                          return;
-                                        }
+                                        return downloaded
+                                            ? const Icon(Icons.check_circle,
+                                                color: Colors.green)
+                                            : const Icon(Icons.download,
+                                                color: Color(0xff592c01));
+                                      },
+                                    ),
+                                    onTap: () async {
+                                      Navigator.pop(
+                                          context); // اغلاق الـ BottomSheet
 
-                                        // استخدام ValueNotifier للتحكم في الـ dialog
-                                        ValueNotifier<double> progressNotifier =
-                                            ValueNotifier(0.0);
+                                      bool downloaded =
+                                          await service.isDownloaded(
+                                        reciterName: reciter.reciterName,
+                                        surahNumber: surah.surahId,
+                                      );
 
-                                        showDialog(
-                                          context: context,
-                                          barrierDismissible: false,
-                                          builder: (_) =>
-                                              ValueListenableBuilder<double>(
-                                            valueListenable: progressNotifier,
-                                            builder: (context, progress, _) {
-                                              // اغلاق الـ dialog تلقائي عند 100%
-                                              if (progress >= 1.0) {
-                                                Future.microtask(() {
-                                                  if (context.mounted) {
-                                                    Navigator.of(context,
-                                                            rootNavigator: true)
-                                                        .pop();
-                                                  }
-                                                });
-                                              }
+                                      if (!context.mounted) return;
 
-                                              return AlertDialog(
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20)),
-                                                title: const Center(
-                                                  child: Text(
-                                                    "جاري تحميل السورة",
-                                                    style: TextStyle(
-                                                        fontFamily: cairoFont,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 18),
-                                                  ),
-                                                ),
-                                                content: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: [
-                                                    CircularProgressIndicator(
-                                                      value: progress,
-                                                      strokeWidth: 6,
-                                                      color: const Color(
-                                                          0xff592c01),
-                                                    ),
-                                                    const SizedBox(height: 12),
-                                                    LinearProgressIndicator(
-                                                      value: progress,
-                                                      minHeight: 8,
-                                                      color: const Color(
-                                                          0xff592c01),
-                                                      backgroundColor:
-                                                          Colors.grey[300],
-                                                    ),
-                                                    const SizedBox(height: 12),
-                                                    Text(
-                                                      "${(progress * 100).toStringAsFixed(0)} %",
-                                                      style: const TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                  ],
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                        );
-
-                                        await service.downloadSurah(
-                                          url: reciter.audioUrl,
-                                          reciterName: reciter.reciterName,
-                                          surahNumber: surah.surahId,
-                                          onProgress: (p) {
-                                            progressNotifier.value =
-                                                p; // تحديث الـ dialog مباشرة
-                                          },
-                                        );
-
-                                        if (!context.mounted) return;
-
+                                      if (downloaded) {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              "تم تحميل ${reciter.reciterName} بنجاح",
-                                              style: const TextStyle(
-                                                  fontFamily: cairoFont),
+                                          const SnackBar(
+                                            content: Directionality(
+                                              textDirection: TextDirection.rtl,
+                                              child: Text(
+                                                "السورة محمّلة بالفعل",
+                                                textAlign: TextAlign.right,
+                                              ),
                                             ),
-                                            backgroundColor:
-                                                const Color(0xff592c01),
-                                            duration:
-                                                const Duration(seconds: 2),
+                                            backgroundColor: Color(0xff592c01),
+                                            duration: Duration(seconds: 3),
                                           ),
                                         );
-                                      },
-                                      icon: const Icon(Icons.download,
-                                          color: Colors.white),
-                                      label: const Text(
-                                        "تحميل",
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: MyColors.darkBrown,
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(12)),
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 12, vertical: 6),
-                                        textStyle: const TextStyle(
-                                            fontFamily: cairoFont,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    );
-                            },
-                          ),
-                        ),
-                      );
-                    },
+
+                                        return;
+                                      }
+
+                                      // استخدام ValueNotifier للتحكم في الـ dialog
+                                      ValueNotifier<double> progressNotifier =
+                                          ValueNotifier(0.0);
+
+                                      showDialog(
+                                        context: context,
+                                        barrierDismissible: false,
+                                        builder: (_) =>
+                                            ValueListenableBuilder<double>(
+                                          valueListenable: progressNotifier,
+                                          builder: (context, progress, _) {
+                                            // اغلاق الـ dialog تلقائي عند 100%
+                                            if (progress >= 1.0) {
+                                              Future.microtask(() {
+                                                if (context.mounted) {
+                                                  Navigator.of(context,
+                                                          rootNavigator: true)
+                                                      .pop();
+                                                }
+                                              });
+                                            }
+
+                                            return AlertDialog(
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          20)),
+                                              title: const Center(
+                                                child: Text(
+                                                  "جاري تحميل السورة",
+                                                  style: TextStyle(
+                                                      fontFamily: cairoFont,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 18),
+                                                ),
+                                              ),
+                                              content: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  CircularProgressIndicator(
+                                                    value: progress,
+                                                    strokeWidth: 6,
+                                                    color:
+                                                        const Color(0xff592c01),
+                                                  ),
+                                                  const SizedBox(height: 12),
+                                                  LinearProgressIndicator(
+                                                    value: progress,
+                                                    minHeight: 8,
+                                                    color:
+                                                        const Color(0xff592c01),
+                                                    backgroundColor:
+                                                        Colors.grey[300],
+                                                  ),
+                                                  const SizedBox(height: 12),
+                                                  Text(
+                                                    "${(progress * 100).toStringAsFixed(0)} %",
+                                                    style: const TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      );
+
+                                      await service.downloadSurah(
+                                        url: reciter.audioUrl,
+                                        reciterName: reciter.reciterName,
+                                        surahNumber: surah.surahId,
+                                        onProgress: (p) {
+                                          progressNotifier.value =
+                                              p; // تحديث الـ dialog مباشرة
+                                        },
+                                      );
+
+                                      if (!context.mounted) return;
+
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            "تم تحميل ${reciter.reciterName} بنجاح",
+                                            style: const TextStyle(
+                                                fontFamily: cairoFont),
+                                          ),
+                                          backgroundColor:
+                                              const Color(0xff592c01),
+                                          duration: const Duration(seconds: 2),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                );
+                              },
+                            ),
+                    ),
                   ),
-                ),
+                ],
               ),
-            ],
-          ),
+            );
+          },
         );
       },
     );
