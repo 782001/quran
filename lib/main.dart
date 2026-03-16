@@ -23,13 +23,14 @@ import 'core/utils/conestans.dart';
 void callbackDispatcher() async {
   Workmanager().executeTask((task, inputData) async {
     print("message>>>>>>>>>>>>>>>>>>>>>>>> ");
-    WidgetsFlutterBinding.ensureInitialized();  await JustAudioBackground.init(
-    androidNotificationChannelId: 'com.quran.quran_v3.audio',
-    androidNotificationChannelName: 'Audio playback',
-    androidNotificationOngoing: true,
-    androidNotificationIcon: 'drawable/ic_launcher',
-    // androidNotificationIcon: "drawable/notification_icon", // Use the icon name (without extension)
-  );
+    WidgetsFlutterBinding.ensureInitialized();
+    await JustAudioBackground.init(
+      androidNotificationChannelId: 'com.quran.quran_v3.audio',
+      androidNotificationChannelName: 'Audio playback',
+      androidNotificationOngoing: true,
+      androidNotificationIcon: 'drawable/ic_launcher',
+      // androidNotificationIcon: "drawable/notification_icon", // Use the icon name (without extension)
+    );
     tz.initializeTimeZones();
     await CashHelper.init();
     await NotificationHelper.initNotifications();

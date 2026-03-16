@@ -12,7 +12,6 @@ import 'package:just_audio/just_audio.dart';
 import 'package:quran/quran.dart' as quran;
 import 'package:quran/quran.dart';
 import 'package:quran_v2/core/shared/components.dart';
-import 'package:quran_v2/core/utils/app_theme_colors.dart';
 import 'package:quran_v2/core/utils/media_query_values.dart';
 import 'package:quran_v2/core/utils/strings.dart';
 import 'package:quran_v2/main.dart';
@@ -351,6 +350,8 @@ class _SingleSuraBuildeState extends State<SingleSuraBuilder> {
       for (int i = 0; i < widget.LenghtOfSura; i++) {
         fullSura += (widget.arabic[i + previousVerses]['aya_text']);
       }
+    const Color primary = Color(0xff592c01);
+    const Color surface = Color(0xffFFFBE8);
     // log(
     //   "sura Num:  ${widget.sura}   | aya Num:     ${widget.arabic[widget.ayahindex + previousVerses]["aya_no"]}",
     // );
@@ -652,27 +653,32 @@ class _SingleSuraBuildeState extends State<SingleSuraBuilder> {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              height: 50,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: AppColors.black),
+          Material(
+            color: surface,
+            elevation: 4,
+            shadowColor: Colors.black26,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 10, top: 8),
               child: Center(
-                  child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Padding(
-                  padding: const EdgeInsets.all(3.0),
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: primary.withOpacity(0.05),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                   child: Text(
                     "الجزء ${getArabicOrdinal(widget.arabic[widget.ayahindex + previousVerses]["jozz"])}   |   الحزب ${getArabicOrdinal(QuranData.getHizbAndQuarter(widget.sura + 1, widget.arabic[widget.ayahindex + previousVerses]["aya_no"])['hizb'])}  |  الربع ${getArabicOrdinal(QuranData.getHizbAndQuarter(widget.sura + 1, widget.arabic[widget.ayahindex + previousVerses]["aya_no"])['quarter'])}",
-                    style: TextStyle(
-                      color: AppColors.DefaultColor,
-                      fontFamily: cairoFont,
+                    style: const TextStyle(
+                      fontFamily: 'Cairo',
+                      color: primary,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 13,
                     ),
+                    textDirection: TextDirection.rtl,
                   ),
                 ),
-              )),
+              ),
             ),
           ),
         ],

@@ -78,7 +78,7 @@ class SplashScreen extends StatelessWidget {
             if (snapshot.hasError) {
               return const Text('هناك خطأ ما');
             } else if (snapshot.hasData) {
-              return  HomeScreen(data: snapshot.hasData);
+              return HomeScreen(data: snapshot.hasData);
               // return QuranHomeScreen(data: snapshot.hasData);
             } else {
               return const Text('لا يوجد بيانات ');

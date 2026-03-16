@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:quran_v2/core/network/local/cashhelper.dart';
 import 'package:quran_v2/core/responsive/screen_util.dart';
@@ -31,7 +30,6 @@ class PrayTimeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //print(date);
-    final double timeNow = DateTime.now().hour.toDouble();
     return BlocConsumer<PrayTimeCubit, PrayTimeState>(
       listener: (context, state) {
         if (state is PrayTimeSuccessFetchData) {
@@ -178,8 +176,7 @@ class PrayTimeScreen extends StatelessWidget {
           Future<void> getUserLocation() async {
             try {
               // Check if the device is currently offline
-              final bool isOffline =
-                  !await InternetConnectionChecker().hasConnection;
+  
 
               // if (isOffline) {
               //   // Handle offline scenario: No network connectivity

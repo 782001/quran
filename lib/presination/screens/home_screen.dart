@@ -1,9 +1,7 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:quran_v2/core/services/notification_helper.dart';
@@ -12,7 +10,6 @@ import 'package:quran_v2/core/utils/app_theme_colors.dart';
 import 'package:quran_v2/core/utils/assets_path.dart';
 import 'package:quran_v2/core/utils/media_query_values.dart';
 import 'package:quran_v2/core/utils/strings.dart';
-import 'package:quran_v2/presination/pray_time_presentation/controller/pray_time_cubit.dart';
 import 'package:quran_v2/presination/pray_time_presentation/views/pray_time_body.dart';
 import 'package:quran_v2/presination/screens/newContent/AhadesScreen.dart';
 import 'package:quran_v2/presination/screens/newContent/RamadanScreen.dart';
@@ -63,7 +60,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    PrayTimeCubit cubit = PrayTimeCubit.get(context);
 
     List<HomeModel> HomeList = [
       HomeModel(image: masjed_icon, title: "مواقيت الصلاة", id: 1),
