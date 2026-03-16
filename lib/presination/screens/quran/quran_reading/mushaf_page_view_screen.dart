@@ -47,6 +47,7 @@ class MushafPageViewScreenState extends State<MushafPageViewScreen> {
     super.initState();
     _currentPageNumber =
         CashHelper.GetData(key: 'last_mushaf_page') ?? _minPage;
+    _isDarkMode = CashHelper.GetData(key: 'mushaf_is_dark_mode') ?? false;
     // _mushafFontSize =
     //     CashHelper.GetData(key: 'mushaf_font_size')?.toDouble() ?? 40.0;
     _pageController = PageController(initialPage: _currentPageNumber - 1);
@@ -441,8 +442,11 @@ class MushafPageViewScreenState extends State<MushafPageViewScreen> {
                   child: Row(
                     children: [
                       IconButton(
-                        onPressed: () =>
-                            setState(() => _isDarkMode = !_isDarkMode),
+                        onPressed: () {
+                          setState(() => _isDarkMode = !_isDarkMode);
+                          CashHelper.SaveData(
+                              key: 'mushaf_is_dark_mode', value: _isDarkMode);
+                        },
                         icon: Icon(
                           _isDarkMode ? Icons.light_mode : Icons.dark_mode,
                           color: primary,
