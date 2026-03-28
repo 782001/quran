@@ -19,7 +19,6 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # of the product and file versions while build-number is used as the build suffix.
 version: 1.0.0+7
 # version: 1.0.0+2.98
-
 environment:
   sdk: ">=3.1.0 <4.0.0"
 
@@ -31,46 +30,41 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   adhan: ^2.0.0+1
-  # audio_video_progress_bar: ^2.0.1
+  audio_service: ^0.18.12
   audioplayers: ^6.5.0
   auto_size_text: ^3.0.0
   bloc: ^9.0.0
   cupertino_icons: ^1.0.2
+  device_info_plus: ^11.3.0
+  dio: ^5.4.0
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.1
-  # flutter_datetime_picker_utils: ^1.0.1
   flutter_file_downloader: ^2.0.0
   flutter_local_notifications: ^19.4.0
-  # flutter_native_splash: ^2.2.16
   flutter_spinkit: ^5.2.1
   fluttertoast: ^8.2.1
   geolocator: ^14.0.2
-  google_fonts: ^8.0.2 
+  google_fonts: ^8.0.2
   hijri: ^3.0.0
   internet_connection_checker: ^1.0.0+1
+  intl: ^0.20.2
   just_audio: ^0.10.4
+  just_audio_background: ^0.0.1-beta.17
   permission_handler: ^12.0.1
+  qcf_quran: ^0.0.2
+  # qcf_quran_plus: ^0.0.7
   quran:
     path: ./quran-1.2.2
   rxdart: ^0.28.0
   scrollable_positioned_list: ^0.3.5
-  # share: ^2.0.4
   share_plus: ^11.1.0
   shared_preferences: ^2.0.13
   sizer: ^2.0.15
   timezone: ^0.10.1
+  upgrader: ^12.5.0
   url_launcher: ^6.1.7
   workmanager: ^0.7.0
-  upgrader: ^12.5.0
-  dio: ^5.4.0
-  intl: ^0.20.2
-  just_audio_background: ^0.0.1-beta.17
-  # audio_session: ^0.2.2
-  audio_service: ^0.18.12
-  device_info_plus: ^11.3.0   # latest as of 2025
-  # curved_navigation_bar: ^1.0.6
-  qcf_quran: ^0.0.2
 
 flutter_icons:
   android: "launcher_icon"
@@ -85,10 +79,10 @@ flutter_icons:
   flutter_lints: ^2.0.0
 
 dev_dependencies:
-  win32: ^5.0.0
   flutter_launcher_icons: ^0.14.4
   flutter_test:
     sdk: flutter
+  win32: ^5.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -117,13 +111,12 @@ flutter:
     # - family: UthmanicHafs13
     #   fonts:
     #     - asset: assets/text/UthmanicHafs1 Ver13.otf
-
     - family: "hafs-smart-07"
       fonts:
         - asset: assets/text/hafs-smart-07.woff
     - family: Taha
       fonts:
-        - asset: assets/text/taha.ttf        
+        - asset: assets/text/taha.ttf
     - family: me_quran
       fonts:
         - asset: assets/text/me_quran.ttf

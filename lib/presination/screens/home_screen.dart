@@ -108,7 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
         messages: ArabicUpgraderMessages(),
         languageCode: 'ar',
       ),
-      showIgnore: true,
+      showIgnore: false,
       cupertinoButtonTextStyle:
           const TextStyle(color: MyColors.darkBrown, fontFamily: cairoFont),
       showLater: true,
