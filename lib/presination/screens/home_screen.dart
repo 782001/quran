@@ -26,6 +26,31 @@ import 'package:quran_v2/presination/screens/quran/quran_screen.dart';
 import 'package:quran_v2/presination/widgets/CategoryContent.dart';
 import 'package:quran_v2/presination/widgets/DisplayContentScreen.dart';
 import 'package:quran_v2/presination/widgets/mydrawer.dart';
+import 'package:upgrader/upgrader.dart';
+
+class ArabicUpgraderMessages extends UpgraderMessages {
+  @override
+  String get title => 'تحديث هام متاح';
+
+  @override
+  String get body =>
+      'لقد أصدرنا نسخة جديدة من التطبيق تحتوي على تحسينات وميزات مهمة.\nيرجى التحديث الآن لمتابعة استخدام التطبيق بأفضل صورة.';
+
+  @override
+  String get prompt => 'هل تود فتح متجر Play للتحديث؟';
+
+  @override
+  String get releaseNotes => 'ملاحظات الإصدار';
+
+  @override
+  String get buttonTitleIgnore => 'تجاهل';
+
+  @override
+  String get buttonTitleLater => 'لاحقاً';
+
+  @override
+  String get buttonTitleUpdate => 'تحديث الآن';
+}
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -57,10 +82,8 @@ class _HomeScreenState extends State<HomeScreen> {
     NotificationHelper();
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     List<HomeModel> HomeList = [
       HomeModel(image: masjed_icon, title: "مواقيت الصلاة", id: 1),
       HomeModel(image: ramadanhomeImage, title: "رمضان كريم", id: 2),
@@ -78,130 +101,144 @@ class _HomeScreenState extends State<HomeScreen> {
       HomeModel(image: qssIslamicImage, title: "المفضله", id: 14),
     ];
 
-    return Scaffold(
-      drawer: const MyDrawer(),
-      resizeToAvoidBottomInset: false,
-      backgroundColor: const Color(0xffFFFBE8),
-      appBar: AppBar(
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: const Icon(
-                Icons.menu,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-              // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-            );
-          },
-        ),
-        backgroundColor: const Color(0xff592c01),
-        actions: [
-          IconButton(
-              onPressed: () {
-                // NotificationHelper.scheduleNotification(
-                //   id: 2,
-                //   title: '.. هل تعلم',
-                //   body: getRandomFact(),
-                //   scheduledTime: DateTime.now()
-                //       .add(const Duration(minutes: 1)), // Change this to any time
-                // );
-                NavTo(context, const ScheduleNotificationScreen());
-              },
-              icon: const Icon(
-                Icons.notifications,
-                color: MyColors.creamColor,
-              )),
-          const SizedBox(
-            width: 10,
-          )
-        ],
-        title: Text(
-          "استغفر الله العظيم وأتوب اليه",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontFamily: cairoFont,
-            fontSize: context.width * 0.04,
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-      ),
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                // SizedBox(
-                //   height: context.height * 0.05,
-                // ),
-                //         if (CashHelper.GetData(key: AppStrings.locationKey) ==
-                //                 true /*&&
-                // location != null*/
-                //             ) ...[
-                //           GestureDetector(
-                //             onTap: () {
-                //               NavTo(context, const PrayTimeScreen());
-                //             },
-                //             child: Padding(
-                //               padding: const EdgeInsets.all(20.0),
-                //               child: Container(
-                //                 width: MediaQuery.of(context).size.width,
-                //                 height: MediaQuery.of(context).size.height * 0.2,
-                //                 decoration: BoxDecoration(
-                //                   color: MyColors.lightBrown,
-                //                   borderRadius: BorderRadius.circular(20),
-                //                 ),
-                //                 child: TimerCountWidget(
-                //                   cubit: cubit,
-                //                   color: MyColors.appBackGroundColor,
-                //                 ),
-                //               ),
-                //             ),
-                //           ),
-                //         ],
+    return UpgradeAlert(
+      upgrader: Upgrader(
+        // debugDisplayAlways: true, // <--- Add this for testing
 
-                // SizedBox(
-                //   height: context.height * 0.05,
-                // ),
-                Center(
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
-                      ),
-                      color: Color(0xffFFFBE8),
-                    ),
-                    width: context.width * 1,
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: GridView.builder(
-                        shrinkWrap: true,
-                        physics: const BouncingScrollPhysics(),
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          crossAxisSpacing: context.width * 0.01,
-                          mainAxisSpacing: context.width * 0.02,
-                          mainAxisExtent: context.height * 0.2,
+        messages: ArabicUpgraderMessages(),
+        languageCode: 'ar',
+      ),
+      showIgnore: true,
+      cupertinoButtonTextStyle:
+          const TextStyle(color: MyColors.darkBrown, fontFamily: cairoFont),
+      showLater: true,
+      showReleaseNotes: true,
+      dialogStyle: UpgradeDialogStyle.cupertino,
+      child: Scaffold(
+        drawer: const MyDrawer(),
+        resizeToAvoidBottomInset: false,
+        backgroundColor: const Color(0xffFFFBE8),
+        appBar: AppBar(
+          leading: Builder(
+            builder: (BuildContext context) {
+              return IconButton(
+                icon: const Icon(
+                  Icons.menu,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Scaffold.of(context).openDrawer();
+                },
+                // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+              );
+            },
+          ),
+          backgroundColor: const Color(0xff592c01),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  // NotificationHelper.scheduleNotification(
+                  //   id: 2,
+                  //   title: '.. هل تعلم',
+                  //   body: getRandomFact(),
+                  //   scheduledTime: DateTime.now()
+                  //       .add(const Duration(minutes: 1)), // Change this to any time
+                  // );
+                  NavTo(context, const ScheduleNotificationScreen());
+                },
+                icon: const Icon(
+                  Icons.notifications,
+                  color: MyColors.creamColor,
+                )),
+            const SizedBox(
+              width: 10,
+            )
+          ],
+          title: Text(
+            "استغفر الله العظيم وأتوب اليه",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontFamily: cairoFont,
+              fontSize: context.width * 0.04,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          centerTitle: true,
+        ),
+        body: SafeArea(
+          child: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  // SizedBox(
+                  //   height: context.height * 0.05,
+                  // ),
+                  //         if (CashHelper.GetData(key: AppStrings.locationKey) ==
+                  //                 true /*&&
+                  // location != null*/
+                  //             ) ...[
+                  //           GestureDetector(
+                  //             onTap: () {
+                  //               NavTo(context, const PrayTimeScreen());
+                  //             },
+                  //             child: Padding(
+                  //               padding: const EdgeInsets.all(20.0),
+                  //               child: Container(
+                  //                 width: MediaQuery.of(context).size.width,
+                  //                 height: MediaQuery.of(context).size.height * 0.2,
+                  //                 decoration: BoxDecoration(
+                  //                   color: MyColors.lightBrown,
+                  //                   borderRadius: BorderRadius.circular(20),
+                  //                 ),
+                  //                 child: TimerCountWidget(
+                  //                   cubit: cubit,
+                  //                   color: MyColors.appBackGroundColor,
+                  //                 ),
+                  //               ),
+                  //             ),
+                  //           ),
+                  //         ],
+
+                  // SizedBox(
+                  //   height: context.height * 0.05,
+                  // ),
+                  Center(
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
                         ),
-                        itemBuilder: (BuildContext context, int index) {
-                          return HomeCard(
-                              HomeList[index], widget.data, context);
-                        },
-                        itemCount: HomeList.length,
+                        color: Color(0xffFFFBE8),
+                      ),
+                      width: context.width * 1,
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: GridView.builder(
+                          shrinkWrap: true,
+                          physics: const BouncingScrollPhysics(),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            crossAxisSpacing: context.width * 0.01,
+                            mainAxisSpacing: context.width * 0.02,
+                            mainAxisExtent: context.height * 0.2,
+                          ),
+                          itemBuilder: (BuildContext context, int index) {
+                            return HomeCard(
+                                HomeList[index], widget.data, context);
+                          },
+                          itemCount: HomeList.length,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
       ),
-   
     );
   }
 }
@@ -233,7 +270,6 @@ Widget HomeCard(HomeModel model, data, BuildContext context) {
             context,
             QuranScreen(
               data: data,
-      
             ));
       }
       if (model.id == 14) {
